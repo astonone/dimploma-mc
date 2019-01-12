@@ -1,0 +1,400 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <property name="clob.type" value="CLOB" dbms="h2"/>
+    <property name="clob.type" value="TEXT" dbms="postgresql"/>
+    <property name="blob.type" value="BLOB" dbms="h2"/>
+    <property name="blob.type" value="BYTEA" dbms="postgresql"/>
+    <property name="timestamp.type" value="DATETIME" dbms="h2"/>
+    <property name="timestamp.type" value="DATETIME WITHOUT TIME ZONE" dbms="postgresql"/>
+    <property name="now" value="CURRENT_TIMESTAMP()" dbms="h2"/>
+    <property name="now" value="NOW()" dbms="postgresql"/>
+    <property name="boolean" value="CHAR(1)"/>
+
+    <changeSet author="viktor.kulygin" id="1">
+    <createTable tableName="track">
+        <column name="id" type="INTEGER">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="title" type="VARCHAR(255)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="artist" type="VARCHAR(255)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="album" type="VARCHAR(255)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="year" type="INTEGER">
+            <constraints nullable="true"/>
+        </column>
+        <column name="filename" type="VARCHAR(255)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="duration" type="VARCHAR(255)">
+            <constraints nullable="true"/>
+        </column>
+        <column name="rating" type="DOUBLE">
+            <constraints nullable="true"/>
+        </column>
+    </createTable>
+</changeSet>
+    <changeSet author="viktor.kulygin" id="2">
+        <createTable tableName="user_details">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="nick_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="photo_link" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="birthday" type="${timestamp.type}">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="3">
+        <createTable tableName="user">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="date_create" type="${timestamp.type}" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_details_id" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_details_id"
+                                 baseTableName="user"
+                                 constraintName="fk_user_user_details"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_details"/>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="4">
+        <createTable tableName="genre">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="5">
+        <createTable tableName="mood">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="6">
+        <createTable tableName="moods_of_tracks">
+            <column name="track_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mood_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="public"
+                       columnNames="track_id, mood_id"
+                       constraintName="pk_tracks_moods"
+                       schemaName="public"
+                       tableName="moods_of_tracks"/>
+        <addForeignKeyConstraint baseColumnNames="track_id"
+                                 baseTableName="moods_of_tracks"
+                                 constraintName="fk_tracks_moods"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="track"/>
+        <addForeignKeyConstraint baseColumnNames="mood_id"
+                                 baseTableName="moods_of_tracks"
+                                 constraintName="fk_moods_tracks"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mood"/>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="7">
+        <createTable tableName="genres_of_tracks">
+            <column name="track_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genre_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="public"
+                       columnNames="track_id, genre_id"
+                       constraintName="pk_tracks_genres"
+                       schemaName="public"
+                       tableName="genres_of_tracks"/>
+        <addForeignKeyConstraint baseColumnNames="track_id"
+                                 baseTableName="genres_of_tracks"
+                                 constraintName="fk_tracks_genres"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="track"/>
+        <addForeignKeyConstraint baseColumnNames="genre_id"
+                                 baseTableName="genres_of_tracks"
+                                 constraintName="fk_genres_tracks"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="genre"/>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="8">
+        <createTable tableName="playlist">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="playlist"
+                                 constraintName="fk_playlist_user"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="9">
+        <createTable tableName="tracks_by_playlist">
+            <column name="track_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="playlist_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="public"
+                       columnNames="track_id, playlist_id"
+                       constraintName="pk_tracks_playlists"
+                       schemaName="public"
+                       tableName="tracks_by_playlist"/>
+        <addForeignKeyConstraint baseColumnNames="track_id"
+                                 baseTableName="tracks_by_playlist"
+                                 constraintName="fk_tracks_playlists"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="track"/>
+        <addForeignKeyConstraint baseColumnNames="playlist_id"
+                                 baseTableName="tracks_by_playlist"
+                                 constraintName="fk_playlists_tracks"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="playlist"/>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="10">
+        <createTable tableName="tracks_by_users">
+            <column name="track_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="public"
+                       columnNames="track_id, user_id"
+                       constraintName="pk_track_users"
+                       schemaName="public"
+                       tableName="tracks_by_users"/>
+        <addForeignKeyConstraint baseColumnNames="track_id"
+                                 baseTableName="tracks_by_users"
+                                 constraintName="fk_tracks_users"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="track"/>
+        <addForeignKeyConstraint baseColumnNames="track_id"
+                                 baseTableName="tracks_by_users"
+                                 constraintName="fk_users_tracks"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+
+    <!--Test data-->
+    <changeSet author="viktor.kulygin" id="1000">
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="track">
+            <column name="id" type="INTEGER">1</column>
+            <column name="title" type="VARCHAR(255)">Карандаш - Розетка</column>
+            <column name="artist" type="VARCHAR(255)">Карандаш</column>
+            <column name="album" type="VARCHAR(255)">Ролевая модель</column>
+            <column name="year" type="INTEGER">2017</column>
+            <column name="filename" type="VARCHAR(255)">Карандаш - Розетка (2017, _Ролевая Модель_).mp3</column>
+            <column name="duration" type="VARCHAR(255)">02:56</column>
+            <column name="rating" type="INTEGER">10</column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="track">
+            <column name="id" type="INTEGER">2</column>
+            <column name="title" type="VARCHAR(255)">Guf Slim - На взлет</column>
+            <column name="artist" type="VARCHAR(255)">Guf Slim</column>
+            <column name="album" type="VARCHAR(255)">Gusli</column>
+            <column name="year" type="INTEGER">2017</column>
+            <column name="filename" type="VARCHAR(255)">Guf Slim - На взлет.mp3</column>
+            <column name="duration" type="VARCHAR(255)">03:33</column>
+            <column name="rating" type="INTEGER">8</column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="track">
+            <column name="id" type="INTEGER">3</column>
+            <column name="title" type="VARCHAR(255)">Bumble Beezy - Харизма</column>
+            <column name="artist" type="VARCHAR(255)">Bumble Beezy</column>
+            <column name="album" type="VARCHAR(255)">Сингл</column>
+            <column name="year" type="INTEGER">2017</column>
+            <column name="filename" type="VARCHAR(255)">Bumble Beezy - Харизма.mp3</column>
+            <column name="duration" type="VARCHAR(255)">03:29</column>
+            <column name="rating" type="INTEGER">7</column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="track">
+            <column name="id" type="INTEGER">4</column>
+            <column name="title" type="VARCHAR(255)">LO - Новый ротшильд</column>
+            <column name="artist" type="VARCHAR(255)">СЛАВА КПСС</column>
+            <column name="album" type="VARCHAR(255)">Сингл</column>
+            <column name="year" type="INTEGER">2017</column>
+            <column name="filename" type="VARCHAR(255)">Слава КПСС - Новый Ротшильд.mp3</column>
+            <column name="duration" type="VARCHAR(255)">03:10</column>
+            <column name="rating" type="INTEGER">9</column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="track">
+            <column name="id" type="INTEGER">5</column>
+            <column name="title" type="VARCHAR(255)">Oxxxymiron - Биполярочка</column>
+            <column name="artist" type="VARCHAR(255)">Oxxxymiron</column>
+            <column name="album" type="VARCHAR(255)">Сингл</column>
+            <column name="year" type="INTEGER">2017</column>
+            <column name="filename" type="VARCHAR(255)">Oxxxymiron -  Биполярочка (prod. BluntCath).mp3</column>
+            <column name="duration" type="VARCHAR(255)">02:55</column>
+            <column name="rating" type="INTEGER">9</column>
+        </insert>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="1001">
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user_details">
+            <column name="id" type="INTEGER">1</column>
+            <column name="first_name" type="VARCHAR(255)">Виктор</column>
+            <column name="last_name" type="VARCHAR(255)">Кулыгин</column>
+            <column name="nick_name" type="VARCHAR(255)">astonone</column>
+            <column name="photo_link" type="VARCHAR(255)"> </column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user_details">
+            <column name="id" type="INTEGER">2</column>
+            <column name="first_name" type="VARCHAR(255)">Ирина</column>
+            <column name="last_name" type="VARCHAR(255)">Шульгинова</column>
+            <column name="nick_name" type="VARCHAR(255)">Медочек</column>
+            <column name="photo_link" type="VARCHAR(255)"> </column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user_details">
+            <column name="id" type="INTEGER">3</column>
+            <column name="first_name" type="VARCHAR(255)">Евгений</column>
+            <column name="last_name" type="VARCHAR(255)">Кираченко</column>
+            <column name="nick_name" type="VARCHAR(255)">Сыч</column>
+            <column name="photo_link" type="VARCHAR(255)"> </column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user_details">
+            <column name="id" type="INTEGER">4</column>
+            <column name="first_name" type="VARCHAR(255)">Сергей</column>
+            <column name="last_name" type="VARCHAR(255)">Губарев</column>
+            <column name="nick_name" type="VARCHAR(255)">Пух</column>
+            <column name="photo_link" type="VARCHAR(255)"> </column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user_details">
+            <column name="id" type="INTEGER">5</column>
+            <column name="first_name" type="VARCHAR(255)">Роман</column>
+            <column name="last_name" type="VARCHAR(255)">Пахунов</column>
+            <column name="nick_name" type="VARCHAR(255)">Пышкман</column>
+            <column name="photo_link" type="VARCHAR(255)"> </column>
+        </insert>
+    </changeSet>
+
+    <changeSet author="viktor.kulygin" id="1002">
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user">
+            <column name="id" type="INTEGER">1</column>
+            <column name="email" type="VARCHAR(255)">astonone@mail.ru</column>
+            <column name="password" type="VARCHAR(255)">123456</column>
+            <column name="user_details_id" type="INTEGER">1</column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user">
+            <column name="id" type="INTEGER">2</column>
+            <column name="email" type="VARCHAR(255)">ira@mail.ru</column>
+            <column name="password" type="VARCHAR(255)">mur</column>
+            <column name="user_details_id" type="INTEGER">2</column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user">
+            <column name="id" type="INTEGER">3</column>
+            <column name="email" type="VARCHAR(255)">megasich@mail.ru</column>
+            <column name="password" type="VARCHAR(255)">0000</column>
+            <column name="user_details_id" type="INTEGER">3</column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user">
+            <column name="id" type="INTEGER">4</column>
+            <column name="email" type="VARCHAR(255)">pooh@mail.ru</column>
+            <column name="password" type="VARCHAR(255)">qwerty</column>
+            <column name="user_details_id" type="INTEGER">4</column>
+        </insert>
+        <insert catalogName="public"
+                schemaName="public"
+                tableName="user">
+            <column name="id" type="INTEGER">5</column>
+            <column name="email" type="VARCHAR(255)">roman@mail.ru</column>
+            <column name="password" type="VARCHAR(255)">zaqwerty</column>
+            <column name="user_details_id" type="INTEGER">5</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,7 @@
+package com.kulygin.musiccloud.repository;
+
+import com.kulygin.musiccloud.domain.StatisticalAccounting;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StatisticalAccountingRepository extends JpaRepository<StatisticalAccounting, Long> {
+}
