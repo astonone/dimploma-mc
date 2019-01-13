@@ -243,6 +243,65 @@
                                  referencedColumnNames="id"
                                  referencedTableName="user"/>
     </changeSet>
+    <changeSet author="viktor.kulygin" id="11">
+        <createTable tableName="friends">
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="friend_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="public"
+                       columnNames="user_id, friend_id"
+                       constraintName="pk_user_friends"
+                       schemaName="public"
+                       tableName="friends"/>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="friends"
+                                 constraintName="fk_user_1"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+        <addForeignKeyConstraint baseColumnNames="friend_id"
+                                 baseTableName="friends"
+                                 constraintName="fk_user_2"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="12">
+        <createTable tableName="friend_requests">
+            <column name="inviter_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="public"
+                       columnNames="inviter_id, user_id"
+                       constraintName="pk_user_invite_friends"
+                       schemaName="public"
+                       tableName="friend_requests"/>
+        <addForeignKeyConstraint baseColumnNames="inviter_id"
+                                 baseTableName="friend_requests"
+                                 constraintName="fk_inviter"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="friend_requests"
+                                 constraintName="fk_invited_user"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+    </changeSet>
+
 
     <!--Test data-->
     <changeSet author="viktor.kulygin" id="1000">

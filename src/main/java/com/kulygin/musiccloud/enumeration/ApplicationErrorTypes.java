@@ -19,7 +19,12 @@ public enum ApplicationErrorTypes {
     TRACK_HAS_NOT_GENRE(16, "This track has not genre"),
     PLAYLIST_HAS_NOT_TRACK(17, "This playlist has not track"),
     TRACK_HAS_NOT_THIS_MOOD(18, "This track has not this mood"),
-    USER_HAS_NOT_TRACK(19, "User has not this track" );
+    USER_HAS_NOT_TRACK(19, "User has not this track" ),
+    USER_ALREADY_HAS_FRIEND(20,"These users already friends" ),
+    REQUEST_ALREADY_SENT(21,"Request has been already sent" ),
+    REQUEST_NOT_EXIST(21,"This request has not exists" ),
+    USER_HAS_NOT_FRIEND_REQUESTS(22,"This user has not any friend requests" ),
+    FRIEND_ID_NOT_FOUND(23,"This user has not this friend" );
 
     private String message;
     private int code;

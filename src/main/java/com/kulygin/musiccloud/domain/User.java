@@ -31,4 +31,16 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Playlist> playlists;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private Set<User> friends;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "friend_requests",
+            joinColumns = @JoinColumn(name = "inviter_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> friendRequests;
 }
