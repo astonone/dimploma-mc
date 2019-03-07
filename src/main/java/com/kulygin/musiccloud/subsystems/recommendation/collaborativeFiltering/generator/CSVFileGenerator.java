@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Log4j
-public class TestDataGenerator {
+public class CSVFileGenerator {
 
     private int userCounts;
     private int productCounts;
     private int matrixSize;
 
-    public TestDataGenerator(int userCounts, int productCounts, int matrixSize) {
+    public CSVFileGenerator(int userCounts, int productCounts, int matrixSize) {
         this.userCounts = userCounts;
         this.productCounts = productCounts;
         this.matrixSize = matrixSize;
@@ -27,7 +27,7 @@ public class TestDataGenerator {
 
         List<String> lines = new ArrayList<>();
         for (int i = 0; i < matrixSize; i++) {
-            lines.add(rnd(1, userCounts) + separator + rnd(1, productCounts) + separator + rnd(1, 10));
+            lines.add(GeneratorUtils.rnd(1, userCounts) + separator + GeneratorUtils.rnd(1, productCounts) + separator + GeneratorUtils.rnd(1, 10));
         }
 
         Path file = Paths.get(path);
@@ -38,13 +38,8 @@ public class TestDataGenerator {
         }
     }
 
-    private static int rnd(int min, int max) {
-        max -= min;
-        return (int) (Math.random() * ++max) + min;
-    }
-
     public static void main(String[] args) {
-        TestDataGenerator testDataGenerator = new TestDataGenerator(50, 50, 1000);
+        CSVFileGenerator testDataGenerator = new CSVFileGenerator(50, 50, 1000);
         testDataGenerator.writeToCSV("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\estimateMatrix.csv", ",");
     }
 }

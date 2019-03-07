@@ -24,17 +24,17 @@ public class DatabaseFactory extends CFilteringFactory {
         List<StatisticalAccounting> all = statisticalAccountingService.findAll();
         all.forEach(line -> {
 
-            Integer user = line.getUserId().intValue();
-            Integer track = line.getTrackId().intValue();
+            Integer userId = line.getUserId().intValue();
+            Integer trackId = line.getTrackId().intValue();
             Integer rate = line.getRatingValue();
 
-            if (userRates.containsKey(user)) {
-                Map<Integer, Integer> trackRates = userRates.get(user);
-                trackRates.put(track, rate);
+            if (userRates.containsKey(userId)) {
+                Map<Integer, Integer> trackRates = userRates.get(userId);
+                trackRates.put(trackId, rate);
             } else {
                 Map<Integer, Integer> trackRates = new HashMap<>();
-                trackRates.put(track, rate);
-                userRates.put(user, trackRates);
+                trackRates.put(trackId, rate);
+                userRates.put(userId, trackRates);
             }
         });
         return userRates;

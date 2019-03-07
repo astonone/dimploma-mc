@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -189,5 +190,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<User> getAllFriendRequests(User user) {
         return user.getFriendRequests();
+    }
+
+    @Override
+    public List<User> saveAll(List<User> users) {
+        return userRepository.saveAll(users);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

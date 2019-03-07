@@ -2,6 +2,8 @@ package com.kulygin.musiccloud.dto;
 
 import com.kulygin.musiccloud.domain.User;
 
+import java.util.List;
+
 public class UserDTO {
 
     private Long id;

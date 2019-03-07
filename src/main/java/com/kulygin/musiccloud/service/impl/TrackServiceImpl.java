@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -214,6 +215,21 @@ public class TrackServiceImpl implements TrackService {
         }
         track.setUsers(users);
         trackRepository.save(track);
+    }
+
+    @Override
+    public List<Track> saveAll(List<Track> tracks) {
+        return trackRepository.saveAll(tracks);
+    }
+
+    @Override
+    public List<Track> findAllByIds(List<Long> ids) {
+        return trackRepository.findAllByIdIn(ids);
+    }
+
+    @Override
+    public List<Track> findAll() {
+        return trackRepository.findAll();
     }
 
     private Track parsingMp3File(String filename) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException, PlaylistNotExistsException, TrackIsNotExistsException {

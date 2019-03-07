@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface TrackService {
 
@@ -41,6 +42,12 @@ public interface TrackService {
     void addTrackToUser(Long userId, Long trackId) throws TrackIsNotExistsException, UserIsNotExistsException;
 
     void removeTrackFromUser(Long userId, Long trackId) throws TrackIsNotExistsException, UserIsNotExistsException, UserHasNotTrackException;
+
+    List<Track> saveAll(List<Track> tracks);
+
+    List<Track> findAllByIds(List<Long> ids);
+
+    List<Track> findAll();
 }
 
 

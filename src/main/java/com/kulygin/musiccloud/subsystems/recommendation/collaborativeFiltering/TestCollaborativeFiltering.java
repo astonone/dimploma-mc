@@ -11,7 +11,7 @@ public class TestCollaborativeFiltering {
 
         long startTime = System.currentTimeMillis();
 
-        collaborativeFiltering.makeRecommendation(1, 1000,500);
+        collaborativeFiltering.makeRecommendation(2, 5,5);
 
         long estimatedTime = System.currentTimeMillis() - startTime;
 

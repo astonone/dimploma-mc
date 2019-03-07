@@ -4,6 +4,7 @@ import com.kulygin.musiccloud.domain.User;
 import com.kulygin.musiccloud.exception.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 public interface UserService {
@@ -30,4 +31,8 @@ public interface UserService {
     void removeFriend(Long removerId, Long friendId) throws UserIsNotExistsException, UserHasNotFriendException;
 
     Set<User> getAllFriendRequests(User user);
+
+    List<User> saveAll(List<User> users);
+
+    List<User> findAll();
 }
