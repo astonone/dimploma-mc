@@ -44,7 +44,7 @@ public class TestDataGenerator {
     }
 
     public static void main(String[] args) {
-        TestDataGenerator testDataGenerator = new TestDataGenerator(10000, 10000, 10000000);
+        TestDataGenerator testDataGenerator = new TestDataGenerator(50, 50, 1000);
         testDataGenerator.writeToCSV("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\estimateMatrix.csv", ",");
     }
 }

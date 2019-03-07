@@ -1,5 +1,6 @@
-package com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.fileReader;
+package com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.fileReader.impl;
 
+import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.fileReader.DataReader;
 import lombok.extern.log4j.Log4j;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Log4j
-public class CSVFileReader {
+public class CSVFileReader implements DataReader {
     /** key - userId, value - list of tracks rates : key - trackId, value - rate of track */
     public Map<Integer, Map<Integer, Integer>> read(String path, String separator) {
         Map<Integer, Map<Integer, Integer>> result = new HashMap<>();

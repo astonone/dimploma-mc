@@ -1,10 +1,12 @@
 package com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.similarity.impl;
 
 import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.similarity.MeasureOfSimilarity;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Component
 public class CosineMeasure implements MeasureOfSimilarity {
     @Override
     public double calculate(Map<Integer, Integer> vector1, Map<Integer, Integer> vector2) {

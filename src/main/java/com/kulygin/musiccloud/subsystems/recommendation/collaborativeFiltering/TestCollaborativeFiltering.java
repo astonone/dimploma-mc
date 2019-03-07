@@ -1,31 +1,20 @@
 package com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering;
 
 import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.algorythm.CollaborativeFiltering;
-import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.fileReader.CSVFileReader;
-import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.similarity.impl.CosineMeasure;
-
-import java.util.Map;
+import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.config.impl.CSVFileFactory;
 
 public class TestCollaborativeFiltering {
     public static void main(String[] args) {
-        CSVFileReader csvFileReader = new CSVFileReader();
+
+        CollaborativeFiltering collaborativeFiltering = new CollaborativeFiltering();
+        collaborativeFiltering.setSettings(new CSVFileFactory());
 
         long startTime = System.currentTimeMillis();
 
-        Map<Integer, Map<Integer, Integer>> userRates = csvFileReader.read("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\estimateMatrix.csv", ",");
+        collaborativeFiltering.makeRecommendation(1, 1000,500);
 
         long estimatedTime = System.currentTimeMillis() - startTime;
 
-        System.out.println("Preprocessing elapsed time: " + estimatedTime/1000d + "s");
-
-        CollaborativeFiltering collaborativeFiltering = new CollaborativeFiltering();
-        collaborativeFiltering.setMetric(new CosineMeasure());
-
-        startTime = System.currentTimeMillis();
-
-        collaborativeFiltering.makeRecommendation(1, userRates, 1000,500);
-
-        estimatedTime = System.currentTimeMillis() - startTime;
         System.out.println("Algorithm elapsed time: " + estimatedTime/1000d + "s");
     }
 }
