@@ -52,10 +52,8 @@ public class CollaborativeFiltering {
         resultBestMatches.forEach((relatedUser, relatedUserValue) ->
                 userRates.get(relatedUser).forEach((product, productValue) -> {
                     if (!userRates.get(userID).containsKey(product)) {
-                        if (!similarityProducts.containsKey(product)) {
-                            similarityProducts.put(product, 0.0d);
-                            similarityProducts.put(product, (similarityProducts.get(product) + (userRates.get(relatedUser).get(product) * resultBestMatches.get(relatedUser))) / sum);
-                        }
+                        similarityProducts.putIfAbsent(product, 0.0d);
+                        similarityProducts.put(product, (similarityProducts.get(product) + (userRates.get(relatedUser).get(product) * resultBestMatches.get(relatedUser))) / sum);
                     }
                 }));
 

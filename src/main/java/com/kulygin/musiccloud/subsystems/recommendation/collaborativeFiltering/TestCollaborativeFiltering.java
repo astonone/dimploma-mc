@@ -6,7 +6,7 @@ import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.s
 
 import java.util.Map;
 
-public class Main {
+public class TestCollaborativeFiltering {
     public static void main(String[] args) {
         CSVFileReader csvFileReader = new CSVFileReader();
         Map<Integer, Map<Integer, Integer>> userRates = csvFileReader.read("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\estimateMatrix.csv", ",");
@@ -14,6 +14,11 @@ public class Main {
         CollaborativeFiltering collaborativeFiltering = new CollaborativeFiltering();
         collaborativeFiltering.setMetric(new CosineMeasure());
 
+        long startTime = System.currentTimeMillis();
+
         collaborativeFiltering.makeRecommendation(2, userRates, 5,5);
+
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("Elapsed time: " + estimatedTime/1000d + "s");
     }
 }
