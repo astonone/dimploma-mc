@@ -33,7 +33,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public List<Track> getTracksForUser(Long userId, Integer nBestUsers, Integer nBestTracks) {
-        collaborativeFiltering.setSettings(databaseFactory);
+        collaborativeFiltering.setSettings(databaseFactory, false);
 
         return collaborativeFiltering.makeRecommendationAndGetTracks(userId.intValue(), nBestUsers, nBestTracks);
     }

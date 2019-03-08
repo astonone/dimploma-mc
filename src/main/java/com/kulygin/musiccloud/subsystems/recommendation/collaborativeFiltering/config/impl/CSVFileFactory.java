@@ -12,7 +12,11 @@ import java.util.Map;
 public class CSVFileFactory extends CFilteringFactory {
     @Override
     public Map<Integer, Map<Integer, Integer>> createData() {
-        return new CSVFileReader().read("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\estimateMatrix.csv", ",");
+        long startTime = System.currentTimeMillis();
+        Map<Integer, Map<Integer, Integer>> data = new CSVFileReader().read("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\estimateMatrix.csv", ",");
+        long estimatedTime = System.currentTimeMillis() - startTime;
+        System.out.println("Preprocessing elapsed time: " + estimatedTime/1000d + "s");
+        return data;
     }
 
     @Override

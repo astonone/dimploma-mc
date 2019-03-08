@@ -17,10 +17,12 @@ public class CollaborativeFiltering {
     private Map<Integer, Map<Integer, Integer>> userRates;
     @Autowired
     private TrackService trackService;
+    private boolean isPrint;
 
-    public void setSettings(CFilteringFactory cFilteringFactory) {
+    public void setSettings(CFilteringFactory cFilteringFactory, boolean isPrint) {
         this.metric = cFilteringFactory.createMeasureOfSimilarity();
         this.userRates = cFilteringFactory.createData();
+        this.isPrint = isPrint;
     }
 
     public void makeRecommendation(Integer userID, Integer nBestUsers, Integer nBestProducts) {
@@ -28,11 +30,13 @@ public class CollaborativeFiltering {
 
         calculateRecommend(userID, nBestUsers, nBestProducts, similarityProducts);
 
-        System.out.println("Most correlated products: ");
-        similarityProducts.entrySet().stream()
-                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                .limit(nBestProducts)
-                .forEach(similarityProduct -> System.out.println("  TrackID: " + similarityProduct.getKey() + "  Correlation coefficient: " + similarityProduct.getValue()));
+        if (isPrint) {
+            System.out.println("Most correlated products: ");
+            similarityProducts.entrySet().stream()
+                    .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                    .limit(nBestProducts)
+                    .forEach(similarityProduct -> System.out.println("  TrackID: " + similarityProduct.getKey() + "  Correlation coefficient: " + similarityProduct.getValue()));
+        }
     }
 
     public List<Track> makeRecommendationAndGetTracks(Integer userID, Integer nBestUsers, Integer nBestProducts) {
@@ -58,11 +62,13 @@ public class CollaborativeFiltering {
             }
         });
 
-        System.out.println("Most correlated '" + userID + "' with users:");
-        matches.entrySet().stream()
-                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                .limit(nBestUsers)
-                .forEach(match -> System.out.println("  UserID: " + match.getKey() + "  Coefficient: " + match.getValue()));
+        if (isPrint) {
+            System.out.println("Most correlated '" + userID + "' with users:");
+            matches.entrySet().stream()
+                    .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                    .limit(nBestUsers)
+                    .forEach(match -> System.out.println("  UserID: " + match.getKey() + "  Coefficient: " + match.getValue()));
+        }
 
         Map<Integer, Double> bestMatches = matches.entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))

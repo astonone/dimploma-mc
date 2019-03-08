@@ -39,7 +39,7 @@ public class CSVFileGenerator {
     }
 
     public static void main(String[] args) {
-        CSVFileGenerator testDataGenerator = new CSVFileGenerator(50, 50, 1000);
+        CSVFileGenerator testDataGenerator = new CSVFileGenerator(10000, 10000, 10000000);
         testDataGenerator.writeToCSV("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\estimateMatrix.csv", ",");
     }
 }
