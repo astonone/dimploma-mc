@@ -1,0 +1,9 @@
+﻿@import "~@angular/material/prebuilt-themes/purple-green.css";
+
+a {
+    cursor: pointer;
+}
+
+.help-block {
+    font-size: 12px;
+}
