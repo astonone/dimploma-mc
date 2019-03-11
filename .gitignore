@@ -19,5 +19,5 @@
 *.ipr
 
 ### Test data ###
-rcsData
+rcsData/generator/estimateMatrix.csv
 *.csv
