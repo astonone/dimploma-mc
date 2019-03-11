@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     login() {
         let url = 'http://localhost:8082/api/user/login';
         this.http.post<Observable<boolean>>(url, {
-            userName: this.model.username,
+            email: this.model.email,
             password: this.model.password
         }).subscribe(isValid => {
             if (isValid) {

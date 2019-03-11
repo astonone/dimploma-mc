@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
     constructor(private http: HttpClient) { }
 
     ngOnInit() {
-        let url = 'http://localhost:8082/user';
+        let url = 'http://localhost:8082/api/user/auth';
 
         let headers: HttpHeaders = new HttpHeaders({
             'Authorization': 'Basic ' + sessionStorage.getItem('token')

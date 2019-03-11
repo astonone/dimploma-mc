@@ -24,8 +24,8 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder().encode("admin"))
+                .withUser("user")
+                .password(passwordEncoder().encode("user"))
                 .roles("USER");
     }
 
@@ -34,8 +34,8 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class);
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+                .antMatchers("/api/user/login").permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()

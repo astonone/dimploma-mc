@@ -29,10 +29,10 @@ public class UserController {
 
     @RequestMapping("/login")
     public boolean login(@RequestBody User user) {
-        return user.getEmail().equals("admin") && user.getPassword().equals("p");
+        return user.getEmail().equals("user") && user.getPassword().equals("user");
     }
 
-    @RequestMapping("/user")
+    @RequestMapping("/auth")
     public Principal user(HttpServletRequest request) {
         String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
         return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
