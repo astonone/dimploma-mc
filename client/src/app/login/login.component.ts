@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
             password: this.model.password
         }).subscribe(isValid => {
             if (isValid) {
-                sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
+                sessionStorage.setItem('token', btoa(this.model.email + ':' + this.model.password));
                 this.router.navigate(['']);
             } else {
                 alert("Authentication failed.")
