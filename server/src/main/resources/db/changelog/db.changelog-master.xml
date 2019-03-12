@@ -386,31 +386,31 @@
         <insert tableName="user">
             <column name="id" type="INTEGER">1</column>
             <column name="email" type="VARCHAR(255)">astonone@mail.ru</column>
-            <column name="password" type="VARCHAR(255)">123456</column>
+            <column name="password" type="VARCHAR(255)">$2a$10$514WlQ92j09.tDfFeqpta.xBGj/EAgGsXL1K/546c7tih4YgSy.US</column>
             <column name="user_details_id" type="INTEGER">1</column>
         </insert>
         <insert tableName="user">
             <column name="id" type="INTEGER">2</column>
             <column name="email" type="VARCHAR(255)">ira@mail.ru</column>
-            <column name="password" type="VARCHAR(255)">mur</column>
+            <column name="password" type="VARCHAR(255)">$2a$10$514WlQ92j09.tDfFeqpta.xBGj/EAgGsXL1K/546c7tih4YgSy.US</column>
             <column name="user_details_id" type="INTEGER">2</column>
         </insert>
         <insert tableName="user">
             <column name="id" type="INTEGER">3</column>
             <column name="email" type="VARCHAR(255)">megasich@mail.ru</column>
-            <column name="password" type="VARCHAR(255)">0000</column>
+            <column name="password" type="VARCHAR(255)">$2a$10$514WlQ92j09.tDfFeqpta.xBGj/EAgGsXL1K/546c7tih4YgSy.US</column>
             <column name="user_details_id" type="INTEGER">3</column>
         </insert>
         <insert tableName="user">
             <column name="id" type="INTEGER">4</column>
             <column name="email" type="VARCHAR(255)">pooh@mail.ru</column>
-            <column name="password" type="VARCHAR(255)">qwerty</column>
+            <column name="password" type="VARCHAR(255)">$2a$10$514WlQ92j09.tDfFeqpta.xBGj/EAgGsXL1K/546c7tih4YgSy.US</column>
             <column name="user_details_id" type="INTEGER">4</column>
         </insert>
         <insert tableName="user">
             <column name="id" type="INTEGER">5</column>
             <column name="email" type="VARCHAR(255)">roman@mail.ru</column>
-            <column name="password" type="VARCHAR(255)">zaqwerty</column>
+            <column name="password" type="VARCHAR(255)">$2a$10$514WlQ92j09.tDfFeqpta.xBGj/EAgGsXL1K/546c7tih4YgSy.US</column>
             <column name="user_details_id" type="INTEGER">5</column>
         </insert>
     </changeSet>

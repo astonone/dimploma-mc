@@ -1,9 +1,12 @@
 package com.kulygin.musiccloud.domain;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Data
@@ -12,9 +15,9 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table
-@EqualsAndHashCode(of = { "id"})
-@ToString(exclude = {"userDetails", "userTracks", "playlists"})
-public class User {
+@EqualsAndHashCode(of = {"id"})
+@ToString(exclude = {"userDetails", "userTracks", "playlists", "friends", "friendRequests"})
+public class User implements org.springframework.security.core.userdetails.UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,7 +26,7 @@ public class User {
     private LocalDateTime dateCreate;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="user_details_id")
+    @JoinColumn(name = "user_details_id")
     private UserDetails userDetails;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
@@ -43,4 +46,34 @@ public class User {
             joinColumns = @JoinColumn(name = "inviter_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> friendRequests;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

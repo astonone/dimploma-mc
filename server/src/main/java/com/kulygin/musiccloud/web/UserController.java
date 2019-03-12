@@ -11,6 +11,7 @@ import com.kulygin.musiccloud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,10 +27,18 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping("/login")
     public boolean login(@RequestBody User user) {
-        return user.getEmail().equals("user") && user.getPassword().equals("user");
+        User userByEmail = userService.findUserByEmail(user.getEmail());
+        if (userByEmail != null) {
+            if (passwordEncoder.matches(user.getPassword(), userByEmail.getPassword())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @RequestMapping("/auth")
