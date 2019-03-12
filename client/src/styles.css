@@ -1,4 +1,4 @@
-﻿@import "~@angular/material/prebuilt-themes/purple-green.css";
+﻿@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 a {
     cursor: pointer;
@@ -6,4 +6,8 @@ a {
 
 .help-block {
     font-size: 12px;
+}
+
+body {
+    font-family: "Roboto";
 }

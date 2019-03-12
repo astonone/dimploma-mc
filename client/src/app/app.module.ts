@@ -7,9 +7,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent }  from './app.component';
 import { routing }        from './app.routing';
 
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';;
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';;
 import { MainUiModule } from './modules/main-ui/main-ui.module'
+import { UserService } from './services/user.service'
 
 @NgModule({
     imports: [
@@ -23,6 +24,9 @@ import { MainUiModule } from './modules/main-ui/main-ui.module'
         AppComponent,
         HomeComponent,
         LoginComponent
+    ],
+    providers: [
+        UserService
     ],
     bootstrap: [AppComponent]
 })
