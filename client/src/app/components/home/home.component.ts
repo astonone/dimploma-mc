@@ -13,7 +13,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 
 export class HomeComponent implements OnInit {
 
-    userName: string;
+    user: any;
 
     constructor(private http: HttpClient,
                 private router: Router,
@@ -23,7 +23,11 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.userService.auth()
             .subscribe(principal => {
-                this.userName = principal['name'];
+                let email = principal['name'];
+                this.userService.getUserByEmail(email)
+                    .subscribe(data => {
+                        this.user = data;
+                    })
             },
             error => {
                 if (error.status == 401)

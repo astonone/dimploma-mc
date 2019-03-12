@@ -347,37 +347,37 @@
     <changeSet author="viktor.kulygin" id="1001">
         <insert tableName="user_details">
             <column name="id" type="INTEGER">1</column>
-            <column name="first_name" type="VARCHAR(255)">Виктор</column>
-            <column name="last_name" type="VARCHAR(255)">Кулыгин</column>
+            <column name="first_name" type="VARCHAR(255)">Viktor</column>
+            <column name="last_name" type="VARCHAR(255)">Kulygin</column>
             <column name="nick_name" type="VARCHAR(255)">astonone</column>
             <column name="photo_link" type="VARCHAR(255)"> </column>
         </insert>
         <insert tableName="user_details">
             <column name="id" type="INTEGER">2</column>
-            <column name="first_name" type="VARCHAR(255)">Ирина</column>
-            <column name="last_name" type="VARCHAR(255)">Шульгинова</column>
-            <column name="nick_name" type="VARCHAR(255)">Медочек</column>
+            <column name="first_name" type="VARCHAR(255)">Irina</column>
+            <column name="last_name" type="VARCHAR(255)">Shulginova</column>
+            <column name="nick_name" type="VARCHAR(255)">Medocheck</column>
             <column name="photo_link" type="VARCHAR(255)"> </column>
         </insert>
         <insert tableName="user_details">
             <column name="id" type="INTEGER">3</column>
-            <column name="first_name" type="VARCHAR(255)">Евгений</column>
-            <column name="last_name" type="VARCHAR(255)">Кираченко</column>
-            <column name="nick_name" type="VARCHAR(255)">Сыч</column>
+            <column name="first_name" type="VARCHAR(255)">Jack</column>
+            <column name="last_name" type="VARCHAR(255)">Kirachenko</column>
+            <column name="nick_name" type="VARCHAR(255)">Sich</column>
             <column name="photo_link" type="VARCHAR(255)"> </column>
         </insert>
         <insert tableName="user_details">
             <column name="id" type="INTEGER">4</column>
-            <column name="first_name" type="VARCHAR(255)">Сергей</column>
-            <column name="last_name" type="VARCHAR(255)">Губарев</column>
-            <column name="nick_name" type="VARCHAR(255)">Пух</column>
+            <column name="first_name" type="VARCHAR(255)">Sergey</column>
+            <column name="last_name" type="VARCHAR(255)">Gubarev</column>
+            <column name="nick_name" type="VARCHAR(255)">Pooh</column>
             <column name="photo_link" type="VARCHAR(255)"> </column>
         </insert>
         <insert tableName="user_details">
             <column name="id" type="INTEGER">5</column>
-            <column name="first_name" type="VARCHAR(255)">Роман</column>
-            <column name="last_name" type="VARCHAR(255)">Пахунов</column>
-            <column name="nick_name" type="VARCHAR(255)">Пышкман</column>
+            <column name="first_name" type="VARCHAR(255)">Roman</column>
+            <column name="last_name" type="VARCHAR(255)">Pakhunov</column>
+            <column name="nick_name" type="VARCHAR(255)">Pishkman</column>
             <column name="photo_link" type="VARCHAR(255)"> </column>
         </insert>
     </changeSet>

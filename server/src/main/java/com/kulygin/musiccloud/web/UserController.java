@@ -56,6 +56,15 @@ public class UserController {
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "email/{email}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAccountByEmail(@PathVariable("email") String email) {
+        User user = userService.findUserByEmail(email);
+        if (user == null) {
+            return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
+        }
+        return new ResponseEntity<>(convert(user), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteAccount(@PathVariable("id") Long userId) {
         try {

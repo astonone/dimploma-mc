@@ -12,12 +12,22 @@ export class UserService {
 
   USER_LOGIN : string;
   USER_AUTH : string;
+  USER_GET: string;
 
   constructor(private http : HttpClient) {
     this.SERVER_URL = this.HOST + ':' + this.PORT;
 
     this.USER_LOGIN = this.SERVER_URL + '/api/user/login';
     this.USER_AUTH = this.SERVER_URL + '/api/user/auth';
+    this.USER_GET = this.SERVER_URL + '/api/user/email/';
+  }
+
+  private getOptions() {
+    let headers: HttpHeaders = new HttpHeaders({
+      'Authorization': 'Basic ' + sessionStorage.getItem('token')
+    });
+
+    return { headers: headers };
   }
 
   login(email:string, password: string) {
@@ -28,11 +38,10 @@ export class UserService {
   }
 
   auth() {
-    let headers: HttpHeaders = new HttpHeaders({
-      'Authorization': 'Basic ' + sessionStorage.getItem('token')
-    });
+    return this.http.post<Observable<Object>>(this.USER_AUTH, {}, this.getOptions())
+  }
 
-    let options = { headers: headers };
-    return this.http.post<Observable<Object>>(this.USER_AUTH, {}, options)
+  getUserByEmail(email:string) {
+    return this.http.get<Observable<Object>>(this.USER_GET + email,  this.getOptions())
   }
 }
