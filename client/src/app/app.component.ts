@@ -1,4 +1,5 @@
 ﻿import { Component } from '@angular/core';
+import { SharedService } from './services/shared.service';
 
 @Component({
     selector: 'app-root',
@@ -8,4 +9,10 @@
     ]
 })
 
-export class AppComponent { }
+export class AppComponent {
+
+    constructor(
+        public shared: SharedService
+    ) {
+    }
+}

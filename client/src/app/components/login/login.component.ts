@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
                 if (isValid) {
                     this.isAuthError = false;
                     sessionStorage.setItem('token', btoa(email + ':' + password));
-                    this.router.navigate(['']);
+                    this.router.navigate(['home']);
                 } else {
                     this.isAuthError = true;
                 }

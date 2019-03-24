@@ -6,3 +6,21 @@
     padding: 10px 10px;
     color: black;
 }
+
+.header-control-panel {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.header-control-nav-panel {
+    display: flex;
+}
+
+.header-control-auth-panel {
+    display: flex;
+}
+
+.header-panel-el {
+    margin: 5px 5px 5px 5px;
+}

@@ -2,6 +2,7 @@
 import {HttpClient} from '@angular/common/http';
 import {UserService} from '../../services/user.service';
 import {Router, ActivatedRoute} from '@angular/router';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
     selector: 'home',
@@ -17,7 +18,8 @@ export class HomeComponent implements OnInit {
 
     constructor(private http: HttpClient,
                 private router: Router,
-                private userService: UserService) {
+                private userService: UserService,
+                private shared: SharedService) {
     }
 
     ngOnInit() {
@@ -27,17 +29,15 @@ export class HomeComponent implements OnInit {
                 this.userService.getUserByEmail(email)
                     .subscribe(data => {
                         this.user = data;
+                        this.shared.isLogin = true;
+                        this.shared.loggedUser = data;
                     })
             },
             error => {
-                if (error.status == 401)
-                    alert('Unauthorized');
+                if (error.status == 401) {
+                    this.shared.logout();
+                }
             }
         );
-    }
-
-    logout() {
-        sessionStorage.setItem('token', '');
-        this.router.navigate(['/login']);
     }
 }

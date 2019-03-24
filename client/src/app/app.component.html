@@ -1,5 +1,19 @@
 ﻿<mat-toolbar color="primary">
     <img class="app-img" src="../assets/image/app-icon.png">
     <span class="app-title">Music cloud</span>
+    <div *ngIf="shared.isLogin" class="header-control-panel">
+        <div class="header-control-nav-panel">
+            <button class="header-panel-el" routerLink="/home" mat-raised-button>Home</button>
+            <button class="header-panel-el" routerLink="/music" mat-raised-button>Music</button>
+            <button class="header-panel-el" routerLink="/users" mat-raised-button>Users</button>
+            <button class="header-panel-el" routerLink="/download" mat-raised-button>Download</button>
+            <button class="header-panel-el" routerLink="/about" mat-raised-button>About</button>
+        </div>
+        <div class="header-control-auth-panel">
+            <div class="header-panel-el">Signed as {{shared.loggedUser.userDetails.firstName + " " + shared.loggedUser.userDetails.lastName}}</div>
+            <button class="header-panel-el" routerLink="/settings" mat-raised-button color="accent">Settings</button>
+            <button class="header-panel-el" mat-raised-button color="warn" (click)="shared.logout()">Logout</button>
+        </div>
+    </div>
 </mat-toolbar>
 <router-outlet></router-outlet>
