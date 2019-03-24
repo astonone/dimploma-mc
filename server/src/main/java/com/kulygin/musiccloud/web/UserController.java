@@ -1,5 +1,6 @@
 package com.kulygin.musiccloud.web;
 
+import com.kulygin.musiccloud.config.Constants;
 import com.kulygin.musiccloud.dto.FriendsDTO;
 import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.domain.User;
@@ -8,17 +9,24 @@ import com.kulygin.musiccloud.dto.UserDTO;
 import com.kulygin.musiccloud.dto.UserDetailsDTO;
 import com.kulygin.musiccloud.exception.*;
 import com.kulygin.musiccloud.service.UserService;
+import com.mpatric.mp3agic.InvalidDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Set;
+import java.util.UUID;
 
 @CrossOrigin
 @RestController
@@ -45,6 +53,57 @@ public class UserController {
     public Principal user(HttpServletRequest request) {
         String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
         return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
+    }
+
+    @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
+    public ResponseEntity<?> uploadUserPhoto(@PathVariable("id") Long userId, @RequestParam("uploadedFile") MultipartFile uploadedFileRef) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
+            return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
+        }
+        // Получаем имя загруженного файла
+        String fileName;
+        // Генерируем уникальное имя файла
+        UUID uuid = UUID.randomUUID();
+        fileName = uuid.toString() + uploadedFileRef.getOriginalFilename().substring(uploadedFileRef.getOriginalFilename().lastIndexOf("."));
+        // Путь, где загруженный файл будет сохранен.
+        String path = System.getProperty("user.home") + "/" + Constants.DOWNLOAD_PHOTO_PATH + fileName;
+        // Буффер для хранения данных из uploadedFileRef
+        byte[] buffer = new byte[1000];
+        // Теперь создаем выходной файл outputFile на сервере
+        File outputFile = new File(path);
+
+        FileInputStream reader = null;
+        FileOutputStream writer = null;
+        int totalBytes = 0;
+        try {
+            outputFile.createNewFile();
+            // Создаем входной поток для чтения данных из него
+            reader = (FileInputStream) uploadedFileRef.getInputStream();
+            // Создаем выходной поток для записи данных
+            writer = new FileOutputStream(outputFile);
+            // Считываем данные uploadedFileRef и пишем их в outputFile
+            int bytesRead = 0;
+            while ((bytesRead = reader.read(buffer)) != -1) {
+                writer.write(buffer);
+                totalBytes += bytesRead;
+            }
+        } catch (IOException iO) {
+            return getErrorResponseBody(ApplicationErrorTypes.IO_ERROR);
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException iO) {
+                return getErrorResponseBody(ApplicationErrorTypes.IO_ERROR);
+            }
+        }
+        user = userService.uploadPhoto(user, fileName);
+        return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

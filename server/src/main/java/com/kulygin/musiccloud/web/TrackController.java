@@ -53,7 +53,7 @@ public class TrackController {
         UUID uuid = UUID.randomUUID();
         fileName = uuid.toString() + ".mp3";
         // Путь, где загруженный файл будет сохранен.
-        String path = System.getProperty("user.home") + "/" + Constants.DOWNLOAD_PATH + fileName;
+        String path = System.getProperty("user.home") + "/" + Constants.DOWNLOAD_MUSIC_PATH + fileName;
         // Буффер для хранения данных из uploadedFileRef
         byte[] buffer = new byte[1000];
         // Теперь создаем выходной файл outputFile на сервере
