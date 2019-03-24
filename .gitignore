@@ -20,5 +20,5 @@
 
 ### Test data ###
 rcsData/generator/estimateMatrix.csv
-client/src/assets/audio-storage/*
-client/src/assets/photo-storage/*
+client/src/assets/audio-storage/
+client/src/assets/photo-storage/
