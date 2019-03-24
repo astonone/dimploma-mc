@@ -67,7 +67,7 @@ public class UserController {
         UUID uuid = UUID.randomUUID();
         fileName = uuid.toString() + uploadedFileRef.getOriginalFilename().substring(uploadedFileRef.getOriginalFilename().lastIndexOf("."));
         // Путь, где загруженный файл будет сохранен.
-        String path = System.getProperty("user.home") + "/" + Constants.DOWNLOAD_PHOTO_PATH + fileName;
+        String path = System.getProperty("user.dir") + "/" + Constants.DOWNLOAD_PHOTO_PATH + fileName;
         // Буффер для хранения данных из uploadedFileRef
         byte[] buffer = new byte[1000];
         // Теперь создаем выходной файл outputFile на сервере

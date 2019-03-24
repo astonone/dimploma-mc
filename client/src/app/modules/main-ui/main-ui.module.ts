@@ -9,6 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { NgxAudioPlayerModule } from 'ngx-audio-player';
 
 @NgModule({
   imports: [
@@ -21,7 +24,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDialogModule
+    MatDialogModule,
+    MatListModule,
+    MatSidenavModule,
+    NgxAudioPlayerModule
   ],
   declarations: [],
   providers : [
@@ -35,7 +41,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatFormFieldModule,
     MatDatepickerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatListModule,
+    MatSidenavModule,
+    NgxAudioPlayerModule
   ]
 })
 export class MainUiModule { }

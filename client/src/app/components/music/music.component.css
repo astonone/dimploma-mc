@@ -1,0 +1,32 @@
+.music-container {
+    height: calc(100vh - 64px);
+}
+
+.right-container {
+
+}
+
+.left-container {
+    width: 30%;
+}
+
+.music-filter-text-input {
+    margin: 10px;
+    width: 95%;
+}
+
+.music-filter-search-button {
+    margin: 10px;
+}
+
+.music-filter-label {
+    margin: 10px;
+}
+
+.track-item {
+    margin: 10px;
+}
+
+.track-item-control {
+    width: 20%;
+}

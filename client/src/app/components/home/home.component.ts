@@ -23,21 +23,23 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userService.auth()
-            .subscribe(principal => {
-                let email = principal['name'];
-                this.userService.getUserByEmail(email)
-                    .subscribe(data => {
-                        this.user = data;
-                        this.shared.isLogin = true;
-                        this.shared.loggedUser = data;
-                    })
-            },
-            error => {
-                if (error.status == 401) {
-                    this.shared.logout();
-                }
-            }
-        );
+        if (sessionStorage.getItem('token') !== '') {
+            this.userService.auth()
+                .subscribe(principal => {
+                        let email = principal['name'];
+                        this.userService.getUserByEmail(email)
+                            .subscribe(data => {
+                                this.user = data;
+                                this.shared.isLogin = true;
+                                this.shared.loggedUser = data;
+                            });
+                    },
+                    error => {
+                        if (error.status == 401) {
+                            this.shared.logout();
+                        }
+                    }
+                );
+        }
     }
 }

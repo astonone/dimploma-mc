@@ -236,7 +236,7 @@ public class TrackServiceImpl implements TrackService {
         // Создаем mp3 файл
         Mp3File mp3File = null;
         try {
-            mp3File = new Mp3File(System.getProperty("user.home") + "/" + Constants.DOWNLOAD_MUSIC_PATH + filename);
+            mp3File = new Mp3File(System.getProperty("user.dir") + "/" + Constants.DOWNLOAD_MUSIC_PATH + filename);
         } catch (FileNotFoundException fileNotFound) {
             throw new FileIsNotExistsException();
         }
@@ -288,7 +288,7 @@ public class TrackServiceImpl implements TrackService {
                 .album(album)
                 .artist(artist)
                 .year(year)
-                .filename(filename)
+                .filename("assets/audio-storage/" + filename)
                 .duration(duration)
                 .build();
         trackRepository.save(track);

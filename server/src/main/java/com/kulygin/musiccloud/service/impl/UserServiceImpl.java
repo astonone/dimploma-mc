@@ -208,7 +208,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User uploadPhoto(User user, String fileName) {
         UserDetails userDetails = user.getUserDetails();
-        userDetails.setPhotoLink(fileName);
+        userDetails.setPhotoLink("assets/photo-storage/" + fileName);
         return userRepository.save(user);
     }
 }
