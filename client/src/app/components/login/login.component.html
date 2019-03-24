@@ -1,18 +1,18 @@
 ﻿<div class="login-container">
-    <h3>Please, enter yor credentials for login</h3>
+    <h3>Пожалуйста, введите свой данные для логина</h3>
     <mat-form-field class="login-text-input" appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput type="email" placeholder="Enter your email address" [(ngModel)]="model.email">
+        <input matInput type="email" placeholder="Введите свойe mail адресс" [(ngModel)]="model.email">
         <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
     </mat-form-field>
     <mat-form-field class="login-text-input" appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" placeholder="Enter your password" [(ngModel)]="model.password">
+        <mat-label>Пароль</mat-label>
+        <input matInput type="password" placeholder="Введите свой пароль" [(ngModel)]="model.password">
         <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
     </mat-form-field>
-    <label *ngIf="isAuthError" class="login-error-label">Incorrect, credentials!</label>
+    <label *ngIf="isAuthError" class="login-error-label">Ошибка, неверный логин или пароль!</label>
     <div class="login-buttons">
-        <button class="login-button" mat-raised-button color="primary" (click)="login()">Login</button>
-        <button class="login-button" mat-raised-button color="accent">Registration</button>
+        <button class="login-button" mat-raised-button color="primary" (click)="login()">Вход</button>
+        <button class="login-button" mat-raised-button color="accent" routerLink="/registration">Регистрация</button>
     </div>
 </div>

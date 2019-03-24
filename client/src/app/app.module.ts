@@ -17,7 +17,7 @@ import { LoginComponent } from './components/login/login.component'
 import { AboutComponent } from './components/about/about.component';
 import { MusicComponent } from './components/music/music.component';
 import { UsersComponent } from './components/users/users.component';
-import { DownloadComponent } from './components/download/download.component';
+import { UploadComponent } from './components/upload/upload.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
@@ -37,7 +37,7 @@ import { SettingsComponent } from './components/settings/settings.component';
         AboutComponent,
         MusicComponent,
         UsersComponent,
-        DownloadComponent,
+        UploadComponent,
         RegistrationComponent,
         SettingsComponent
     ],

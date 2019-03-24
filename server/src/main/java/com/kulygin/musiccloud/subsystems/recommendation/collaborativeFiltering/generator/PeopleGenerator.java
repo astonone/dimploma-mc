@@ -64,8 +64,8 @@ public class PeopleGenerator {
                     .dateCreate(LocalDateTime.now())
                     .userDetails(UserDetails.builder()
                             .id(i.longValue())
-                            .firstName(GeneratorUtils.toTranslit(fname))
-                            .lastName(GeneratorUtils.toTranslit(sname))
+                            .firstName(fname)
+                            .lastName(sname)
                             .birthday(LocalDateTime.of(GeneratorUtils.rnd(1970,2005), GeneratorUtils.rnd(1,12), GeneratorUtils.rnd(1,28), 0, 0, 0))
                             .build())
                     .build();

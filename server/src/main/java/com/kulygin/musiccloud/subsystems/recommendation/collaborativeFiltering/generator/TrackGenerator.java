@@ -37,7 +37,7 @@ public class TrackGenerator {
 
         for (Integer i = 1; i <= trackCount; i++) {
 
-            String artist = GeneratorUtils.toTranslit(artists.get(GeneratorUtils.rnd(0, artists.size() - 1)));
+            String artist = artists.get(GeneratorUtils.rnd(0, artists.size() - 1));
             String trackName = "Track" + GeneratorUtils.rnd(1,50);
             String album = "Album" + GeneratorUtils.rnd(1,3);
 

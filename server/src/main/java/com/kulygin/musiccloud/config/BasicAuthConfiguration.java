@@ -51,6 +51,8 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+                .antMatchers("/api/user/create").permitAll()
+                .antMatchers("/api/user/*/user_details").permitAll()
                 .antMatchers("/api/user/login").permitAll()
                 .anyRequest()
                 .fullyAuthenticated()

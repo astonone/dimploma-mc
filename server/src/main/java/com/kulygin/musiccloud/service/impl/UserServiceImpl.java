@@ -7,6 +7,7 @@ import com.kulygin.musiccloud.repository.UserDetailsRepository;
 import com.kulygin.musiccloud.repository.UserRepository;
 import com.kulygin.musiccloud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private UserDetailsRepository userDetailsRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User findUserByEmail(String email) {
@@ -49,7 +52,7 @@ public class UserServiceImpl implements UserService {
         } else {
             return userRepository.save(User.builder()
                     .email(email)
-                    .password(password)
+                    .password(passwordEncoder.encode(password))
                     .dateCreate(LocalDateTime.now())
                     .build());
         }
