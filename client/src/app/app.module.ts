@@ -20,6 +20,8 @@ import { UsersComponent } from './components/users/users.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { CreateUserDialog } from './components/registration/dialog/create-user-dialog';
+import { ErrorCreateUserDialog } from './components/registration/dialog/error-create-user-dialog';
 
 @NgModule({
     imports: [
@@ -39,7 +41,13 @@ import { SettingsComponent } from './components/settings/settings.component';
         UsersComponent,
         UploadComponent,
         RegistrationComponent,
-        SettingsComponent
+        SettingsComponent,
+        CreateUserDialog,
+        ErrorCreateUserDialog
+    ],
+    entryComponents: [
+        CreateUserDialog,
+        ErrorCreateUserDialog
     ],
     providers: [
         UserService,
