@@ -9,9 +9,12 @@ import { routing }        from './app.routing';
 
 import { MainUiModule } from './modules/main-ui/main-ui.module';
 
+/*Services*/
 import { UserService } from './services/user.service';
 import { SharedService } from './services/shared.service';
+import { TrackService } from './services/track.service';
 
+/*Components*/
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component'
 import { AboutComponent } from './components/about/about.component';
@@ -20,8 +23,11 @@ import { UsersComponent } from './components/users/users.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { SettingsComponent } from './components/settings/settings.component';
+
+/*Popups*/
 import { CreateUserDialog } from './components/registration/dialog/create-user-dialog';
 import { ErrorCreateUserDialog } from './components/registration/dialog/error-create-user-dialog';
+import { CreateTrackDialog } from './components/upload/dialog/create-track-dialog';
 
 @NgModule({
     imports: [
@@ -43,14 +49,17 @@ import { ErrorCreateUserDialog } from './components/registration/dialog/error-cr
         RegistrationComponent,
         SettingsComponent,
         CreateUserDialog,
-        ErrorCreateUserDialog
+        ErrorCreateUserDialog,
+        CreateTrackDialog
     ],
     entryComponents: [
         CreateUserDialog,
-        ErrorCreateUserDialog
+        ErrorCreateUserDialog,
+        CreateTrackDialog
     ],
     providers: [
         UserService,
+        TrackService,
         SharedService
     ],
     bootstrap: [AppComponent]

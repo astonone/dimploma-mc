@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Загрузка</h1>
+<div mat-dialog-content>
+    <p>Трек загружен успешно!</p>
+    <p><label>Заголовок: </label>{{data.title}}</p>
+    <p><label>Артист: </label>{{data.artist}}</p>
+    <p><label>Альбом: </label>{{data.album}}</p>
+    <p><label>Год: </label>{{data.year}}</p>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onNoClick()">Продолжить загрузку</button>
+    <button mat-raised-button color="warn" (click)="onYesClick()" cdkFocusInitial>Перейти на страницу музыки</button>
+</div>

@@ -13,6 +13,7 @@ export class RegistrationComponent implements OnInit {
 
   newUser : any;
   createdUser : any;
+  isNotValid : boolean;
 
   constructor(private userService : UserService,
               public dialog: MatDialog) {
@@ -25,15 +26,16 @@ export class RegistrationComponent implements OnInit {
       firstName : "",
       lastName : "",
       nick : "",
-      birthday : {}
+      birthday : ""
     }
   }
 
   createUser() {
-    let email = this.newUser.email;
-    let password = this.newUser.password;
-    this.userService.createUser(email, password)
-        .subscribe(user => {
+    if (this.isValidInput()) {
+      let email = this.newUser.email;
+      let password = this.newUser.password;
+      this.userService.createUser(email, password)
+          .subscribe(user => {
             this.createdUser = user;
             let newUserId = this.createdUser.id;
             let birthday = new Date(this.newUser.birthday);
@@ -41,24 +43,32 @@ export class RegistrationComponent implements OnInit {
               firstName: this.newUser.firstName,
               lastName: this.newUser.lastName,
               nick: this.newUser.nick,
-              birthday : {
+              birthday: {
                 year: birthday.getFullYear(),
-                month: birthday.getMonth(),
+                month: birthday.getMonth() + 1,
                 day: birthday.getDay(),
-                hours: "0",
-                minutes: "0",
-                seconds: "0"
+                hours: '0',
+                minutes: '0',
+                seconds: '0'
               }
             };
-          this.userService.addUserDetails(newUserId, requset)
-              .subscribe( userDetails => {
-                this.openUserCreatedDialog(userDetails);
-              }, error => {
-                this.openErrorUserCreatedDialog(error);
-              })
-        },error => {
-          this.openErrorUserCreatedDialog(error);
-        });
+            this.userService.addUserDetails(newUserId, requset)
+                .subscribe(userDetails => {
+                  this.openUserCreatedDialog(userDetails);
+                }, error => {
+                  this.openErrorUserCreatedDialog(error);
+                });
+          }, error => {
+            this.openErrorUserCreatedDialog(error);
+          });
+    } else {
+      this.isNotValid = true;
+    }
+  }
+
+  isValidInput() {
+    return !this.newUser.email.includes("") || !this.newUser.password.includes("") || !this.newUser.firstName.includes("") ||
+        !this.newUser.lastName.includes("") || !this.newUser.nick.includes("") || !this.newUser.birthday.includes("");
   }
 
   openUserCreatedDialog(userDetails : any) : void {
@@ -73,7 +83,7 @@ export class RegistrationComponent implements OnInit {
         firstName : "",
         lastName : "",
         nick : "",
-        birthday : {}
+        birthday : ""
       }
     });
   }

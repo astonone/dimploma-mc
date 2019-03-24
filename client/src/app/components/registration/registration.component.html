@@ -25,6 +25,7 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+  <label *ngIf="isNotValid" class="registration-error-label">Ошибка, поля заполнены неккоректно!</label>
   <div class="registration-buttons">
     <button class="registration-button" mat-raised-button color="primary" (click)="createUser()">Создать</button>
     <button class="registration-button" mat-raised-button color="accent" routerLink="/login">Отмена</button>
