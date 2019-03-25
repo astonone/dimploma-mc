@@ -12,7 +12,7 @@ import { SharedService } from './services/shared.service';
 export class AppComponent {
 
     constructor(
-        public shared: SharedService
-    ) {
+        public shared: SharedService) {
+        this.shared.checkLoggedUser();
     }
 }
