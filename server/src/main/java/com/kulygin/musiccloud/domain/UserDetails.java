@@ -20,6 +20,7 @@ public class UserDetails {
     private String firstName;
     private String lastName;
     private String nickName;
+    private String about;
     private String photoLink;
     private LocalDateTime birthday;
 

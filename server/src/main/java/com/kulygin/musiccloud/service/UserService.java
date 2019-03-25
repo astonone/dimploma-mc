@@ -16,9 +16,9 @@ public interface UserService {
 
     User createUser(String email, String password) throws UserHasExistsException;
 
-    User addUserDetails(User user, String firstName, String lastName, String photoLink, String nickName, LocalDateTime birthday);
+    User addUserDetails(User user, String firstName, String lastName, String photoLink, String nickName, LocalDateTime birthday, String about);
 
-    User updateUserDetails(User user, String firstName, String lastName, String photoLink, String nickName, LocalDateTime birthday);
+    User updateUserDetails(User user, String firstName, String lastName, String photoLink, String nickName, LocalDateTime birthday, String about);
 
     User save(User user);
 

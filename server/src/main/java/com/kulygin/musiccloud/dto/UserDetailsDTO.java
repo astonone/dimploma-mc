@@ -8,6 +8,7 @@ public class UserDetailsDTO {
     private String firstName;
     private String lastName;
     private String nick;
+    private String about;
     private String photoLink;
     private DateDTO birthday;
 
@@ -22,6 +23,7 @@ public class UserDetailsDTO {
         this.firstName = userDetails.getFirstName();
         this.lastName = userDetails.getLastName();
         this.nick = userDetails.getNickName();
+        this.about = userDetails.getAbout();
         this.photoLink = userDetails.getPhotoLink();
         this.birthday = new DateDTO(userDetails.getBirthday());
     }
@@ -72,5 +74,13 @@ public class UserDetailsDTO {
 
     public void setBirthday(DateDTO birthday) {
         this.birthday = birthday;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
     }
 }

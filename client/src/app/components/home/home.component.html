@@ -1,7 +1,34 @@
-﻿<div class="home-container">
-    <h2>Профиль</h2>
-    <span>Имя: {{user.userDetails.firstName}}</span>
-    <span>Фамилия: {{user.userDetails.lastName}}</span>
-    <span>Никнейм: {{user.userDetails.nick}}</span>
-    <span>Email адресс: {{user.email}}</span>
-</div>
+﻿<mat-sidenav-container class="home-container">
+    <mat-sidenav mode="side" class="left-container" opened>
+        <mat-card class="user-card">
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image"></div>
+                <mat-card-title>Мой профиль</mat-card-title>
+                <mat-card-subtitle>{{userName}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="./assets/image/empty-profile-black.png" alt="Photo of a Shiba Inu">
+            <mat-card-content class="user-info">
+                <p>Email: {{userEmail}}</p>
+                <p>Никнейм: {{userNickName}}</p>
+                <p>День рождения: {{userBirthday}}</p>
+                <p>Обо мне: {{userAbout}}</p>
+            </mat-card-content>
+        </mat-card>
+    </mat-sidenav>
+    <mat-sidenav-content class="right-container">
+        <mat-list>
+            <mat-tab-group>
+                <mat-tab label="Моя музыка">
+                    <span *ngIf="myMusic.length === 0">На данный момент у вас нет музыки</span>
+                </mat-tab>
+                <mat-tab label="Мои друзья">
+                    <span *ngIf="myFriends.length === 0">Вы еще не добавили никого в друзья</span>
+                </mat-tab>
+                <mat-tab label="Запросы в друзья">
+                    <span *ngIf="myRequest.length === 0">Запросы отсутствуют</span>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-list>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

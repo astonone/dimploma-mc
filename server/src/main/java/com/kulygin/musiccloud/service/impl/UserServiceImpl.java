@@ -59,13 +59,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUserDetails(User user, String firstName, String lastName, String photoLink, String nickName, LocalDateTime birthday) {
+    public User addUserDetails(User user, String firstName, String lastName, String photoLink, String nickName, LocalDateTime birthday, String about) {
         UserDetails userDetails = UserDetails.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .photoLink(photoLink)
                 .nickName(nickName)
                 .birthday(birthday)
+                .about(about)
                 .build();
         userDetails = userDetailsRepository.save(userDetails);
         user.setUserDetails(userDetails);
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserDetails(User user, String firstName, String lastName, String photoLink, String nickName, LocalDateTime birthday) {
+    public User updateUserDetails(User user, String firstName, String lastName, String photoLink, String nickName, LocalDateTime birthday, String about) {
         UserDetails userDetails = user.getUserDetails();
 
         userDetails.setFirstName(firstName);
@@ -81,6 +82,7 @@ public class UserServiceImpl implements UserService {
         userDetails.setPhotoLink(photoLink);
         userDetails.setNickName(nickName);
         userDetails.setBirthday(birthday);
+        userDetails.setAbout(about);
 
         userDetails = userDetailsRepository.save(userDetails);
         user.setUserDetails(userDetails);

@@ -15,6 +15,14 @@ import { SharedService } from '../../services/shared.service';
 export class HomeComponent implements OnInit {
 
     user: any;
+    userName: string;
+    userNickName: string;
+    userEmail: string;
+    userBirthday: string;
+    userAbout: string;
+    myMusic: any;
+    myFriends: any;
+    myRequest: any;
 
     constructor(private http: HttpClient,
                 private router: Router,
@@ -32,6 +40,7 @@ export class HomeComponent implements OnInit {
                                 this.user = data;
                                 this.shared.isLogin = true;
                                 this.shared.loggedUser = data;
+                                this.setUserData();
                             });
                     },
                     error => {
@@ -41,5 +50,16 @@ export class HomeComponent implements OnInit {
                     }
                 );
         }
+    }
+
+    setUserData() {
+        this.userAbout = this.user.userDetails.about;
+        this.userName = this.user.userDetails.firstName + " " + this.user.userDetails.lastName;
+        this.userNickName = this.user.userDetails.nick;
+        this.userEmail = this.user.email;
+        this.userBirthday = this.user.userDetails.birthday.day + "." + this.user.userDetails.birthday.month + "." + this.user.userDetails.birthday.year;
+        this.myMusic = [];
+        this.myFriends = [];
+        this.myRequest = [];
     }
 }

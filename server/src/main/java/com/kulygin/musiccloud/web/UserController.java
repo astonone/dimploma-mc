@@ -155,9 +155,9 @@ public class UserController {
         LocalDateTime birthday = info.getBirthday() == null ? null : LocalDateTime.of(info.getBirthday().getYear(), info.getBirthday().getMonth(),
                 info.getBirthday().getDay(), 0, 0);
         if (user.getUserDetails() == null) {
-            user = userService.addUserDetails(user, info.getFirstName(), info.getLastName(), info.getPhotoLink(), info.getNick(), birthday);
+            user = userService.addUserDetails(user, info.getFirstName(), info.getLastName(), info.getPhotoLink(), info.getNick(), birthday, info.getAbout());
         } else {
-            user = userService.updateUserDetails(user, info.getFirstName(), info.getLastName(), info.getPhotoLink(), info.getNick(), birthday);
+            user = userService.updateUserDetails(user, info.getFirstName(), info.getLastName(), info.getPhotoLink(), info.getNick(), birthday, info.getAbout());
         }
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
