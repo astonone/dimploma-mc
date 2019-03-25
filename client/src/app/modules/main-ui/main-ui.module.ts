@@ -12,6 +12,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatCardModule } from '@angular/material/card';
+
 
 @NgModule({
   imports: [
@@ -27,7 +30,9 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
-    NgxAudioPlayerModule
+    NgxAudioPlayerModule,
+    MatCardModule,
+    MatProgressBarModule
   ],
   declarations: [],
   providers : [
@@ -44,7 +49,9 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
-    NgxAudioPlayerModule
+    NgxAudioPlayerModule,
+    MatCardModule,
+    MatProgressBarModule
   ]
 })
 export class MainUiModule { }
