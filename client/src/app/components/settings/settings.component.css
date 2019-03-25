@@ -1,0 +1,11 @@
+.settings-container {
+    height: calc(100vh - 64px);
+}
+
+.right-container {
+
+}
+
+.left-container {
+    width: 0%;
+}
