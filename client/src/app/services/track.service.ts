@@ -17,7 +17,7 @@ export class TrackService {
     this.SERVER_URL = this.HOST + ':' + this.PORT;
 
     this.UPLOAD_TRACK = this.SERVER_URL + '/api/track/upload';
-    this.GET_ALL_TRACKS = this.SERVER_URL + '/api/track/findAllPagination?page=0&pageSize=50';
+    this.GET_ALL_TRACKS = this.SERVER_URL + '/api/track/findAllPagination';
   }
 
   private getOptions() {

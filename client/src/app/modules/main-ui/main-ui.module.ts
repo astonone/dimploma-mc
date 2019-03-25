@@ -15,6 +15,7 @@ import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     NgxAudioPlayerModule,
     MatCardModule,
     MatProgressBarModule,
-    MatTabsModule
+    MatTabsModule,
+    MatPaginatorModule
   ],
   declarations: [],
   providers : [
@@ -54,7 +56,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     NgxAudioPlayerModule,
     MatCardModule,
     MatProgressBarModule,
-    MatTabsModule
+    MatTabsModule,
+    MatPaginatorModule
   ]
 })
 export class MainUiModule { }

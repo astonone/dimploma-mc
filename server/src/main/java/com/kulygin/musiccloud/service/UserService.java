@@ -2,6 +2,8 @@ package com.kulygin.musiccloud.service;
 
 import com.kulygin.musiccloud.domain.User;
 import com.kulygin.musiccloud.exception.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,4 +39,8 @@ public interface UserService {
     List<User> findAll();
 
     User uploadPhoto(User user, String fileName);
+
+    Page<User> getUsersPagination(PageRequest request);
+
+    int countAll();
 }

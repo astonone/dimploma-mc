@@ -1,0 +1,34 @@
+.user-container {
+    height: calc(100vh - 64px);
+}
+
+.right-container {
+
+}
+
+.left-container {
+    width: 30%;
+}
+
+.user-filter-text-input {
+    margin: 10px;
+    width: 95%;
+}
+
+.user-filter-search-button {
+    margin: 10px;
+}
+
+.user-filter-label {
+    margin: 10px;
+}
+
+.go-to-profile {
+    position: absolute;
+    margin-left: 10px;
+}
+
+.header-label {
+    position: absolute;
+    margin-top: 5px;
+}

@@ -13,6 +13,7 @@ export class UserService {
   USER_LOGIN : string;
   USER_AUTH : string;
   USER_GET: string;
+  USER_GET_ALL: string;
   USER_CREATE: string;
   USER_ADD_USER_DATA: string;
 
@@ -22,6 +23,7 @@ export class UserService {
     this.USER_LOGIN = this.SERVER_URL + '/api/user/login';
     this.USER_AUTH = this.SERVER_URL + '/api/user/auth';
     this.USER_GET = this.SERVER_URL + '/api/user/email/';
+    this.USER_GET_ALL = this.SERVER_URL + '/api/user/getAll?page={page}&pageSize={pageSize}';
     this.USER_CREATE = this.SERVER_URL + '/api/user/create';
     this.USER_ADD_USER_DATA = this.SERVER_URL + '/api/user/{id}/user_details';
   }
@@ -57,5 +59,15 @@ export class UserService {
     var regExp = /{id}/gi;
     let url = this.USER_ADD_USER_DATA.replace(regExp, id);
     return this.http.put<Observable<Object>>(url, request, this.getOptions())
+  }
+
+  getAllUsers(page: number, pageSize: number) {
+    let p = page + "";
+    let ps = pageSize + "";
+    let regExp = /{page}/gi;
+    let regExp2 = /{pageSize}/gi;
+    let url = this.USER_GET_ALL.replace(regExp, p);
+    url = url.replace(regExp2, ps);
+    return this.http.get<Observable<Object>>(url, this.getOptions())
   }
 }

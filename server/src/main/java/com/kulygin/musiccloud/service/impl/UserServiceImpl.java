@@ -7,6 +7,8 @@ import com.kulygin.musiccloud.repository.UserDetailsRepository;
 import com.kulygin.musiccloud.repository.UserRepository;
 import com.kulygin.musiccloud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -212,5 +214,15 @@ public class UserServiceImpl implements UserService {
         UserDetails userDetails = user.getUserDetails();
         userDetails.setPhotoLink("assets/photo-storage/" + fileName);
         return userRepository.save(user);
+    }
+
+    @Override
+    public Page<User> getUsersPagination(PageRequest request) {
+        return userRepository.findAll(request);
+    }
+
+    @Override
+    public int countAll() {
+        return userRepository.countAll();
     }
 }

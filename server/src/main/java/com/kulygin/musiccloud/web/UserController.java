@@ -1,7 +1,9 @@
 package com.kulygin.musiccloud.web;
 
 import com.kulygin.musiccloud.config.Constants;
-import com.kulygin.musiccloud.dto.FriendsDTO;
+import com.kulygin.musiccloud.domain.Genre;
+import com.kulygin.musiccloud.domain.Track;
+import com.kulygin.musiccloud.dto.UsersDTO;
 import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.domain.User;
 import com.kulygin.musiccloud.dto.ErrorResponseBody;
@@ -9,8 +11,10 @@ import com.kulygin.musiccloud.dto.UserDTO;
 import com.kulygin.musiccloud.dto.UserDetailsDTO;
 import com.kulygin.musiccloud.exception.*;
 import com.kulygin.musiccloud.service.UserService;
-import com.mpatric.mp3agic.InvalidDataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,9 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -223,10 +225,21 @@ public class UserController {
             return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
         }
         Set<User> requests = userService.getAllFriendRequests(user);
-        return new ResponseEntity<>(convertFriendList(requests),HttpStatus.OK);
+        return new ResponseEntity<>(convertUserList(requests, null),HttpStatus.OK);
     }
 
-    private FriendsDTO convertFriendList(Set<User> dbModel) { return (dbModel == null) ? null : new FriendsDTO(dbModel); }
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllUsers(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
+        Page<User> users = userService.getUsersPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")));
+        List<User> resultListOfUsers = users.getContent();
+        if (resultListOfUsers.size() == 0) {
+            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
+        }
+        int count = userService.countAll();
+        return new ResponseEntity<>(convertUserList(resultListOfUsers, count), HttpStatus.OK);
+    }
+
+    private UsersDTO convertUserList(Collection<User> dbModel, Integer count) { return (dbModel == null) ? null : new UsersDTO(dbModel, count); }
 
     private UserDTO convert(User dbModel) {
         return (dbModel == null) ? null : new UserDTO(dbModel);
