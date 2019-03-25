@@ -1,6 +1,8 @@
 package com.kulygin.musiccloud.dto;
 
 import com.kulygin.musiccloud.domain.Track;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -8,6 +10,8 @@ import java.util.stream.Collectors;
 import static java.util.Optional.ofNullable;
 import static org.hibernate.validator.internal.util.CollectionHelper.newHashSet;
 
+@Getter
+@Setter
 public class TrackFullInfoDTO {
 
     private Long id;
@@ -50,93 +54,5 @@ public class TrackFullInfoDTO {
         this.moods = ofNullable(dbModel.getMoods()).orElse(newHashSet()).stream()
                 .map(MoodDTO::new)
                 .collect(Collectors.toSet());
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public Set<GenreDTO> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(Set<GenreDTO> genres) {
-        this.genres = genres;
-    }
-
-    public Set<PlaylistDTO> getPlaylists() {
-        return playlists;
-    }
-
-    public void setPlaylists(Set<PlaylistDTO> playlists) {
-        this.playlists = playlists;
-    }
-
-    public Set<MoodDTO> getMoods() {
-        return moods;
-    }
-
-    public void setMoods(Set<MoodDTO> moods) {
-        this.moods = moods;
     }
 }

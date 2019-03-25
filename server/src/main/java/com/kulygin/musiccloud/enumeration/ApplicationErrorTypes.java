@@ -24,7 +24,8 @@ public enum ApplicationErrorTypes {
     REQUEST_ALREADY_SENT(21,"Request has been already sent" ),
     REQUEST_NOT_EXIST(21,"This request has not exists" ),
     USER_HAS_NOT_FRIEND_REQUESTS(22,"This user has not any friend requests" ),
-    FRIEND_ID_NOT_FOUND(23,"This user has not this friend" );
+    FRIEND_ID_NOT_FOUND(23,"This user has not this friend" ),
+    PASSWORDS_DONT_MATCH(24, "Passwords don't match");
 
     private String message;
     private int code;

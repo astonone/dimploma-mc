@@ -1,6 +1,7 @@
 package com.kulygin.musiccloud.service;
 
 import com.kulygin.musiccloud.domain.User;
+import com.kulygin.musiccloud.dto.UserDTO;
 import com.kulygin.musiccloud.exception.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,4 +44,6 @@ public interface UserService {
     Page<User> getUsersPagination(PageRequest request);
 
     int countAll();
+
+    User updateUser(UserDTO userDTO);
 }

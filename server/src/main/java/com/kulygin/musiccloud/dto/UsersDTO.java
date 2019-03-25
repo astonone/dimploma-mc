@@ -1,11 +1,15 @@
 package com.kulygin.musiccloud.dto;
 
 import com.kulygin.musiccloud.domain.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
 public class UsersDTO {
 
     private Integer allCount;
@@ -23,22 +27,6 @@ public class UsersDTO {
         this.users = dbModel.stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toSet());
-        this.allCount = allCount;
-    }
-
-    public Set<UserDTO> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<UserDTO> friends) {
-        this.users = friends;
-    }
-
-    public Integer getAllCount() {
-        return allCount;
-    }
-
-    public void setAllCount(Integer allCount) {
         this.allCount = allCount;
     }
 }

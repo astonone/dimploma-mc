@@ -15,6 +15,7 @@ export class UserService {
   USER_GET: string;
   USER_GET_ALL: string;
   USER_CREATE: string;
+  USER_UPDATE: string;
   USER_ADD_USER_DATA: string;
 
   constructor(private http : HttpClient) {
@@ -25,6 +26,7 @@ export class UserService {
     this.USER_GET = this.SERVER_URL + '/api/user/email/';
     this.USER_GET_ALL = this.SERVER_URL + '/api/user/getAll?page={page}&pageSize={pageSize}';
     this.USER_CREATE = this.SERVER_URL + '/api/user/create';
+    this.USER_UPDATE = this.SERVER_URL + '/api/user/update';
     this.USER_ADD_USER_DATA = this.SERVER_URL + '/api/user/{id}/user_details';
   }
 
@@ -69,5 +71,9 @@ export class UserService {
     let url = this.USER_GET_ALL.replace(regExp, p);
     url = url.replace(regExp2, ps);
     return this.http.get<Observable<Object>>(url, this.getOptions())
+  }
+
+  updateUser(user:any) {
+    return this.http.post<Observable<Object>>(this.USER_UPDATE, user, this.getOptions())
   }
 }

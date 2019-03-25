@@ -147,6 +147,15 @@ public class UserController {
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseEntity<?> createAccount(@RequestBody UserDTO userDTO) {
+        User user = userService.updateUser(userDTO);
+        if (user == null) {
+            return getErrorResponseBody(ApplicationErrorTypes.PASSWORDS_DONT_MATCH);
+        }
+        return new ResponseEntity<>(convert(user), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}/user_details", method = RequestMethod.PUT)
     public ResponseEntity<?> addUserDetails(@PathVariable("id") Long userId, @RequestBody UserDetailsDTO info) {
         User user = userService.getUserById(userId);

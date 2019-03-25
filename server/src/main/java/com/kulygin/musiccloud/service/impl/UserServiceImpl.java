@@ -2,6 +2,7 @@ package com.kulygin.musiccloud.service.impl;
 
 import com.kulygin.musiccloud.domain.User;
 import com.kulygin.musiccloud.domain.UserDetails;
+import com.kulygin.musiccloud.dto.UserDTO;
 import com.kulygin.musiccloud.exception.*;
 import com.kulygin.musiccloud.repository.UserDetailsRepository;
 import com.kulygin.musiccloud.repository.UserRepository;
@@ -224,5 +225,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public int countAll() {
         return userRepository.countAll();
+    }
+
+    @Override
+    public User updateUser(UserDTO userDTO) {
+        if (userDTO.getEmail().equals("") || userDTO.getPassword().equals("") || userDTO.getNewPassword().equals("")) {
+            return null;
+        }
+        User user = getUserById(userDTO.getId());
+        if (user != null) {
+            if (passwordEncoder.matches(userDTO.getPassword(), user.getPassword())) {
+                user.setEmail(userDTO.getEmail());
+                user.setPassword(passwordEncoder.encode(userDTO.getNewPassword()));
+
+                user = userRepository.save(user);
+            } else {
+                user = null;
+            }
+        }
+        return user;
     }
 }

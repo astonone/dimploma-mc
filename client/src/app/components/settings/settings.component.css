@@ -3,9 +3,36 @@
 }
 
 .right-container {
-
 }
 
 .left-container {
     width: 0%;
+}
+
+.setting-text-input {
+    width: 300px;
+}
+
+.settings-tab {
+    padding: 10px;
+}
+
+.about-container {
+    display: flex;
+}
+
+.about-left {
+    width: 20%;
+}
+
+.about-right {
+
+}
+
+.user-card {
+    width: 70%;
+}
+
+.save-error-label {
+    color: red;
 }

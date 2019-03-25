@@ -68,7 +68,7 @@ export class RegistrationComponent implements OnInit {
 
   isValidInput() {
     return !this.newUser.email.includes("") || !this.newUser.password.includes("") || !this.newUser.firstName.includes("") ||
-        !this.newUser.lastName.includes("") || !this.newUser.nick.includes("") || !this.newUser.birthday.includes("");
+        !this.newUser.lastName.includes("") || !this.newUser.nick.includes("") || !this.newUser.birthday !== null;
   }
 
   openUserCreatedDialog(userDetails : any) : void {

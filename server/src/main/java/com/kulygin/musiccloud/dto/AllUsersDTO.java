@@ -1,6 +1,8 @@
 package com.kulygin.musiccloud.dto;
 
 import com.kulygin.musiccloud.domain.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.stream.Collectors;
 import static java.util.Optional.ofNullable;
 import static org.hibernate.validator.internal.util.CollectionHelper.newArrayList;
 
+@Getter
+@Setter
 public class AllUsersDTO {
     List<UserDTO> users;
 
@@ -22,13 +26,5 @@ public class AllUsersDTO {
         this.users = ofNullable(dbModel).orElse(newArrayList()).stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toList());
-    }
-
-    public List<UserDTO> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<UserDTO> users) {
-        this.users = users;
     }
 }
