@@ -17,6 +17,7 @@ export class UserService {
   USER_CREATE: string;
   USER_UPDATE: string;
   USER_ADD_USER_DATA: string;
+  USER_UPLOAD_PHOTHO: string;
 
   constructor(private http : HttpClient) {
     this.SERVER_URL = this.HOST + ':' + this.PORT;
@@ -28,6 +29,7 @@ export class UserService {
     this.USER_CREATE = this.SERVER_URL + '/api/user/create';
     this.USER_UPDATE = this.SERVER_URL + '/api/user/update';
     this.USER_ADD_USER_DATA = this.SERVER_URL + '/api/user/{id}/user_details';
+    this.USER_UPLOAD_PHOTHO = this.SERVER_URL + '/api/user/{id}/upload';
   }
 
   private getOptions() {
@@ -75,5 +77,12 @@ export class UserService {
 
   updateUser(user:any) {
     return this.http.post<Observable<Object>>(this.USER_UPDATE, user, this.getOptions())
+  }
+
+  uploadPhoto(id:number, file:any) {
+    let i = id + "";
+    let regExp = /{id}/gi;
+    let url = this.USER_UPLOAD_PHOTHO.replace(regExp, i);
+    return this.http.post<Observable<Object>>(url, file, this.getOptions())
   }
 }

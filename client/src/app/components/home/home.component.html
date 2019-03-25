@@ -6,7 +6,8 @@
                 <mat-card-title>Мой профиль</mat-card-title>
                 <mat-card-subtitle>{{userName}}</mat-card-subtitle>
             </mat-card-header>
-            <img mat-card-image src="./assets/image/empty-profile-black.png" alt="">
+            <img *ngIf="user.userDetails.photoLink === null" mat-card-image src="./assets/image/empty-profile-black.png" alt="">
+            <img *ngIf="user.userDetails.photoLink !== null" mat-card-image src="{{user.userDetails.photoLink}}" alt="">
             <mat-card-content class="user-info">
                 <p>Email: {{userEmail}}</p>
                 <p>Никнейм: {{userNickName}}</p>

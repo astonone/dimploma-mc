@@ -12,6 +12,9 @@ export class SettingsComponent implements OnInit {
   loggedUser : any;
   response : any;
   isAccountDataNotCorrect : boolean;
+  uploadedTrack : any;
+  isNotChoosed : boolean;
+  isError : boolean;
 
   constructor(private sharedService : SharedService,
               private userService : UserService) { }
@@ -47,4 +50,23 @@ export class SettingsComponent implements OnInit {
             });
     }
 
+    setFileForUpload(files: any) {
+        let fd = new FormData();
+        fd.append("uploadedFile", files[0]);
+        this.uploadedTrack = fd;
+        this.isNotChoosed = false;
+        this.isError = false;
+    }
+
+    uploadFile() {
+        if (!this.isNotChoosed) {
+            this.userService.uploadPhoto(this.loggedUser.id, this.uploadedTrack)
+                .subscribe(data => {
+                    this.loggedUser = data;
+                    this.isError = false;
+                }, error => {
+                    this.isError = true;
+                });
+        }
+    }
 }
