@@ -108,6 +108,16 @@ public class UserController {
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{id}/deletePhoto", method = RequestMethod.POST)
+    public ResponseEntity<?> deleteUserPhoto(@PathVariable("id") Long userId) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
+            return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
+        }
+        user = userService.deletePhoto(user);
+        return new ResponseEntity<>(convert(user), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getAccount(@PathVariable("id") Long userId) {
         User user = userService.getUserById(userId);
@@ -148,7 +158,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity<?> createAccount(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> updateAccount(@RequestBody UserDTO userDTO) {
         User user = userService.updateUser(userDTO);
         if (user == null) {
             return getErrorResponseBody(ApplicationErrorTypes.PASSWORDS_DONT_MATCH);

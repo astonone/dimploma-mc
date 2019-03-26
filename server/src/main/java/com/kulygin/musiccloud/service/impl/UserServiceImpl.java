@@ -245,4 +245,11 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public User deletePhoto(User user) {
+        UserDetails userDetails = user.getUserDetails();
+        userDetails.setPhotoLink(null);
+        return userRepository.save(user);
+    }
 }

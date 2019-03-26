@@ -34,10 +34,16 @@ export class SettingsComponent implements OnInit {
                       this.response = data;
                       this.loggedUser = this.response;
                       this.loggedUser.newPassword = "";
+                      this.loggedUser.birthday = new Date(this.loggedUser.userDetails.birthday.year,
+                          this.loggedUser.userDetails.birthday.month - 1,this.loggedUser.userDetails.birthday.day);
                     });
               }
           );
     }
+  }
+
+  saveUserInfo() {
+
   }
 
     saveAccount() {
@@ -68,5 +74,12 @@ export class SettingsComponent implements OnInit {
                     this.isError = true;
                 });
         }
+    }
+
+    deleteFile() {
+        this.userService.deletePhoto(this.loggedUser.id)
+            .subscribe(data => {
+                this.loggedUser = data;
+            });
     }
 }

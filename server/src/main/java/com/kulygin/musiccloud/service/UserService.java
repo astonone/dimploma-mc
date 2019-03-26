@@ -46,4 +46,6 @@ public interface UserService {
     int countAll();
 
     User updateUser(UserDTO userDTO);
+
+    User deletePhoto(User user);
 }

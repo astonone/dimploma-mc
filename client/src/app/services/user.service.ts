@@ -17,7 +17,9 @@ export class UserService {
   USER_CREATE: string;
   USER_UPDATE: string;
   USER_ADD_USER_DATA: string;
-  USER_UPLOAD_PHOTHO: string;
+  USER_UPLOAD_PHOTO: string;
+  USER_DELETE_PHOTO: string;
+  USER_UPDATE_INFO: string;
 
   constructor(private http : HttpClient) {
     this.SERVER_URL = this.HOST + ':' + this.PORT;
@@ -29,7 +31,9 @@ export class UserService {
     this.USER_CREATE = this.SERVER_URL + '/api/user/create';
     this.USER_UPDATE = this.SERVER_URL + '/api/user/update';
     this.USER_ADD_USER_DATA = this.SERVER_URL + '/api/user/{id}/user_details';
-    this.USER_UPLOAD_PHOTHO = this.SERVER_URL + '/api/user/{id}/upload';
+    this.USER_UPLOAD_PHOTO = this.SERVER_URL + '/api/user/{id}/upload';
+    this.USER_DELETE_PHOTO = this.SERVER_URL + '/api/user/{id}/deletePhoto';
+    this.USER_UPDATE_INFO = this.SERVER_URL + '/api/user/{id}/user_details';
   }
 
   private getOptions() {
@@ -82,7 +86,21 @@ export class UserService {
   uploadPhoto(id:number, file:any) {
     let i = id + "";
     let regExp = /{id}/gi;
-    let url = this.USER_UPLOAD_PHOTHO.replace(regExp, i);
+    let url = this.USER_UPLOAD_PHOTO.replace(regExp, i);
     return this.http.post<Observable<Object>>(url, file, this.getOptions())
+  }
+
+  deletePhoto(id:number) {
+    let i = id + "";
+    let regExp = /{id}/gi;
+    let url = this.USER_DELETE_PHOTO.replace(regExp, i);
+    return this.http.post<Observable<Object>>(url, {},this.getOptions());
+  }
+
+  updateUserInfo(user:any) {
+    let i = user.id + "";
+    let regExp = /{id}/gi;
+    let url = this.USER_UPDATE_INFO.replace(regExp, i);
+    return this.http.post<Observable<Object>>(url, user.userDetails, this.getOptions())
   }
 }
