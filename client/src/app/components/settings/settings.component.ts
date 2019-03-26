@@ -12,6 +12,7 @@ export class SettingsComponent implements OnInit {
   loggedUser : any;
   response : any;
   isAccountDataNotCorrect : boolean;
+  isAccountInfoDataNotCorrect : boolean;
   uploadedTrack : any;
   isNotChoosed : boolean;
   isError : boolean;
@@ -21,6 +22,7 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.isAccountDataNotCorrect = false;
+    this.isAccountInfoDataNotCorrect = false;
     this.loggedUser = this.getLoggedUser();
   }
 
@@ -43,7 +45,32 @@ export class SettingsComponent implements OnInit {
   }
 
   saveUserInfo() {
+      if (this.validUserInfo()) {
+          this.loggedUser.userDetails.birthday = {
+                  year: this.loggedUser.birthday.getFullYear(),
+                  month: this.loggedUser.birthday.getMonth() + 1,
+                  day: this.loggedUser.birthday.getDay(),
+                  hours: '0',
+                  minutes: '0',
+                  seconds: '0'
+          };
+          this.userService.updateUserInfo(this.loggedUser)
+              .subscribe(data => {
+                  this.isAccountInfoDataNotCorrect = false;
+                  this.loggedUser = data;
+                  this.loggedUser.birthday = new Date(this.loggedUser.userDetails.birthday.year,
+                      this.loggedUser.userDetails.birthday.month - 1, this.loggedUser.userDetails.birthday.day);
+              }, error => {
+                  this.isAccountInfoDataNotCorrect = true;
+              });
+      } else {
+          this.isAccountInfoDataNotCorrect = true;
+      }
+  }
 
+  validUserInfo() {
+      return !(this.loggedUser.userDetails.firstName === "") && !(this.loggedUser.userDetails.lastName === "") &&
+          !(this.loggedUser.userDetails.nick === "") && !(this.loggedUser.userDetails.about === "");
   }
 
     saveAccount() {

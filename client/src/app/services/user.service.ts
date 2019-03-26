@@ -101,6 +101,6 @@ export class UserService {
     let i = user.id + "";
     let regExp = /{id}/gi;
     let url = this.USER_UPDATE_INFO.replace(regExp, i);
-    return this.http.post<Observable<Object>>(url, user.userDetails, this.getOptions())
+    return this.http.put<Observable<Object>>(url, user.userDetails, this.getOptions())
   }
 }

@@ -58,6 +58,7 @@
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
                             </div>
+                            <label *ngIf="isAccountInfoDataNotCorrect" class="uploaded-error-label">Неккоректные данные!</label>
                             <div>
                                 <button style="margin-top: 10px" mat-raised-button color="warn" (click)="saveUserInfo()">Сохранить</button>
                             </div>
