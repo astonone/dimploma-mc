@@ -33,15 +33,11 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         if (sessionStorage.getItem('token') !== '') {
             this.userService.auth()
-                .subscribe(principal => {
-                        let email = principal['name'];
-                        this.userService.getUserByEmail(email)
-                            .subscribe(data => {
-                                this.user = data;
-                                this.shared.isLogin = true;
-                                this.shared.loggedUser = data;
-                                this.setUserData();
-                            });
+                .subscribe(data => {
+                        this.user = data;
+                        this.shared.isLogin = true;
+                        this.shared.loggedUser = data;
+                        this.setUserData();
                     },
                     error => {
                         if (error.status == 401) {

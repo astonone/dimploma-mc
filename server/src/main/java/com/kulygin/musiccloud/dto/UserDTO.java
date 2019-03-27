@@ -4,9 +4,12 @@ import com.kulygin.musiccloud.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.security.auth.Subject;
+import java.security.Principal;
+
 @Getter
 @Setter
-public class UserDTO {
+public class UserDTO implements Principal {
 
     private Long id;
     private String email;
@@ -29,5 +32,15 @@ public class UserDTO {
         this.password = dbModel.getPassword();
         this.dateCreate = new DateDTO(dbModel.getDateCreate());
         this.userDetails = new UserDetailsDTO(dbModel.getUserDetails());
+    }
+
+    @Override
+    public String getName() {
+        return this.email;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return true;
     }
 }
