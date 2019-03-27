@@ -13,6 +13,6 @@ export class AppComponent {
 
     constructor(
         public shared: SharedService) {
-        this.shared.checkLoggedUser();
+        this.shared.setLoggedUser();
     }
 }

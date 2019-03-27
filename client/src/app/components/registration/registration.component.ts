@@ -1,62 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material';
 import { CreateUserDialog } from './dialog/create-user-dialog';
 import { ErrorCreateUserDialog } from './dialog/error-create-user-dialog';
+import { SharedService } from '../../services/shared.service';
+import { User } from '../../dto/user';
+import { LocalDate } from '../../dto/local-date';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent {
 
   newUser : any;
   createdUser : any;
   isNotValid : boolean;
 
   constructor(private userService : UserService,
+              private shared : SharedService,
               public dialog: MatDialog) {
-  }
-
-  ngOnInit() {
-    this.newUser = {
-      email : "",
-      password : "",
-      firstName : "",
-      lastName : "",
-      nick : "",
-      birthday : ""
-    }
+    this.newUser = this.createEmptyUser();
   }
 
   createUser() {
     if (this.isValidInput()) {
-      let email = this.newUser.email;
-      let password = this.newUser.password;
-      this.userService.createUser(email, password)
-          .subscribe(user => {
-            this.createdUser = user;
-            let newUserId = this.createdUser.id;
-            let birthday = new Date(this.newUser.birthday);
-            let requset = {
+      this.userService.createUser(this.newUser.email, this.newUser.password)
+          .subscribe(data => {
+            this.createdUser = new User(data);
+            let birthday = null;
+            if (this.newUser.birthday !== '') {
+              birthday = LocalDate.getObjFromDate(new Date(this.newUser.birthday));
+            }
+            let request = {
               firstName: this.newUser.firstName,
               lastName: this.newUser.lastName,
               nick: this.newUser.nick,
-              birthday: {
-                year: birthday.getFullYear(),
-                month: birthday.getMonth() + 1,
-                day: birthday.getDay(),
-                hours: '0',
-                minutes: '0',
-                seconds: '0'
-              }
+              birthday: birthday
             };
-            this.userService.addUserDetails(newUserId, requset)
+            this.userService.addUserDetails(this.createdUser.id, request)
                 .subscribe(userDetails => {
                   this.openUserCreatedDialog(userDetails);
                 }, error => {
                   this.openErrorUserCreatedDialog(error);
+                  this.userService.deleteUser(this.createdUser.id);
                 });
           }, error => {
             this.openErrorUserCreatedDialog(error);
@@ -67,8 +55,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   isValidInput() {
-    return !this.newUser.email.includes("") || !this.newUser.password.includes("") || !this.newUser.firstName.includes("") ||
-        !this.newUser.lastName.includes("") || !this.newUser.nick.includes("") || !this.newUser.birthday !== null;
+    return !(this.newUser.email === '') || !(this.newUser.password === '');
   }
 
   openUserCreatedDialog(userDetails : any) : void {
@@ -77,14 +64,7 @@ export class RegistrationComponent implements OnInit {
         data: userDetails
       });
     dialogRef.afterClosed().subscribe(result => {
-      this.newUser = {
-        email : "",
-        password : "",
-        firstName : "",
-        lastName : "",
-        nick : "",
-        birthday : ""
-      }
+      this.newUser = this.createEmptyUser();
     });
   }
 
@@ -95,5 +75,16 @@ export class RegistrationComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
     });
+  }
+
+  private createEmptyUser() {
+    return {
+      email : "",
+      password : "",
+      firstName : "",
+      lastName : "",
+      nick : "",
+      birthday : ""
+    };
   }
 }

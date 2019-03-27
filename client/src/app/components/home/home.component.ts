@@ -1,8 +1,9 @@
-﻿import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {UserService} from '../../services/user.service';
-import {Router, ActivatedRoute} from '@angular/router';
+﻿import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
+import { User } from '../../dto/user';
 
 @Component({
     selector: 'home',
@@ -13,31 +14,26 @@ import { SharedService } from '../../services/shared.service';
 })
 
 export class HomeComponent implements OnInit {
-
-    user: any;
-    userName: string;
-    userNickName: string;
-    userEmail: string;
-    userBirthday: string;
-    userAbout: string;
-    myMusic: any;
-    myFriends: any;
-    myRequest: any;
+    user: User;
+    myMusic: any = [];
+    myFriends: any = [];
+    myRequest: any = [];
 
     constructor(private http: HttpClient,
                 private router: Router,
                 private userService: UserService,
                 private shared: SharedService) {
+        this.user = this.shared.createEmptyUserStub();
     }
 
     ngOnInit() {
-        if (sessionStorage.getItem('token') !== '') {
+        if (sessionStorage.getItem('token') !== null && sessionStorage.getItem('token')) {
+        if (sessionStorage.getItem('loggedUser') === '') {
             this.userService.auth()
                 .subscribe(data => {
-                        this.user = data;
-                        this.shared.isLogin = true;
-                        this.shared.loggedUser = data;
-                        this.setUserData();
+                        sessionStorage.setItem('loggedUser', JSON.stringify(data));
+                        this.shared.setLoggedUser();
+                        this.user = new User(data);
                     },
                     error => {
                         if (error.status == 401) {
@@ -45,17 +41,23 @@ export class HomeComponent implements OnInit {
                         }
                     }
                 );
+        } else {
+            this.user = new User(JSON.parse(sessionStorage.getItem('loggedUser')));
+        }
+        } else {
+            this.router.navigate(['login']);
         }
     }
 
-    setUserData() {
-        this.userAbout = this.user.userDetails.about;
-        this.userName = this.user.userDetails.firstName + " " + this.user.userDetails.lastName;
-        this.userNickName = this.user.userDetails.nick;
-        this.userEmail = this.user.email;
-        this.userBirthday = this.user.userDetails.birthday.day + "." + this.user.userDetails.birthday.month + "." + this.user.userDetails.birthday.year;
-        this.myMusic = [];
-        this.myFriends = [];
-        this.myRequest = [];
+    isEmptyPhotoLink() {
+        return this.user.email !== '' ? this.user.isEmptyPhotoLink() : false;
+    }
+
+    getUserPhotoLink() {
+        return this.user.email !== '' ? this.user.getPhotoLink() : '';
+    }
+
+    printUserName() {
+        return this.user.email !== '' ? this.user.printUserName() : '';
     }
 }

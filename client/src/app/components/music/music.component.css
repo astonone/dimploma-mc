@@ -30,3 +30,8 @@
 .track-item-control {
     width: 20%;
 }
+
+.header-label {
+    position: absolute;
+    margin-top: 5px;
+}

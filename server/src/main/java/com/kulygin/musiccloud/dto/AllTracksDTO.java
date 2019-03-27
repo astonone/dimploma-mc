@@ -15,17 +15,19 @@ import static org.hibernate.validator.internal.util.CollectionHelper.newHashSet;
 @Setter
 public class AllTracksDTO {
 
-    Set<TrackDTO> tracks;
+    private Set<TrackDTO> tracks;
+    private int countAll;
 
     public AllTracksDTO() {
     }
 
-    public AllTracksDTO(Collection<Track> dbModel) {
+    public AllTracksDTO(Collection<Track> dbModel, int count) {
         if (dbModel == null) {
             return;
         }
         this.tracks = ofNullable(dbModel).orElse(newHashSet()).stream()
                 .map(TrackDTO::new)
                 .collect(Collectors.toSet());
+        this.countAll = count;
     }
 }

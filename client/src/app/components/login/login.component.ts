@@ -1,6 +1,6 @@
-﻿import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {UserService} from '../../services/user.service';
+﻿import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
     selector: 'login',
@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (sessionStorage.getItem('token') !== '') {
-            this.router.navigate(['']);
+        if (sessionStorage.getItem('token') !== null && sessionStorage.getItem('token') !== '') {
+            this.router.navigate(['home']);
         }
     }
 
@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
                 if (isValid) {
                     this.isAuthError = false;
                     sessionStorage.setItem('token', btoa(email + ':' + password));
+                    sessionStorage.setItem('loggedUser', '');
                     this.router.navigate(['home']);
                 } else {
                     this.isAuthError = true;

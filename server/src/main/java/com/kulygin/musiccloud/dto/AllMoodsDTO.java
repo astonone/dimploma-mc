@@ -15,7 +15,7 @@ import static org.hibernate.validator.internal.util.CollectionHelper.newHashSet;
 @Setter
 public class AllMoodsDTO {
 
-    Set<MoodDTO> moods;
+    private Set<MoodDTO> moods;
 
     public AllMoodsDTO() {
     }

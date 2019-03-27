@@ -4,15 +4,15 @@
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image"></div>
                 <mat-card-title>Мой профиль</mat-card-title>
-                <mat-card-subtitle>{{userName}}</mat-card-subtitle>
+                <mat-card-subtitle>{{printUserName()}}</mat-card-subtitle>
             </mat-card-header>
-            <img *ngIf="user.userDetails.photoLink === null" mat-card-image src="./assets/image/empty-profile-black.png" alt="">
-            <img *ngIf="user.userDetails.photoLink !== null" mat-card-image src="{{user.userDetails.photoLink}}" alt="">
+            <img *ngIf="isEmptyPhotoLink()" mat-card-image src="./assets/image/empty-profile-black.png" alt="">
+            <img *ngIf="!isEmptyPhotoLink()" mat-card-image src="{{getUserPhotoLink()}}" alt="">
             <mat-card-content class="user-info">
-                <p>Email: {{userEmail}}</p>
-                <p>Никнейм: {{userNickName}}</p>
-                <p>День рождения: {{userBirthday}}</p>
-                <p>Обо мне: {{userAbout}}</p>
+                <p>Email: {{user.email}}</p>
+                <p>Никнейм: {{user.userDetails.nick}}</p>
+                <p>День рождения: {{user.userDetails.birthday.printDate()}}</p>
+                <p>Обо мне: {{user.userDetails.about}}</p>
             </mat-card-content>
         </mat-card>
     </mat-sidenav>

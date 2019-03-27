@@ -175,7 +175,7 @@ public class UserController {
             return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
         }
 
-        LocalDateTime birthday = info.getBirthday() == null ? null : LocalDateTime.of(info.getBirthday().getYear(), info.getBirthday().getMonth(),
+        LocalDateTime birthday = info.getBirthday() == null ? null : info.getBirthday().getYear() ==  null ? null : LocalDateTime.of(info.getBirthday().getYear(), info.getBirthday().getMonth(),
                 info.getBirthday().getDay(), 0, 0);
         if (user.getUserDetails() == null) {
             user = userService.addUserDetails(user, info.getFirstName(), info.getLastName(), info.getPhotoLink(), info.getNick(), birthday, info.getAbout());

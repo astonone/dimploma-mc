@@ -15,14 +15,17 @@
                                     <mat-card-title>Мой профиль</mat-card-title>
                                     <mat-card-subtitle>Аватар</mat-card-subtitle>
                                 </mat-card-header>
-                                <img *ngIf="loggedUser.userDetails.photoLink === null" mat-card-image style="width: 100%;height: 100%" src="./assets/image/empty-profile-black.png" alt="">
-                                <img *ngIf="loggedUser.userDetails.photoLink !== null" mat-card-image style="width: 100%;height: 100%" src="{{loggedUser.userDetails.photoLink}}" alt="">
+                                <img *ngIf="loggedUser.userDetails.photoLink === null" mat-card-image class="user-image" src="./assets/image/empty-profile-black.png" alt="">
+                                <img *ngIf="loggedUser.userDetails.photoLink !== null" mat-card-image class="user-image" src="{{loggedUser.userDetails.photoLink}}" alt="">
                                 <mat-card-content class="user-info">
                                     <input type="file" name="file" (change)="setFileForUpload($event.target.files)"/>
-                                    <button style="margin-top: 10px" mat-raised-button color="primary" (click)="uploadFile()">Загрузить</button>
-                                    <button style="margin-left: 10px" mat-raised-button color="accent" (click)="deleteFile()">Удалить</button>
-                                    <label *ngIf="isNotChoosed" class="uploaded-error-label">Файл не выбран!</label>
-                                    <label *ngIf="isError" class="uploaded-error-label">Произошла ошибка при загрузке файла!</label>
+                                    <button class="upload-button" mat-raised-button color="primary" (click)="uploadFile()">Загрузить</button>
+                                    <button class="delete-button" mat-raised-button color="accent" (click)="deleteFile()">Удалить</button>
+                                    <p>
+                                        <label *ngIf="isNotChoosed" class="uploaded-error-label">Файл не выбран!</label>
+                                        <label *ngIf="isError" class="uploaded-error-label">Произошла ошибка при загрузке файла!</label>
+                                        <label *ngIf="isEmpty" class="uploaded-error-label">Нечего удалять!</label>
+                                    </p>
                                 </mat-card-content>
                             </mat-card>
                         </div>
@@ -53,14 +56,17 @@
                             </div>
                             <div>
                                 <mat-form-field class="setting-text-input">
-                                    <input matInput [matDatepicker]="picker" placeholder="Введите свою дату рождения" [(ngModel)]="loggedUser.birthday">
+                                    <input matInput [matDatepicker]="picker" placeholder="Введите свою дату рождения" [(ngModel)]="birthday">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
                             </div>
+                            <p>
+                                <label *ngIf="isSuccess" class="uploaded-success-label">Данные сохранены!</label>
+                            </p>
                             <label *ngIf="isAccountInfoDataNotCorrect" class="uploaded-error-label">Неккоректные данные!</label>
                             <div>
-                                <button style="margin-top: 10px" mat-raised-button color="warn" (click)="saveUserInfo()">Сохранить</button>
+                                <button class="save-button" mat-raised-button color="warn" (click)="saveUserInfo()">Сохранить</button>
                             </div>
                         </div>
                     </div>

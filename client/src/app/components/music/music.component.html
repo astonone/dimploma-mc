@@ -37,8 +37,14 @@
         </div>
     </mat-sidenav>
     <mat-sidenav-content class="right-container">
+        <h3 mat-subheader class="header-label">Музыка</h3>
         <mat-list>
-            <h3 mat-subheader>Музыка</h3>
+            <mat-paginator [length]="tracksLength"
+                           [pageIndex]="page"
+                           [pageSize]="pageSize"
+                           [pageSizeOptions]="pageSizeOptions"
+                           (page)="pageEvent = loadTracksList($event)">
+            </mat-paginator>
             <mat-list-item *ngFor="let track of tracks" class="track-item">
                 <h4 mat-line>
                     <mat-basic-audio-player [audioUrl]="track.filename" class="track-item-control">

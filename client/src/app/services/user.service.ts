@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Observable } from "rxjs";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { User } from '../dto/user';
+import {UserList} from '../dto/user-list';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class UserService {
   USER_LOGIN : string;
   USER_AUTH : string;
   USER_GET: string;
+  USER_DELETE: string;
   USER_GET_ALL: string;
   USER_CREATE: string;
   USER_UPDATE: string;
@@ -27,6 +30,7 @@ export class UserService {
     this.USER_LOGIN = this.SERVER_URL + '/api/user/login';
     this.USER_AUTH = this.SERVER_URL + '/api/user/auth';
     this.USER_GET = this.SERVER_URL + '/api/user/email/';
+    this.USER_DELETE = this.SERVER_URL + '/api/user/{id}';
     this.USER_GET_ALL = this.SERVER_URL + '/api/user/getAll?page={page}&pageSize={pageSize}';
     this.USER_CREATE = this.SERVER_URL + '/api/user/create';
     this.USER_UPDATE = this.SERVER_URL + '/api/user/update';
@@ -52,7 +56,7 @@ export class UserService {
   }
 
   auth() {
-    return this.http.post<Observable<Object>>(this.USER_AUTH, {}, this.getOptions())
+    return this.http.post<Observable<User>>(this.USER_AUTH, {}, this.getOptions())
   }
 
   getUserByEmail(email:string) {
@@ -70,12 +74,10 @@ export class UserService {
   }
 
   getAllUsers(page: number, pageSize: number) {
-    let p = page + "";
-    let ps = pageSize + "";
     let regExp = /{page}/gi;
     let regExp2 = /{pageSize}/gi;
-    let url = this.USER_GET_ALL.replace(regExp, p);
-    url = url.replace(regExp2, ps);
+    let url = this.USER_GET_ALL.replace(regExp, page + "");
+    url = url.replace(regExp2, pageSize + "");
     return this.http.get<Observable<Object>>(url, this.getOptions())
   }
 
@@ -84,23 +86,26 @@ export class UserService {
   }
 
   uploadPhoto(id:number, file:any) {
-    let i = id + "";
     let regExp = /{id}/gi;
-    let url = this.USER_UPLOAD_PHOTO.replace(regExp, i);
+    let url = this.USER_UPLOAD_PHOTO.replace(regExp, id + "");
     return this.http.post<Observable<Object>>(url, file, this.getOptions())
   }
 
   deletePhoto(id:number) {
-    let i = id + "";
     let regExp = /{id}/gi;
-    let url = this.USER_DELETE_PHOTO.replace(regExp, i);
+    let url = this.USER_DELETE_PHOTO.replace(regExp, id + "");
     return this.http.post<Observable<Object>>(url, {},this.getOptions());
   }
 
-  updateUserInfo(user:any) {
-    let i = user.id + "";
+  updateUserInfo(user:User) {
     let regExp = /{id}/gi;
-    let url = this.USER_UPDATE_INFO.replace(regExp, i);
-    return this.http.put<Observable<Object>>(url, user.userDetails, this.getOptions())
+    let url = this.USER_UPDATE_INFO.replace(regExp, user.id + "");
+    return this.http.put<Observable<Object>>(url, user.userDetails.toObject(), this.getOptions())
+  }
+
+  deleteUser(id:number) {
+    let regExp = /{id}/gi;
+    let url = this.USER_DELETE.replace(regExp, id + "");
+    return this.http.delete<Observable<Object>>(url, this.getOptions())
   }
 }

@@ -15,7 +15,7 @@ import static org.hibernate.validator.internal.util.CollectionHelper.newHashSet;
 @Setter
 public class AllGenresDTO {
 
-    Set<GenreDTO> genres;
+    private Set<GenreDTO> genres;
 
     public AllGenresDTO() {
     }

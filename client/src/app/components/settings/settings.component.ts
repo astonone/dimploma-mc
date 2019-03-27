@@ -1,112 +1,110 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
-import {UserService} from '../../services/user.service';
+import { UserService } from '../../services/user.service';
+import { User } from '../../dto/user';
+import {LocalDate} from '../../dto/local-date';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent {
 
-  loggedUser : any;
-  response : any;
+  loggedUser : User;
+  birthday : Date;
   isAccountDataNotCorrect : boolean;
   isAccountInfoDataNotCorrect : boolean;
-  uploadedTrack : any;
+  uploadedFile : any;
   isNotChoosed : boolean;
+  isEmpty : boolean;
   isError : boolean;
+  isSuccess : boolean;
 
-  constructor(private sharedService : SharedService,
-              private userService : UserService) { }
-
-  ngOnInit() {
-    this.isAccountDataNotCorrect = false;
-    this.isAccountInfoDataNotCorrect = false;
-    this.loggedUser = this.getLoggedUser();
-  }
-
-  getLoggedUser() {
-    if (sessionStorage.getItem('token') !== '') {
-      this.userService.auth()
-          .subscribe(principal => {
-                let email = principal['name'];
-                this.userService.getUserByEmail(email)
-                    .subscribe(data => {
-                      this.response = data;
-                      this.loggedUser = this.response;
-                      this.loggedUser.newPassword = "";
-                      this.loggedUser.birthday = new Date(this.loggedUser.userDetails.birthday.year,
-                          this.loggedUser.userDetails.birthday.month - 1,this.loggedUser.userDetails.birthday.day);
-                    });
-              }
-          );
-    }
+  constructor(private shared : SharedService,
+              private userService : UserService) {
+      this.isAccountDataNotCorrect = false;
+      this.isAccountInfoDataNotCorrect = false;
+      this.loggedUser = this.shared.getLoggedUser();
+      this.birthday = this.loggedUser.userDetails.birthday.toDate();
   }
 
   saveUserInfo() {
       if (this.validUserInfo()) {
-          this.loggedUser.userDetails.birthday = {
-                  year: this.loggedUser.birthday.getFullYear(),
-                  month: this.loggedUser.birthday.getMonth() + 1,
-                  day: this.loggedUser.birthday.getDay(),
-                  hours: '0',
-                  minutes: '0',
-                  seconds: '0'
-          };
+          if (this.birthday !== null) {
+              this.loggedUser.userDetails.birthday = LocalDate.fromDate(this.birthday);
+          }
           this.userService.updateUserInfo(this.loggedUser)
               .subscribe(data => {
+                  this.isSuccess = true;
                   this.isAccountInfoDataNotCorrect = false;
-                  this.loggedUser = data;
-                  this.loggedUser.birthday = new Date(this.loggedUser.userDetails.birthday.year,
-                      this.loggedUser.userDetails.birthday.month - 1, this.loggedUser.userDetails.birthday.day);
+                  this.loggedUser = new User(data);
+                  this.shared.updateLoggedUser(this.loggedUser);
+                  if (this.birthday !== null) {
+                    this.birthday = this.loggedUser.userDetails.birthday.toDate();
+                  }
               }, error => {
                   this.isAccountInfoDataNotCorrect = true;
+                  this.isSuccess = false;
               });
       } else {
           this.isAccountInfoDataNotCorrect = true;
+          this.isSuccess = false;
       }
   }
 
   validUserInfo() {
-      return !(this.loggedUser.userDetails.firstName === "") && !(this.loggedUser.userDetails.lastName === "") &&
-          !(this.loggedUser.userDetails.nick === "") && !(this.loggedUser.userDetails.about === "");
+      return !(this.loggedUser.userDetails.firstName === '') || !(this.loggedUser.userDetails.lastName === '') ||
+          !(this.loggedUser.userDetails.nick === '') || !(this.loggedUser.userDetails.about === '') ||
+          !(this.birthday !== null);
   }
 
-    saveAccount() {
-        this.userService.updateUser(this.loggedUser)
-            .subscribe(data => {
-                this.isAccountDataNotCorrect = false;
-                this.loggedUser = data;
-            }, error => {
-                this.isAccountDataNotCorrect = true;
-            });
-    }
+  saveAccount() {
+     this.userService.updateUser(this.loggedUser)
+         .subscribe(data => {
+             this.isAccountDataNotCorrect = false;
+             this.loggedUser = new User(data);
+         },error => {
+             this.isAccountDataNotCorrect = true;
+         });
+  }
 
-    setFileForUpload(files: any) {
-        let fd = new FormData();
-        fd.append("uploadedFile", files[0]);
-        this.uploadedTrack = fd;
-        this.isNotChoosed = false;
-        this.isError = false;
-    }
+  setFileForUpload(files: any) {
+      let fd = new FormData();
+      fd.append("uploadedFile", files[0]);
+      this.uploadedFile = fd;
+      this.isNotChoosed = false;
+      this.isError = false;
+      this.isSuccess = false;
+  }
 
-    uploadFile() {
-        if (!this.isNotChoosed) {
-            this.userService.uploadPhoto(this.loggedUser.id, this.uploadedTrack)
-                .subscribe(data => {
-                    this.loggedUser = data;
-                    this.isError = false;
-                }, error => {
-                    this.isError = true;
-                });
-        }
-    }
+  uploadFile() {
+      if (!this.isNotChoosed) {
+          this.userService.uploadPhoto(this.loggedUser.id, this.uploadedFile)
+              .subscribe(data => {
+                  this.loggedUser = new User(data);
+                  this.shared.updateLoggedUser(this.loggedUser);
+                  this.isError = false;
+                  this.isEmpty = false;
+               },error => {
+                  this.isError = true;
+                  this.isEmpty = false;
+               });
+      }
+  }
 
-    deleteFile() {
-        this.userService.deletePhoto(this.loggedUser.id)
-            .subscribe(data => {
-                this.loggedUser = data;
-            });
-    }
+  deleteFile() {
+     if (!this.loggedUser.isEmptyPhotoLink()) {
+         this.userService.deletePhoto(this.loggedUser.id)
+             .subscribe(data => {
+                 this.isEmpty = false;
+                 this.isSuccess = false;
+                 this.loggedUser = new User(data);
+                 this.shared.updateLoggedUser(this.loggedUser);
+             });
+     } else {
+         this.isEmpty = true;
+         this.isSuccess = false;
+     }
+  }
 }

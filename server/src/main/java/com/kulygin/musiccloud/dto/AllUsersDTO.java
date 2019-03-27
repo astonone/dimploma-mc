@@ -14,7 +14,7 @@ import static org.hibernate.validator.internal.util.CollectionHelper.newArrayLis
 @Getter
 @Setter
 public class AllUsersDTO {
-    List<UserDTO> users;
+    private List<UserDTO> users;
 
     public AllUsersDTO() {
     }

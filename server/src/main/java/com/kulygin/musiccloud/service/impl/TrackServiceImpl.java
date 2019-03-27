@@ -232,6 +232,11 @@ public class TrackServiceImpl implements TrackService {
         return trackRepository.findAll();
     }
 
+    @Override
+    public int countAll() {
+        return trackRepository.countAll();
+    }
+
     private Track parsingMp3File(String filename) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException, PlaylistNotExistsException, TrackIsNotExistsException {
         // Создаем mp3 файл
         Mp3File mp3File = null;

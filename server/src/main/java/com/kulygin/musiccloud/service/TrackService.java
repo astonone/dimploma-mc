@@ -48,6 +48,8 @@ public interface TrackService {
     List<Track> findAllByIds(List<Long> ids);
 
     List<Track> findAll();
+
+    int countAll();
 }
 
 

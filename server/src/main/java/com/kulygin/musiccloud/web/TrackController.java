@@ -111,7 +111,8 @@ public class TrackController {
         if (resultListOfTrack.size() == 0) {
             return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
         }
-        return new ResponseEntity<>(convert(resultListOfTrack), HttpStatus.OK);
+        int count = trackService.countAll();
+        return new ResponseEntity<>(convert(resultListOfTrack, count), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getTracksByGenre/{id}", method = RequestMethod.GET)
@@ -126,7 +127,7 @@ public class TrackController {
         if (resultListOfTrack.size() == 0) {
             return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
         }
-        return new ResponseEntity<>(convert(resultListOfTrack), HttpStatus.OK);
+        return new ResponseEntity<>(convert(resultListOfTrack, 0), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getTracksByMood/{id}", method = RequestMethod.GET)
@@ -141,7 +142,7 @@ public class TrackController {
         if (resultListOfTrack.size() == 0) {
             return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
         }
-        return new ResponseEntity<>(convert(resultListOfTrack), HttpStatus.OK);
+        return new ResponseEntity<>(convert(resultListOfTrack, 0), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/genre", method = RequestMethod.PUT)
@@ -298,8 +299,8 @@ public class TrackController {
         return (dbModel == null) ? null : new TrackDTO(dbModel);
     }
 
-    private AllTracksDTO convert(List<Track> dbModel) {
-        return (dbModel == null) ? null : new AllTracksDTO(dbModel);
+    private AllTracksDTO convert(List<Track> dbModel, int count) {
+        return (dbModel == null) ? null : new AllTracksDTO(dbModel, count);
     }
 
     private TrackFullInfoDTO convertTrackFullInfo(Track dbModel) {

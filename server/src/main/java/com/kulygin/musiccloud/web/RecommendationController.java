@@ -40,7 +40,7 @@ public class RecommendationController {
             return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
         }
         List<Track> tracksForUser = recommendationService.getTracksForUser(userId, nBestUsers, nBestTracks);
-        return new ResponseEntity<>(convert(tracksForUser), HttpStatus.OK);
+        return new ResponseEntity<>(convert(tracksForUser, 0), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/fillStatistics", method = RequestMethod.GET)
@@ -58,13 +58,13 @@ public class RecommendationController {
     @RequestMapping(value = "/generateTracks", method = RequestMethod.GET)
     public ResponseEntity<?> generateTracks(@PathParam("count") Integer count) {
         List<Track> tracks = trackGenerator.generateTracks(count);
-        return new ResponseEntity<>(convert(tracks),HttpStatus.OK);
+        return new ResponseEntity<>(convert(tracks, 0),HttpStatus.OK);
     }
 
     private AllUsersDTO convertUserList(List<User> dbModel) { return (dbModel == null) ? null : new AllUsersDTO(dbModel); }
 
-    private AllTracksDTO convert(List<Track> dbModel) {
-        return (dbModel == null) ? null : new AllTracksDTO(dbModel);
+    private AllTracksDTO convert(List<Track> dbModel, int count) {
+        return (dbModel == null) ? null : new AllTracksDTO(dbModel, count);
     }
 
     private ResponseEntity<ErrorResponseBody> getErrorResponseBody(ApplicationErrorTypes errorType) {
