@@ -14,6 +14,7 @@ export class TrackService {
   UPLOAD_TRACK: string;
   GET_ALL_TRACKS: string;
   GET_USER_TRACKS: string;
+  ADD_TRACK_TO_USER: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -22,6 +23,7 @@ export class TrackService {
     this.UPLOAD_TRACK = this.SERVER_URL + '/api/track/upload';
     this.GET_ALL_TRACKS = this.SERVER_URL + '/api/track/findAllPagination?page={page}&pageSize={pageSize}';
     this.GET_USER_TRACKS = this.SERVER_URL + '/api/track/getTracksByUser/{id}?page={page}&pageSize={pageSize}';
+    this.ADD_TRACK_TO_USER = this.SERVER_URL + '/api/track/{id}/user?userId={userId}';
   }
 
   private getOptions() {
@@ -52,5 +54,13 @@ export class TrackService {
     url = url.replace(regExp2, pageSize + "");
     url = url.replace(regExp3, id + "");
     return this.http.get<Observable<Object>>(url, this.getOptions())
+  }
+
+  addTrackToUser(userId: number, trackId: number) {
+    let regExp = /{id}/gi;
+    let regExp2 = /{userId}/gi;
+    let url = this.ADD_TRACK_TO_USER.replace(regExp, trackId + "");
+    url = url.replace(regExp2, userId + "");
+    return this.http.put<Observable<Object>>(url,{}, this.getOptions())
   }
 }

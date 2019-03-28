@@ -55,7 +55,7 @@
                         <p mat-line class="track-title"> {{track.title + ", " + track.artist + ", " + track.year}} </p>
                     </div>
                     <div class="control-item">
-                        <mat-icon class="item" mat-list-icon>add_circle_outline</mat-icon>
+                        <mat-icon class="item" mat-list-icon (click)="addTrackToUser(track.id)">add_circle_outline</mat-icon>
                         <mat-icon class="item" mat-list-icon>create</mat-icon>
                         <mat-icon class="item" mat-list-icon>clear</mat-icon>
                         <mat-form-field class="item rate">

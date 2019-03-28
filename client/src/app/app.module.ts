@@ -28,7 +28,8 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 /*Popups*/
 import { CreateUserDialog } from './components/registration/dialog/create-user-dialog';
 import { ErrorCreateUserDialog } from './components/registration/dialog/error-create-user-dialog';
-import { CreateTrackDialog } from './components/upload/dialog/create-track-dialog';;
+import { CreateTrackDialog } from './components/upload/dialog/create-track-dialog';
+import { AddTrackToUserDialog } from './components/music/dialog/add-track-to-user-dialog';
 
 @NgModule({
     imports: [
@@ -52,12 +53,14 @@ import { CreateTrackDialog } from './components/upload/dialog/create-track-dialo
         CreateUserDialog,
         ErrorCreateUserDialog,
         CreateTrackDialog,
-        UserProfileComponent
+        UserProfileComponent,
+        AddTrackToUserDialog
     ],
     entryComponents: [
         CreateUserDialog,
         ErrorCreateUserDialog,
-        CreateTrackDialog
+        CreateTrackDialog,
+        AddTrackToUserDialog
     ],
     providers: [
         UserService,
