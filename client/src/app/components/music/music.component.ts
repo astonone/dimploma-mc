@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TrackService } from '../../services/track.service';
-import {TrackList} from '../../dto/track-list';
-import {UserList} from '../../dto/user-list';
+import { TrackList } from '../../dto/track-list';
+import { Track } from '../../dto/track';
 
 @Component({
   selector: 'app-music',
@@ -10,7 +10,7 @@ import {UserList} from '../../dto/user-list';
 })
 export class MusicComponent implements OnInit {
 
-  tracks: any ;
+  tracks: Track[];
   response: TrackList;
   tracksLength : number = 100;
   page: number = 0;

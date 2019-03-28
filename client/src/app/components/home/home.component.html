@@ -20,6 +20,41 @@
         <mat-list>
             <mat-tab-group>
                 <mat-tab label="Моя музыка">
+                    <mat-list>
+                        <mat-paginator [length]="tracksLength"
+                                       [pageIndex]="page"
+                                       [pageSize]="pageSize"
+                                       [pageSizeOptions]="pageSizeOptions"
+                                       (page)="pageEvent = loadTracksList($event)"
+                                       *ngIf="myMusic.length !== 0">
+                        </mat-paginator>
+                        <mat-list-item *ngFor="let track of myMusic" class="track-item">
+                            <div class="list-item-container">
+                                <div class="track-item">
+                                    <h4 mat-line class="track-item-control">
+                                        <mat-basic-audio-player [audioUrl]="track.filename">
+                                        </mat-basic-audio-player>
+                                    </h4>
+                                    <p mat-line class="track-title"> {{track.title + ", " + track.artist + ", " + track.year}} </p>
+                                </div>
+                                <div class="control-item">
+                                    <mat-icon class="item" mat-list-icon>add_circle_outline</mat-icon>
+                                    <mat-icon class="item" mat-list-icon>create</mat-icon>
+                                    <mat-icon class="item" mat-list-icon>clear</mat-icon>
+                                    <mat-form-field class="item rate">
+                                        <mat-label>Ваша оценка</mat-label>
+                                        <mat-select>
+                                            <mat-option>None</mat-option>
+                                            <mat-option value="1">1</mat-option>
+                                            <mat-option value="2">2</mat-option>
+                                            <mat-option value="3">3</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <span class="item">Рейтинг: <b>{{track.rating}}</b></span>
+                                </div>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
                     <span *ngIf="myMusic.length === 0">На данный момент у вас нет музыки</span>
                 </mat-tab>
                 <mat-tab label="Мои плейлисты">

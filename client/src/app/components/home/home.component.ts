@@ -3,6 +3,8 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { User } from '../../dto/user';
+import {Track} from '../../dto/track';
+import {TrackList} from '../../dto/track-list';
 
 @Component({
     selector: 'home',
@@ -14,9 +16,16 @@ import { User } from '../../dto/user';
 
 export class HomeComponent implements OnInit {
     user: User;
-    myMusic: any = [];
+
     myFriends: any = [];
     myRequest: any = [];
+
+    myMusic: Track[] = [];
+    response: TrackList;
+    tracksLength : number = 100;
+    page: number = 0;
+    pageSize : number = 10;
+    pageSizeOptions : any = [10,25,50,10];
 
     constructor(private router: Router,
                 private userService: UserService,
@@ -57,5 +66,21 @@ export class HomeComponent implements OnInit {
 
     printUserName() {
         return this.user.email !== '' ? this.user.printUserName() : '';
+    }
+
+    loadTracksList(event) {
+        /*if (event) {
+            this.trackService.getAllTracks(event.pageIndex, event.pageSize)
+                .subscribe(data => {
+                    this.response = new TrackList(data);
+                    this.tracksLength = this.response.allCount;
+                    this.tracks = this.response.tracks;
+                });
+        } else {
+            this.trackService.getAllTracks(this.page, this.pageSize).subscribe(data => {
+                this.response = new TrackList(data);
+                this.tracks = this.response.tracks;
+            });
+        }*/
     }
 }

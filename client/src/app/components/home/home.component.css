@@ -9,3 +9,29 @@
 .left-container {
     width: 30%;
 }
+
+.list-item-container {
+    display: flex;
+    width: 100%;
+}
+.track-item {
+    width: 65%;
+}
+
+.control-item {
+    width: 35%;
+    margin-top: 3%;
+}
+
+.track-title {
+    margin-top: -2%;
+}
+
+.item {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.rate {
+    width: 120px;
+}

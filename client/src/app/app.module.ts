@@ -51,9 +51,9 @@ import { CreateTrackDialog } from './components/upload/dialog/create-track-dialo
         SettingsComponent,
         CreateUserDialog,
         ErrorCreateUserDialog,
-        CreateTrackDialog
-,
-        UserProfileComponent    ],
+        CreateTrackDialog,
+        UserProfileComponent
+    ],
     entryComponents: [
         CreateUserDialog,
         ErrorCreateUserDialog,
