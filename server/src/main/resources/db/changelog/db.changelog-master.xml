@@ -227,7 +227,7 @@
                                  onUpdate="RESTRICT"
                                  referencedColumnNames="id"
                                  referencedTableName="track"/>
-        <addForeignKeyConstraint baseColumnNames="track_id"
+        <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="tracks_by_users"
                                  constraintName="fk_users_tracks"
                                  onDelete="CASCADE"

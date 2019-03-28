@@ -29,6 +29,10 @@ public interface TrackService {
 
     Page<Track> getTracksByMoodPagination(PageRequest pageRequest, Mood mood);
 
+    Page<Track> getTracksByUserPagination(PageRequest id, User user);
+
+    int countTracksByUserPagination(User user);
+
     Track addTrackGenre(Long trackId, Long genreId) throws TrackIsNotExistsException, GenreIsNotExistsException;
 
     Track removeTrackGenre(Long trackId, Long genreId) throws TrackIsNotExistsException, GenreIsNotExistsException, TrackHasNotGenreException;

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -99,6 +100,20 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
+    public Page<Track> getTracksByUserPagination(PageRequest pageRequest, User user) {
+        Set<User> users = new HashSet<>();
+        users.add(user);
+        return trackRepository.findAllByUsersContains(pageRequest, users);
+    }
+
+    @Override
+    public int countTracksByUserPagination(User user) {
+        Set<User> users = new HashSet<>();
+        users.add(user);
+        return trackRepository.findAllByUsersContains(users).size();
+    }
+
+    @Override
     public Track addTrackGenre(Long trackId, Long genreId) throws TrackIsNotExistsException, GenreIsNotExistsException {
         Track track = getTrackById(trackId);
         if (track == null) {
@@ -182,6 +197,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
+    @Transactional
     public void addTrackToUser(Long userId, Long trackId) throws TrackIsNotExistsException, UserIsNotExistsException {
         Track track = getTrackById(trackId);
         if (track == null) {
