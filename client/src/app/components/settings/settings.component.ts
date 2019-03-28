@@ -20,6 +20,7 @@ export class SettingsComponent {
   isEmpty : boolean;
   isError : boolean;
   isSuccess : boolean;
+  isSuccessAccountSaving : boolean;
 
   constructor(private shared : SharedService,
               private userService : UserService) {
@@ -60,13 +61,26 @@ export class SettingsComponent {
   }
 
   saveAccount() {
-     this.userService.updateUser(this.loggedUser)
+      let email = this.loggedUser.email;
+      let password = this.loggedUser.newPassword;
+     this.userService.updateUser(this.loggedUser.toObject())
          .subscribe(data => {
              this.isAccountDataNotCorrect = false;
+             this.isSuccessAccountSaving = true;
              this.loggedUser = new User(data);
+             this.shared.getStogare().setItem('token', btoa(email + ':' + password));
+             this.shared.updateLoggedUser(this.loggedUser);
          },error => {
              this.isAccountDataNotCorrect = true;
+             this.isSuccessAccountSaving = true;
          });
+  }
+
+  deleteAccount() {
+      this.userService.deleteUser(this.loggedUser.id)
+          .subscribe(() => {
+             this.shared.logout();
+          });
   }
 
   setFileForUpload(files: any) {

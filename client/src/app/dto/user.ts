@@ -88,7 +88,7 @@ export class User {
             id: this.id,
             email: this.email,
             password: this.password,
-            newPassword: null,
+            newPassword: this.newPassword,
             dateCreate: {
                 year: this.dateCreate.year,
                 month: this.dateCreate.month,

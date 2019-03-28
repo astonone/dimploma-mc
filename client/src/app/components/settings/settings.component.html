@@ -93,9 +93,11 @@
                     </div>
                     <div>
                         <label *ngIf="isAccountDataNotCorrect" class="save-error-label">Ошибка, вы ввели неккоретные данные!</label>
+                        <label *ngIf="isSuccessAccountSaving" class="uploaded-success-label">Данные сохранены!</label>
                     </div>
                     <div>
                         <button mat-raised-button color="primary" (click)="saveAccount()">Сохранить</button>
+                        <button class="delete-button" mat-raised-button color="warn" (click)="deleteAccount()">Удалить аккаунт</button>
                     </div>
                 </mat-tab>
             </mat-tab-group>
