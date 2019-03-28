@@ -1,5 +1,4 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
@@ -19,8 +18,7 @@ export class HomeComponent implements OnInit {
     myFriends: any = [];
     myRequest: any = [];
 
-    constructor(private http: HttpClient,
-                private router: Router,
+    constructor(private router: Router,
                 private userService: UserService,
                 private shared: SharedService) {
         this.user = this.shared.createEmptyUserStub();

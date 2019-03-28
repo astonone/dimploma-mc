@@ -67,7 +67,7 @@ export class LocalDate {
         return {
             year: date.getFullYear(),
             month: date.getMonth() + 1,
-            day: date.getDay(),
+            day: date.getDate(),
             hours: '0',
             minutes: '0',
             seconds: '0'

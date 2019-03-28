@@ -3,6 +3,7 @@ import { SharedService } from '../../services/shared.service';
 import { UserService } from '../../services/user.service';
 import { UserList } from '../../dto/user-list';
 import { User } from '../../dto/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -19,7 +20,8 @@ export class UsersComponent implements OnInit {
   pageSizeOptions : any = [10,25,50,10];
 
   constructor(private shared: SharedService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private router: Router) { }
 
   ngOnInit() {
     this.loadUserList(null);
@@ -38,5 +40,9 @@ export class UsersComponent implements OnInit {
         this.users = this.response.users;
       });
     }
+  }
+
+  gotoProfile(id: number) {
+    this.router.navigate(['user/'+ id]);
   }
 }

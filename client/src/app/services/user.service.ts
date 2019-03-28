@@ -23,6 +23,7 @@ export class UserService {
   USER_UPLOAD_PHOTO: string;
   USER_DELETE_PHOTO: string;
   USER_UPDATE_INFO: string;
+  USER_GET_BY_ID: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -31,6 +32,7 @@ export class UserService {
     this.USER_LOGIN = this.SERVER_URL + '/api/user/login';
     this.USER_AUTH = this.SERVER_URL + '/api/user/auth';
     this.USER_GET = this.SERVER_URL + '/api/user/email/';
+    this.USER_GET_BY_ID = this.SERVER_URL + '/api/user/{id}';
     this.USER_DELETE = this.SERVER_URL + '/api/user/{id}';
     this.USER_GET_ALL = this.SERVER_URL + '/api/user/getAll?page={page}&pageSize={pageSize}';
     this.USER_CREATE = this.SERVER_URL + '/api/user/create';
@@ -108,5 +110,11 @@ export class UserService {
     let regExp = /{id}/gi;
     let url = this.USER_DELETE.replace(regExp, id + "");
     return this.http.delete<Observable<Object>>(url, this.getOptions())
+  }
+
+  getById(id:string) {
+    let regExp = /{id}/gi;
+    let url = this.USER_GET_BY_ID.replace(regExp, id);
+    return this.http.get<Observable<Object>>(url, this.getOptions())
   }
 }
