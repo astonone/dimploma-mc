@@ -2,36 +2,35 @@
     height: calc(100vh - 64px);
 }
 
-.right-container {
-
+.home-right-container {
 }
 
-.left-container {
+.home-left-container {
     width: 30%;
 }
 
-.list-item-container {
+.home-list-item-container {
     display: flex;
     width: 100%;
 }
-.track-item {
+.home-track-item {
     width: 65%;
 }
 
-.control-item {
+.home-control-item {
     width: 35%;
     margin-top: 3%;
 }
 
-.track-title {
+.home-track-title {
     margin-top: -2%;
 }
 
-.item {
+.home-item {
     margin-left: 5px;
     cursor: pointer;
 }
 
-.rate {
+.home-rate {
     width: 120px;
 }

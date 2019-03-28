@@ -45,7 +45,7 @@
                            [pageSizeOptions]="pageSizeOptions"
                            (page)="pageEvent = loadTracksList($event)">
             </mat-paginator>
-            <mat-list-item *ngFor="let track of tracks" class="track-item">
+            <mat-list-item *ngFor="let track of tracks">
                 <div class="list-item-container">
                     <div class="track-item">
                         <h4 mat-line class="track-item-control">

@@ -13,6 +13,7 @@ export class TrackService {
 
   UPLOAD_TRACK: string;
   GET_ALL_TRACKS: string;
+  GET_USER_TRACKS: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -20,6 +21,7 @@ export class TrackService {
 
     this.UPLOAD_TRACK = this.SERVER_URL + '/api/track/upload';
     this.GET_ALL_TRACKS = this.SERVER_URL + '/api/track/findAllPagination?page={page}&pageSize={pageSize}';
+    this.GET_USER_TRACKS = this.SERVER_URL + '/api/track/getTracksByUser/{id}?page={page}&pageSize={pageSize}';
   }
 
   private getOptions() {
@@ -39,6 +41,16 @@ export class TrackService {
     let regExp2 = /{pageSize}/gi;
     let url = this.GET_ALL_TRACKS.replace(regExp, page + "");
     url = url.replace(regExp2, pageSize + "");
+    return this.http.get<Observable<Object>>(url, this.getOptions())
+  }
+
+  getUserTracks(id:number, page: number, pageSize: number) {
+    let regExp = /{page}/gi;
+    let regExp2 = /{pageSize}/gi;
+    let regExp3 = /{id}/gi;
+    let url = this.GET_USER_TRACKS.replace(regExp, page + "");
+    url = url.replace(regExp2, pageSize + "");
+    url = url.replace(regExp3, id + "");
     return this.http.get<Observable<Object>>(url, this.getOptions())
   }
 }

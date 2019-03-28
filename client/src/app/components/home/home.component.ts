@@ -5,6 +5,7 @@ import { SharedService } from '../../services/shared.service';
 import { User } from '../../dto/user';
 import {Track} from '../../dto/track';
 import {TrackList} from '../../dto/track-list';
+import {TrackService} from '../../services/track.service';
 
 @Component({
     selector: 'home',
@@ -29,7 +30,8 @@ export class HomeComponent implements OnInit {
 
     constructor(private router: Router,
                 private userService: UserService,
-                private shared: SharedService) {
+                private shared: SharedService,
+                private trackService: TrackService) {
         this.user = this.shared.createEmptyUserStub();
     }
 
@@ -41,6 +43,7 @@ export class HomeComponent implements OnInit {
                         this.shared.getStogare().setItem('loggedUser', JSON.stringify(data));
                         this.shared.setLoggedUser();
                         this.user = new User(data);
+                        this.loadTracksList(null);
                     },
                     error => {
                         if (error.status == 401) {
@@ -50,6 +53,7 @@ export class HomeComponent implements OnInit {
                 );
         } else {
             this.user = new User(JSON.parse(this.shared.getStogare().getItem('loggedUser')));
+            this.loadTracksList(null);
         }
         } else {
             this.router.navigate(['login']);
@@ -69,18 +73,19 @@ export class HomeComponent implements OnInit {
     }
 
     loadTracksList(event) {
-        /*if (event) {
-            this.trackService.getAllTracks(event.pageIndex, event.pageSize)
+        if (event) {
+            this.trackService.getUserTracks(this.user.id, event.pageIndex, event.pageSize)
                 .subscribe(data => {
                     this.response = new TrackList(data);
                     this.tracksLength = this.response.allCount;
-                    this.tracks = this.response.tracks;
+                    this.myMusic = this.response.tracks;
                 });
         } else {
-            this.trackService.getAllTracks(this.page, this.pageSize).subscribe(data => {
+            this.trackService.getUserTracks(this.user.id, this.page, this.pageSize)
+                .subscribe(data => {
                 this.response = new TrackList(data);
-                this.tracks = this.response.tracks;
+                this.myMusic = this.response.tracks;
             });
-        }*/
+        }
     }
 }
