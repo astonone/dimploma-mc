@@ -16,6 +16,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatCardModule,
     MatProgressBarModule,
     MatTabsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCheckboxModule
   ],
   declarations: [],
   providers : [
@@ -57,7 +59,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatCardModule,
     MatProgressBarModule,
     MatTabsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCheckboxModule
   ]
 })
 export class MainUiModule { }

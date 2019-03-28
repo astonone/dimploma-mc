@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../dto/user';
-import {UserList} from '../dto/user-list';
+import {SharedService} from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,8 @@ export class UserService {
   USER_DELETE_PHOTO: string;
   USER_UPDATE_INFO: string;
 
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient,
+              private shared : SharedService) {
     this.SERVER_URL = this.HOST + ':' + this.PORT;
 
     this.USER_LOGIN = this.SERVER_URL + '/api/user/login';
@@ -42,7 +43,7 @@ export class UserService {
 
   private getOptions() {
     let headers: HttpHeaders = new HttpHeaders({
-      'Authorization': 'Basic ' + sessionStorage.getItem('token')
+      'Authorization': 'Basic ' + this.shared.getStogare().getItem('token')
     });
 
     return { headers: headers };

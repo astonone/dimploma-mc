@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from './user.service';
 import { User } from '../dto/user';
 
 @Injectable({
@@ -11,34 +10,41 @@ export class SharedService {
   isLogin : boolean;
   loggedUser : any;
 
-  constructor(private router: Router,
-              private userService: UserService) {}
+  constructor(private router: Router) {}
+
+  getStogare() {
+    if (localStorage.getItem('isRemember') === 'true') {
+      return localStorage;
+    } else {
+      return sessionStorage;
+    }
+  }
 
   logout() {
     this.isLogin = false;
     this.loggedUser = {};
-    sessionStorage.setItem('token', '');
-    sessionStorage.setItem('loggedUser', '');
+    this.getStogare().setItem('token', '');
+    this.getStogare().setItem('loggedUser', '');
     this.router.navigate(['/login']);
   }
 
   setLoggedUser() {
-    if (sessionStorage.getItem('loggedUser') !== null && sessionStorage.getItem('loggedUser') !== '') {
-      this.loggedUser = new User(JSON.parse(sessionStorage.getItem('loggedUser')));
+    if (this.getStogare().getItem('loggedUser') !== null && this.getStogare().getItem('loggedUser') !== '') {
+      this.loggedUser = new User(JSON.parse(this.getStogare().getItem('loggedUser')));
       this.isLogin = this.loggedUser !== null;
     }
   }
 
   getLoggedUser() {
-    if (sessionStorage.getItem('loggedUser') !== null && sessionStorage.getItem('loggedUser') !== '') {
-      return new User(JSON.parse(sessionStorage.getItem('loggedUser')));
+    if (this.getStogare().getItem('loggedUser') !== null && this.getStogare().getItem('loggedUser') !== '') {
+      return new User(JSON.parse(this.getStogare().getItem('loggedUser')));
     } else {
       return null;
     }
   }
 
   updateLoggedUser(user: User) {
-    sessionStorage.setItem('loggedUser', JSON.stringify(user.toObject()))
+    this.getStogare().setItem('loggedUser', JSON.stringify(user.toObject()))
   }
 
   createEmptyUserStub() {

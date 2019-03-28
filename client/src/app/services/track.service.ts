@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {SharedService} from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class TrackService {
   UPLOAD_TRACK: string;
   GET_ALL_TRACKS: string;
 
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient,
+              private shared : SharedService) {
     this.SERVER_URL = this.HOST + ':' + this.PORT;
 
     this.UPLOAD_TRACK = this.SERVER_URL + '/api/track/upload';
@@ -22,7 +24,7 @@ export class TrackService {
 
   private getOptions() {
     let headers: HttpHeaders = new HttpHeaders({
-      'Authorization': 'Basic ' + sessionStorage.getItem('token')
+      'Authorization': 'Basic ' + this.shared.getStogare().getItem('token')
     });
 
     return { headers: headers };

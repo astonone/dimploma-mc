@@ -27,11 +27,11 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (sessionStorage.getItem('token') !== null && sessionStorage.getItem('token')) {
-        if (sessionStorage.getItem('loggedUser') === '') {
+        if (this.shared.getStogare().getItem('token') !== null && this.shared.getStogare().getItem('token')) {
+        if (this.shared.getStogare().getItem('loggedUser') === '') {
             this.userService.auth()
                 .subscribe(data => {
-                        sessionStorage.setItem('loggedUser', JSON.stringify(data));
+                        this.shared.getStogare().setItem('loggedUser', JSON.stringify(data));
                         this.shared.setLoggedUser();
                         this.user = new User(data);
                     },
@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
                     }
                 );
         } else {
-            this.user = new User(JSON.parse(sessionStorage.getItem('loggedUser')));
+            this.user = new User(JSON.parse(this.shared.getStogare().getItem('loggedUser')));
         }
         } else {
             this.router.navigate(['login']);
