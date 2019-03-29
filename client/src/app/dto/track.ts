@@ -7,6 +7,7 @@ export class Track {
     private _filename : string;
     private _duration : string;
     private _rating : number;
+    private _tempRating : number;
 
 
     constructor(data: any) {
@@ -18,6 +19,7 @@ export class Track {
         this._filename = data.filename;
         this._duration = data.duration;
         this._rating = data.rating;
+        this._tempRating = null;
     }
 
 
@@ -83,5 +85,14 @@ export class Track {
 
     set rating(value: number) {
         this._rating = value;
+    }
+
+
+    get tempRating(): number {
+        return this._tempRating;
+    }
+
+    set tempRating(value: number) {
+        this._tempRating = value;
     }
 }

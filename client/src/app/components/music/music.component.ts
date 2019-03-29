@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material';
 import { SharedService } from '../../services/shared.service';
 import { User } from '../../dto/user';
 import { DeleteTrackDialog } from './dialog/delete-track-dialog';
+import { ChangeTrackDialog } from './dialog/change-track-dialog';
 
 @Component({
   selector: 'app-music',
@@ -60,10 +61,12 @@ export class MusicComponent implements OnInit {
   deleteTrack(track : Track) {
     const dialogRef = this.dialog.open(DeleteTrackDialog, {
       width: '250px',
-      data : track
+      data : null
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.loadTracksList(null);
+      this.trackService.deleteTrack(track.id).subscribe(() => {
+        this.loadTracksList(null);
+      });
     });
   }
 
@@ -75,4 +78,22 @@ export class MusicComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
     });
   };
+
+  changeTrack(track : Track) {
+    const dialogRef = this.dialog.open(ChangeTrackDialog, {
+      width: '250px',
+      data : track
+    });
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  rateTrack(track : Track) {
+    this.trackService.rateTrack(track.id, this.user.id, track.tempRating)
+        .subscribe(data => {
+          let updatedTrack = new Track(data);
+          track.rating = updatedTrack.rating;
+          track.tempRating = null;
+        });
+  }
 }

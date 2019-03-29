@@ -56,11 +56,11 @@
                     </div>
                     <div>
                     <mat-icon class="item" mat-list-icon (click)="addTrackToUser(track.id)">add_circle_outline</mat-icon>
-                    <mat-icon class="item" mat-list-icon>create</mat-icon>
+                    <mat-icon class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
                     <mat-icon class="item" mat-list-icon (click)="deleteTrack(track)">clear</mat-icon>
                     <mat-form-field class="item rate">
                         <mat-label>Ваша оценка</mat-label>
-                        <mat-select>
+                        <mat-select  [(ngModel)]="track.tempRating" (selectionChange)="rateTrack(track)">
                             <mat-option>None</mat-option>
                             <mat-option value="1">1</mat-option>
                             <mat-option value="2">2</mat-option>

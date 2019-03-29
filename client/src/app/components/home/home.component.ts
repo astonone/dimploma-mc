@@ -3,9 +3,12 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { User } from '../../dto/user';
-import {Track} from '../../dto/track';
-import {TrackList} from '../../dto/track-list';
-import {TrackService} from '../../services/track.service';
+import { Track } from '../../dto/track';
+import { TrackList } from '../../dto/track-list';
+import { TrackService } from '../../services/track.service';
+import { DeleteTrackDialog } from '../music/dialog/delete-track-dialog';
+import { ChangeTrackDialog } from '../music/dialog/change-track-dialog';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'home',
@@ -31,7 +34,8 @@ export class HomeComponent implements OnInit {
     constructor(private router: Router,
                 private userService: UserService,
                 private shared: SharedService,
-                private trackService: TrackService) {
+                private trackService: TrackService,
+                public dialog: MatDialog) {
         this.user = this.shared.createEmptyUserStub();
     }
 
@@ -85,7 +89,39 @@ export class HomeComponent implements OnInit {
                 .subscribe(data => {
                 this.response = new TrackList(data);
                 this.myMusic = this.response.tracks;
+                this.tracksLength = this.response.allCount;
             });
         }
+    }
+
+    deleteTrackFromUser(track : Track) {
+        const dialogRef = this.dialog.open(DeleteTrackDialog, {
+            width: '250px',
+            data : track
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.trackService.deleteTrackFromUser(this.user.id, track.id)
+                .subscribe(() => {
+                    this.loadTracksList(null);
+                });
+        });
+    }
+
+    changeTrack(track : Track) {
+        const dialogRef = this.dialog.open(ChangeTrackDialog, {
+            width: '250px',
+            data : track
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    }
+
+    rateTrack(track : Track) {
+        this.trackService.rateTrack(track.id, this.user.id, track.tempRating)
+            .subscribe(data => {
+                let updatedTrack = new Track(data);
+                track.rating = updatedTrack.rating;
+                track.tempRating = null;
+            });
     }
 }
