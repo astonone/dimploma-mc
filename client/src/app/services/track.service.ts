@@ -18,6 +18,7 @@ export class TrackService {
   DELETE_TRACK_FROM_USER: string;
   DELETE_TRACK: string;
   RATE_TRACK: string;
+  UPDATE_TRACK: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -30,6 +31,7 @@ export class TrackService {
     this.DELETE_TRACK_FROM_USER = this.SERVER_URL + '/api/track/{id}/user?userId={userId}';
     this.DELETE_TRACK = this.SERVER_URL + '/api/track/{id}';
     this.RATE_TRACK = this.SERVER_URL + '/api/track/{id}/rating?ratingValue={ratingValue}&userId={userId}';
+    this.UPDATE_TRACK = this.SERVER_URL + '/api/track/{id}/update';
   }
 
   private getOptions() {
@@ -92,5 +94,11 @@ export class TrackService {
     url = url.replace(regExp2, ratingValue + "");
     url = url.replace(regExp3, userId + "");
     return this.http.put<Observable<Object>>(url,{}, this.getOptions());
+  }
+
+  updateTrack(id: number, track : any) {
+    let regExp = /{id}/gi;
+    let url = this.UPDATE_TRACK.replace(regExp, id + "");
+    return this.http.post<Observable<Object>>(url, track, this.getOptions());
   }
 }

@@ -81,7 +81,7 @@ export class MusicComponent implements OnInit {
 
   changeTrack(track : Track) {
     const dialogRef = this.dialog.open(ChangeTrackDialog, {
-      width: '250px',
+      width: '400px',
       data : track
     });
     dialogRef.afterClosed().subscribe(result => {

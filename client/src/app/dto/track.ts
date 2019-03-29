@@ -95,4 +95,18 @@ export class Track {
     set tempRating(value: number) {
         this._tempRating = value;
     }
+
+    toObject() {
+        return {
+            id: this._id,
+            title: this._title,
+            artist: this._artist,
+            album: this._album,
+            year: this._year,
+            filename: this._filename,
+            duration: this._duration,
+            rating: this._rating,
+            tempRating: this._tempRating
+        };
+    }
 }
