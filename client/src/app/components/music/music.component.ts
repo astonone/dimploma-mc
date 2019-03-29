@@ -5,7 +5,8 @@ import { Track } from '../../dto/track';
 import { AddTrackToUserDialog } from './dialog/add-track-to-user-dialog';
 import { MatDialog } from '@angular/material';
 import { SharedService } from '../../services/shared.service';
-import {User} from '../../dto/user';
+import { User } from '../../dto/user';
+import { DeleteTrackDialog } from './dialog/delete-track-dialog';
 
 @Component({
   selector: 'app-music',
@@ -17,7 +18,7 @@ export class MusicComponent implements OnInit {
   user: User;
   tracks: Track[] = [];
   response: TrackList;
-  tracksLength : number = 100;
+  tracksLength : number = 10;
   page: number = 0;
   pageSize : number = 10;
   pageSizeOptions : any = [10,25,50,10];
@@ -44,6 +45,7 @@ export class MusicComponent implements OnInit {
       this.trackService.getAllTracks(this.page, this.pageSize).subscribe(data => {
         this.response = new TrackList(data);
         this.tracks = this.response.tracks;
+        this.tracksLength = this.response.allCount;
       });
     }
   }
@@ -53,6 +55,16 @@ export class MusicComponent implements OnInit {
         .subscribe(data => {
           this.openTrackCreatedDialog(null);
         });
+  }
+
+  deleteTrack(track : Track) {
+    const dialogRef = this.dialog.open(DeleteTrackDialog, {
+      width: '250px',
+      data : track
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadTracksList(null);
+    });
   }
 
   openTrackCreatedDialog(response : any) : void {

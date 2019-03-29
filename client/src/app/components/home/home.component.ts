@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
     myMusic: Track[] = [];
     response: TrackList;
-    tracksLength : number = 100;
+    tracksLength : number = 10;
     page: number = 0;
     pageSize : number = 10;
     pageSizeOptions : any = [10,25,50,10];
