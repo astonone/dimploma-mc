@@ -9,28 +9,21 @@
     width: 30%;
 }
 
-.home-list-item-container {
-    display: flex;
-    width: 100%;
-}
-.home-track-item {
-    width: 65%;
+.track-item {
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-.home-control-item {
-    width: 35%;
-    margin-top: 3%;
+.track-title {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.home-track-title {
-    margin-top: -2%;
+.item {
+    margin-left: 10px;
 }
 
-.home-item {
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-.home-rate {
+.rate {
     width: 120px;
 }

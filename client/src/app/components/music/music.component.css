@@ -3,7 +3,6 @@
 }
 
 .right-container {
-
 }
 
 .left-container {
@@ -24,10 +23,14 @@
 }
 
 .track-item {
-    margin: 10px;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-.track-item-control {
+.track-title {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header-label {
@@ -35,26 +38,8 @@
     margin-top: 5px;
 }
 
-.list-item-container {
-    display: flex;
-    width: 100%;
-}
-.track-item {
-    width: 65%;
-}
-
-.control-item {
-    width: 35%;
-    margin-top: 3%;
-}
-
-.track-title {
-    margin-top: -2%;
-}
-
 .item {
-    margin-left: 5px;
-    cursor: pointer;
+    margin-left: 10px;
 }
 
 .rate {
