@@ -1,6 +1,0 @@
-<div class="uploaded-container">
-  <h3 class="upload-container-item">Здесь вы можете пополнить коллекцию треков music-cloud</h3>
-  <input class="upload-container-item" type="file" name="file" (change)="setFileForUpload($event.target.files)"/>
-  <button class="upload-container-item" mat-raised-button color="primary" (click)="uploadFile()">Загрузить</button>
-  <label *ngIf="isNotChoosed" class="uploaded-error-label">Файл не выбран!</label>
-</div>
