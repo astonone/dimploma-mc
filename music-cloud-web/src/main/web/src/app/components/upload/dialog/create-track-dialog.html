@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Загрузка</h1>
+<div mat-dialog-content>
+    <p>Трек загружен успешно!</p>
+    <p><label>Заголовок: </label>{{data.title}}</p>
+    <p><label>Артист: </label>{{data.artist}}</p>
+    <p><label>Альбом: </label>{{data.album}}</p>
+    <p><label>Год: </label>{{data.year}}</p>
+</div>
+<div mat-dialog-actions>
+    <p>Идет добавление в коллекцию...</p>
+    <mat-progress-bar color="warn" mode="indeterminate"></mat-progress-bar>
+</div>

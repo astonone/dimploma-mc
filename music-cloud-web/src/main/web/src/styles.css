@@ -1,0 +1,20 @@
+﻿@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+a {
+    cursor: pointer;
+}
+
+.help-block {
+    font-size: 12px;
+}
+
+body {
+    font-family: "Roboto";
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}

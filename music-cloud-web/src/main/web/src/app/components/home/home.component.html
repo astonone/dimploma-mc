@@ -1,0 +1,79 @@
+﻿<mat-sidenav-container class="home-container">
+    <mat-sidenav mode="side" class="home-left-container" opened>
+        <mat-card class="user-card">
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image"></div>
+                <mat-card-title>Мой профиль</mat-card-title>
+                <mat-card-subtitle>{{printUserName()}}</mat-card-subtitle>
+            </mat-card-header>
+            <img *ngIf="isEmptyPhotoLink()" mat-card-image src="./assets/image/empty-profile-black.png" alt="">
+            <img *ngIf="!isEmptyPhotoLink()" mat-card-image src="{{getUserPhotoLink()}}" alt="">
+            <mat-card-content class="user-info">
+                <p>Email: {{user.email}}</p>
+                <p>Никнейм: {{user.userDetails.nick}}</p>
+                <p>День рождения: {{user.userDetails.birthday.printDate()}}</p>
+                <p>Обо мне: {{user.userDetails.about}}</p>
+            </mat-card-content>
+        </mat-card>
+    </mat-sidenav>
+    <mat-sidenav-content class="home-right-container">
+        <mat-list>
+            <mat-tab-group>
+                <mat-tab label="Моя музыка">
+                    <mat-list>
+                        <mat-paginator [length]="tracksLength"
+                                       [pageIndex]="page"
+                                       [pageSize]="pageSize"
+                                       [pageSizeOptions]="pageSizeOptions"
+                                       (page)="pageEvent = loadTracksList($event)"
+                                       *ngIf="myMusic.length !== 0">
+                        </mat-paginator>
+                        <mat-list-item *ngFor="let track of myMusic" class="track-item">
+                            <h4 mat-line class="track-item-control">
+                                <mat-basic-audio-player [audioUrl]="track.filename">
+                                </mat-basic-audio-player>
+                            </h4>
+                            <div mat-line class="track-title">
+                                <div>
+                                    {{track.title + ", " + track.artist + ", " + track.year}}
+                                </div>
+                                <div>
+                                    <mat-icon class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
+                                    <mat-icon class="item" mat-list-icon (click)="deleteTrackFromUser(track)">clear</mat-icon>
+                                    <mat-form-field class="item rate">
+                                        <mat-label>Ваша оценка</mat-label>
+                                        <mat-select [(ngModel)]="track.tempRating" (selectionChange)="rateTrack(track)">
+                                            <mat-option>None</mat-option>
+                                            <mat-option value="1">1</mat-option>
+                                            <mat-option value="2">2</mat-option>
+                                            <mat-option value="3">3</mat-option>
+                                            <mat-option value="4">4</mat-option>
+                                            <mat-option value="5">5</mat-option>
+                                            <mat-option value="6">6</mat-option>
+                                            <mat-option value="7">7</mat-option>
+                                            <mat-option value="8">8</mat-option>
+                                            <mat-option value="9">9</mat-option>
+                                            <mat-option value="10">10</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <span class="item">Рейтинг: <b>{{track.rating}}</b></span>
+                                </div>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                    <span *ngIf="myMusic.length === 0">На данный момент у вас нет музыки</span>
+                </mat-tab>
+                <mat-tab label="Мои плейлисты">
+                    <span *ngIf="myMusic.length === 0">На данный момент у вас нет плейлистов</span>
+                </mat-tab>
+                <mat-tab label="Мои друзья">
+                    <span *ngIf="myFriends.length === 0">Вы еще не добавили никого в друзья</span>
+                </mat-tab>
+                <mat-tab label="Запросы в друзья">
+                    <span *ngIf="myRequest.length === 0">Запросы отсутствуют</span>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-list>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
