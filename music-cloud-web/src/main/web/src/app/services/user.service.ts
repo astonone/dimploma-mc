@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../dto/user';
-import {SharedService} from './shared.service';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,7 @@ export class UserService {
   USER_DELETE_PHOTO: string;
   USER_UPDATE_INFO: string;
   USER_GET_BY_ID: string;
+  GET_UPLOADED_PHOTO: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -41,11 +42,12 @@ export class UserService {
     this.USER_UPLOAD_PHOTO = this.SERVER_URL + '/api/user/{id}/upload';
     this.USER_DELETE_PHOTO = this.SERVER_URL + '/api/user/{id}/deletePhoto';
     this.USER_UPDATE_INFO = this.SERVER_URL + '/api/user/{id}/user_details';
+    this.GET_UPLOADED_PHOTO  = this.SERVER_URL + '/api/user/files/{filename}';
   }
 
   private getOptions() {
     let headers: HttpHeaders = new HttpHeaders({
-      'Authorization': 'Basic ' + this.shared.getStogare().getItem('token')
+      'Authorization': 'Basic ' + this.shared.getStorage().getItem('token')
     });
 
     return { headers: headers };
@@ -60,10 +62,6 @@ export class UserService {
 
   auth() {
     return this.http.post<Observable<User>>(this.USER_AUTH, {}, this.getOptions())
-  }
-
-  getUserByEmail(email:string) {
-    return this.http.get<Observable<Object>>(this.USER_GET + email,  this.getOptions())
   }
 
   createUser(email:string, password: string) {
@@ -86,12 +84,6 @@ export class UserService {
 
   updateUser(user:any) {
     return this.http.post<Observable<Object>>(this.USER_UPDATE, user, this.getOptions())
-  }
-
-  uploadPhoto(id:number, file:any) {
-    let regExp = /{id}/gi;
-    let url = this.USER_UPLOAD_PHOTO.replace(regExp, id + "");
-    return this.http.post<Observable<Object>>(url, file, this.getOptions())
   }
 
   deletePhoto(id:number) {

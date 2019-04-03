@@ -1,5 +1,6 @@
-import {LocalDate} from './local-date';
-import {UserDetails} from './user-details';
+import { LocalDate } from './local-date';
+import { UserDetails } from './user-details';
+import {FileService} from '../services/file.service';
 
 export class User {
     private _id : number;

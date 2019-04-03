@@ -13,6 +13,7 @@ import { MainUiModule } from './modules/main-ui/main-ui.module';
 import { UserService } from './services/user.service';
 import { SharedService } from './services/shared.service';
 import { TrackService } from './services/track.service';
+import { FileService } from './services/file.service';
 
 /*Components*/
 import { HomeComponent } from './components/home/home.component';
@@ -28,7 +29,6 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 /*Popups*/
 import { CreateUserDialog } from './components/registration/dialog/create-user-dialog';
 import { ErrorCreateUserDialog } from './components/registration/dialog/error-create-user-dialog';
-import { CreateTrackDialog } from './components/upload/dialog/create-track-dialog';
 import { AddTrackToUserDialog } from './components/music/dialog/add-track-to-user-dialog';
 import { DeleteTrackDialog } from './components/music/dialog/delete-track-dialog';
 import { ChangeTrackDialog } from './components/music/dialog/change-track-dialog';
@@ -54,7 +54,6 @@ import { ChangeTrackDialog } from './components/music/dialog/change-track-dialog
         SettingsComponent,
         CreateUserDialog,
         ErrorCreateUserDialog,
-        CreateTrackDialog,
         UserProfileComponent,
         AddTrackToUserDialog,
         DeleteTrackDialog,
@@ -63,7 +62,6 @@ import { ChangeTrackDialog } from './components/music/dialog/change-track-dialog
     entryComponents: [
         CreateUserDialog,
         ErrorCreateUserDialog,
-        CreateTrackDialog,
         AddTrackToUserDialog,
         DeleteTrackDialog,
         ChangeTrackDialog
@@ -71,7 +69,8 @@ import { ChangeTrackDialog } from './components/music/dialog/change-track-dialog
     providers: [
         UserService,
         TrackService,
-        SharedService
+        SharedService,
+        FileService
     ],
     bootstrap: [AppComponent]
 })

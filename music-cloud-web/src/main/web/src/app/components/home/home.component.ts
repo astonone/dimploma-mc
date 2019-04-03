@@ -9,6 +9,8 @@ import { TrackService } from '../../services/track.service';
 import { DeleteTrackDialog } from '../music/dialog/delete-track-dialog';
 import { ChangeTrackDialog } from '../music/dialog/change-track-dialog';
 import { MatDialog } from '@angular/material';
+import { FileService } from '../../services/file.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'home',
@@ -27,26 +29,30 @@ export class HomeComponent implements OnInit {
     myMusic: Track[] = [];
     response: TrackList;
     tracksLength : number = 10;
+    pageEvent : any;
     page: number = 0;
     pageSize : number = 10;
     pageSizeOptions : any = [10,25,50,10];
+    photos : Observable<string[]>;
 
     constructor(private router: Router,
                 private userService: UserService,
                 private shared: SharedService,
                 private trackService: TrackService,
-                public dialog: MatDialog) {
+                public dialog: MatDialog,
+                private fileService: FileService) {
         this.user = this.shared.createEmptyUserStub();
     }
 
     ngOnInit() {
-        if (this.shared.getStogare().getItem('token') !== null && this.shared.getStogare().getItem('token')) {
-        if (this.shared.getStogare().getItem('loggedUser') === '') {
+        if (this.shared.getStorage().getItem('token') !== null && this.shared.getStorage().getItem('token')) {
+        if (this.shared.getStorage().getItem('loggedUser') === '') {
             this.userService.auth()
                 .subscribe(data => {
-                        this.shared.getStogare().setItem('loggedUser', JSON.stringify(data));
+                        this.shared.getStorage().setItem('loggedUser', JSON.stringify(data));
                         this.shared.setLoggedUser();
                         this.user = new User(data);
+                        this.getPhoto();
                         this.loadTracksList(null);
                     },
                     error => {
@@ -56,7 +62,8 @@ export class HomeComponent implements OnInit {
                     }
                 );
         } else {
-            this.user = new User(JSON.parse(this.shared.getStogare().getItem('loggedUser')));
+            this.user = new User(JSON.parse(this.shared.getStorage().getItem('loggedUser')));
+            this.getPhoto();
             this.loadTracksList(null);
         }
         } else {
@@ -66,10 +73,6 @@ export class HomeComponent implements OnInit {
 
     isEmptyPhotoLink() {
         return this.user.email !== '' ? this.user.isEmptyPhotoLink() : false;
-    }
-
-    getUserPhotoLink() {
-        return this.user.email !== '' ? this.user.getPhotoLink() : '';
     }
 
     printUserName() {
@@ -83,14 +86,22 @@ export class HomeComponent implements OnInit {
                     this.response = new TrackList(data);
                     this.tracksLength = this.response.allCount;
                     this.myMusic = this.response.tracks;
+                    this.loadAudioFiles();
                 });
         } else {
             this.trackService.getUserTracks(this.user.id, this.page, this.pageSize)
                 .subscribe(data => {
                 this.response = new TrackList(data);
-                this.myMusic = this.response.tracks;
                 this.tracksLength = this.response.allCount;
+                this.myMusic = this.response.tracks;
+                this.loadAudioFiles();
             });
+        }
+    }
+
+    loadAudioFiles() {
+        for (let i = 0; i < this.myMusic.length; i++) {
+            this.loadFile(this.myMusic[i]);
         }
     }
 
@@ -123,5 +134,13 @@ export class HomeComponent implements OnInit {
                 track.rating = updatedTrack.rating;
                 track.tempRating = null;
             });
+    }
+
+    getPhoto() {
+        this.photos = this.fileService.getUploadedPhoto(this.user.getPhotoLink());
+    }
+
+    loadFile(track: Track) {
+        track.files = this.fileService.getUploadedTrack(track.filename);
     }
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TrackService } from '../../services/track.service';
-import { CreateTrackDialog } from './dialog/create-track-dialog';
 import { MatDialog } from '@angular/material';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'app-download',
@@ -10,44 +11,40 @@ import { MatDialog } from '@angular/material';
 })
 export class UploadComponent implements OnInit {
 
-  uploadedTrack : any = {};
-  isNotChoosed : boolean;
   isError : boolean;
+  isSuccess : boolean;
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
 
   constructor(private trackService: TrackService,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private fileService : FileService) { }
 
   ngOnInit() {
-    this.isNotChoosed = true;
     this.isError = false;
   }
 
-  setFileForUpload = function(files) {
-    let fd = new FormData();
-    fd.append("uploadedFile", files[0]);
-    this.uploadedTrack = fd;
-    this.isNotChoosed = false;
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
     this.isError = false;
-  };
+    this.isSuccess = false;
+  }
 
-  uploadFile = function() {
-    if (!this.isNotChoosed) {
-    this.trackService.upload(this.uploadedTrack)
-        .subscribe(data => {
-          this.isError = false;
-          this.openTrackCreatedDialog(data)
-        }, error => {
+  upload() {
+    this.progress.percentage = 0;
+
+    this.currentFileUpload = this.selectedFiles.item(0);
+    this.fileService.pushAudioFileToStorage( this.currentFileUpload)
+        .subscribe(event => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress.percentage = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.isError = false;
+          }
+        },error => {
           this.isError = true;
         });
-    }
-  };
-
-  openTrackCreatedDialog(response : any) : void {
-    const dialogRef = this.dialog.open(CreateTrackDialog, {
-      width: '470px',
-      data : response
-    });
-    dialogRef.afterClosed().subscribe(result => {
-    });
-  };
+    this.selectedFiles = undefined;
+  }
 }

@@ -8,6 +8,7 @@ import { SharedService } from '../../services/shared.service';
 import { User } from '../../dto/user';
 import { DeleteTrackDialog } from './dialog/delete-track-dialog';
 import { ChangeTrackDialog } from './dialog/change-track-dialog';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'app-music',
@@ -20,6 +21,7 @@ export class MusicComponent implements OnInit {
   tracks: Track[] = [];
   response: TrackList;
   tracksLength : number = 10;
+  pageEvent : any;
   page: number = 0;
   pageSize : number = 10;
   pageSizeOptions : any = [10,25,50,10];
@@ -30,7 +32,8 @@ export class MusicComponent implements OnInit {
 
   constructor(private trackService: TrackService,
               public dialog: MatDialog,
-              private shared: SharedService) {
+              private shared: SharedService,
+              private fileService: FileService) {
     this.user = this.shared.getLoggedUser();
   }
 
@@ -41,13 +44,21 @@ export class MusicComponent implements OnInit {
             this.response = new TrackList(data);
             this.tracksLength = this.response.allCount;
             this.tracks = this.response.tracks;
+            this.loadAudioFiles();
           });
     } else {
       this.trackService.getAllTracks(this.page, this.pageSize).subscribe(data => {
         this.response = new TrackList(data);
         this.tracks = this.response.tracks;
         this.tracksLength = this.response.allCount;
+        this.loadAudioFiles();
       });
+    }
+  }
+
+  loadAudioFiles() {
+    for (let i = 0; i < this.tracks.length; i++) {
+      this.loadFile(this.tracks[i]);
     }
   }
 
@@ -95,5 +106,9 @@ export class MusicComponent implements OnInit {
           track.rating = updatedTrack.rating;
           track.tempRating = null;
         });
+  }
+
+  loadFile(track: Track) {
+    track.files = this.fileService.getUploadedTrack(track.filename);
   }
 }

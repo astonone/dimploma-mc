@@ -1,29 +1,28 @@
 package com.kulygin.musiccloud.web;
 
-import com.kulygin.musiccloud.config.Constants;
-import com.kulygin.musiccloud.dto.UsersDTO;
-import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.domain.User;
 import com.kulygin.musiccloud.dto.ErrorResponseBody;
 import com.kulygin.musiccloud.dto.UserDTO;
 import com.kulygin.musiccloud.dto.UserDetailsDTO;
+import com.kulygin.musiccloud.dto.UsersDTO;
+import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.exception.*;
+import com.kulygin.musiccloud.service.StorageService;
 import com.kulygin.musiccloud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -37,6 +36,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private StorageService storageService;
 
     @RequestMapping("/login")
     public boolean login(@RequestBody User user) {
@@ -57,55 +58,33 @@ public class UserController {
         return convert(userByEmail);
     }
 
-    @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
-    public ResponseEntity<?> uploadUserPhoto(@PathVariable("id") Long userId, @RequestParam("uploadedFile") MultipartFile uploadedFileRef) {
+    @RequestMapping(value = "{id}/upload", method = RequestMethod.POST)
+    public ResponseEntity<?> uploadFile(@PathVariable("id") Long userId, @RequestParam("uploadedFile") MultipartFile uploadedFileRef) {
         User user = userService.getUserById(userId);
         if (user == null) {
             return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
         }
-        // Получаем имя загруженного файла
-        String fileName;
-        // Генерируем уникальное имя файла
-        UUID uuid = UUID.randomUUID();
-        fileName = uuid.toString() + uploadedFileRef.getOriginalFilename().substring(uploadedFileRef.getOriginalFilename().lastIndexOf("."));
-        // Путь, где загруженный файл будет сохранен.
-        String path = System.getProperty("user.dir") + "/" + Constants.DOWNLOAD_PHOTO_PATH + fileName;
-        // Буффер для хранения данных из uploadedFileRef
-        byte[] buffer = new byte[1000];
-        // Теперь создаем выходной файл outputFile на сервере
-        File outputFile = new File(path);
 
-        FileInputStream reader = null;
-        FileOutputStream writer = null;
-        int totalBytes = 0;
-        try {
-            outputFile.createNewFile();
-            // Создаем входной поток для чтения данных из него
-            reader = (FileInputStream) uploadedFileRef.getInputStream();
-            // Создаем выходной поток для записи данных
-            writer = new FileOutputStream(outputFile);
-            // Считываем данные uploadedFileRef и пишем их в outputFile
-            int bytesRead = 0;
-            while ((bytesRead = reader.read(buffer)) != -1) {
-                writer.write(buffer);
-                totalBytes += bytesRead;
-            }
-        } catch (IOException iO) {
-            return getErrorResponseBody(ApplicationErrorTypes.IO_ERROR);
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException iO) {
-                return getErrorResponseBody(ApplicationErrorTypes.IO_ERROR);
-            }
-        }
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid.toString() + uploadedFileRef.getOriginalFilename().substring(uploadedFileRef.getOriginalFilename().lastIndexOf("."));
+
+        storageService.storePhoto(uploadedFileRef, fileName);
         user = userService.uploadPhoto(user, fileName);
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{filename:.+}")
+    public ResponseEntity<List<String>> getListFiles(@PathVariable String filename) {
+        List<String> fileNames = Arrays.asList(MvcUriComponentsBuilder.fromMethodName(UserController.class, "getFile", filename).build().toString());
+        return ResponseEntity.ok().body(fileNames);
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+        Resource file = storageService.loadPhotoFile(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
     }
 
     @RequestMapping(value = "/{id}/deletePhoto", method = RequestMethod.POST)
@@ -173,7 +152,7 @@ public class UserController {
             return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
         }
 
-        LocalDateTime birthday = info.getBirthday() == null ? null : info.getBirthday().getYear() ==  null ? null : LocalDateTime.of(info.getBirthday().getYear(), info.getBirthday().getMonth(),
+        LocalDateTime birthday = info.getBirthday() == null ? null : info.getBirthday().getYear() == null ? null : LocalDateTime.of(info.getBirthday().getYear(), info.getBirthday().getMonth(),
                 info.getBirthday().getDay(), 0, 0);
         if (user.getUserDetails() == null) {
             user = userService.addUserDetails(user, info.getFirstName(), info.getLastName(), info.getPhotoLink(), info.getNick(), birthday, info.getAbout());
@@ -244,7 +223,7 @@ public class UserController {
             return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
         }
         Set<User> requests = userService.getAllFriendRequests(user);
-        return new ResponseEntity<>(convertUserList(requests, null),HttpStatus.OK);
+        return new ResponseEntity<>(convertUserList(requests, null), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
@@ -258,7 +237,9 @@ public class UserController {
         return new ResponseEntity<>(convertUserList(resultListOfUsers, count), HttpStatus.OK);
     }
 
-    private UsersDTO convertUserList(Collection<User> dbModel, Integer count) { return (dbModel == null) ? null : new UsersDTO(dbModel, count); }
+    private UsersDTO convertUserList(Collection<User> dbModel, Integer count) {
+        return (dbModel == null) ? null : new UsersDTO(dbModel, count);
+    }
 
     private UserDTO convert(User dbModel) {
         return (dbModel == null) ? null : new UserDTO(dbModel);

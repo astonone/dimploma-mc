@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.shared.getStogare().getItem('token') !== null && this.shared.getStogare().getItem('token') !== '') {
+        if (this.shared.getStorage().getItem('token') !== null && this.shared.getStorage().getItem('token') !== '') {
             this.router.navigate(['home']);
         }
     }
@@ -43,8 +43,8 @@ export class LoginComponent implements OnInit {
             .subscribe(isValid => {
                 if (isValid) {
                     this.isAuthError = false;
-                    this.shared.getStogare().setItem('token', btoa(email + ':' + password));
-                    this.shared.getStogare().setItem('loggedUser', '');
+                    this.shared.getStorage().setItem('token', btoa(email + ':' + password));
+                    this.shared.getStorage().setItem('loggedUser', '');
                     this.router.navigate(['home']);
                 } else {
                     this.isAuthError = true;

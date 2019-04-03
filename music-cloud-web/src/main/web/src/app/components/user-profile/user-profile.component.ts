@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../dto/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { FileService } from '../../services/file.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
@@ -12,10 +14,12 @@ export class UserProfileComponent implements OnInit {
 
   user: User;
   music: any = [];
+  photos: Observable<string[]>;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private userService : UserService) { }
+              private userService: UserService,
+              private fileService: FileService) { }
 
   ngOnInit() {
     let userId = this.route.snapshot.paramMap.get('id');
@@ -26,10 +30,6 @@ export class UserProfileComponent implements OnInit {
     return this.user.email !== '' ? this.user.isEmptyPhotoLink() : false;
   }
 
-  getUserPhotoLink() {
-    return this.user.email !== '' ? this.user.getPhotoLink() : '';
-  }
-
   printUserName() {
     return this.user.email !== '' ? this.user.printUserName() : '';
   }
@@ -37,6 +37,11 @@ export class UserProfileComponent implements OnInit {
   loadUser(id: string) {
     this.userService.getById(id).subscribe(data => {
       this.user = new User(data);
+      this.getPhoto();
     })
+  }
+
+  getPhoto() {
+    this.photos = this.fileService.getUploadedPhoto(this.user.getPhotoLink());
   }
 }

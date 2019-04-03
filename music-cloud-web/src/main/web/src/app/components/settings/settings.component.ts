@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/user';
-import {LocalDate} from '../../dto/local-date';
+import { LocalDate } from '../../dto/local-date';
+import { Observable } from 'rxjs';
+import { FileService } from '../../services/file.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-settings',
@@ -21,12 +24,19 @@ export class SettingsComponent {
   isError : boolean;
   isSuccess : boolean;
   isSuccessAccountSaving : boolean;
+  photos : Observable<string[]>;
+
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
 
   constructor(private shared : SharedService,
-              private userService : UserService) {
+              private userService : UserService,
+              private fileService : FileService) {
       this.isAccountDataNotCorrect = false;
       this.isAccountInfoDataNotCorrect = false;
       this.loggedUser = this.shared.getLoggedUser();
+      this.getPhoto();
       this.birthday = this.loggedUser.userDetails.birthday.toDate();
   }
 
@@ -41,6 +51,7 @@ export class SettingsComponent {
                   this.isAccountInfoDataNotCorrect = false;
                   this.loggedUser = new User(data);
                   this.shared.updateLoggedUser(this.loggedUser);
+                  this.getPhoto();
                   if (this.birthday !== null) {
                     this.birthday = this.loggedUser.userDetails.birthday.toDate();
                   }
@@ -68,8 +79,9 @@ export class SettingsComponent {
              this.isAccountDataNotCorrect = false;
              this.isSuccessAccountSaving = true;
              this.loggedUser = new User(data);
-             this.shared.getStogare().setItem('token', btoa(email + ':' + password));
+             this.shared.getStorage().setItem('token', btoa(email + ':' + password));
              this.shared.updateLoggedUser(this.loggedUser);
+             this.getPhoto();
          },error => {
              this.isAccountDataNotCorrect = true;
              this.isSuccessAccountSaving = true;
@@ -83,28 +95,36 @@ export class SettingsComponent {
           });
   }
 
-  setFileForUpload(files: any) {
-      let fd = new FormData();
-      fd.append("uploadedFile", files[0]);
-      this.uploadedFile = fd;
-      this.isNotChoosed = false;
-      this.isError = false;
-      this.isSuccess = false;
+  selectFile(event) {
+     this.selectedFiles = event.target.files;
+     this.isError = false;
+     this.isSuccess = false;
   }
 
-  uploadFile() {
-      if (!this.isNotChoosed) {
-          this.userService.uploadPhoto(this.loggedUser.id, this.uploadedFile)
-              .subscribe(data => {
-                  this.loggedUser = new User(data);
-                  this.shared.updateLoggedUser(this.loggedUser);
-                  this.isError = false;
-                  this.isEmpty = false;
-               },error => {
-                  this.isError = true;
-                  this.isEmpty = false;
-               });
-      }
+  upload() {
+     this.progress.percentage = 0;
+
+     this.currentFileUpload = this.selectedFiles.item(0);
+     this.fileService.pushPhotoFileToStorage(this.loggedUser.id, this.currentFileUpload)
+         .subscribe(event => {
+         if (event.type === HttpEventType.UploadProgress) {
+             this.progress.percentage = Math.round(100 * event.loaded / event.total);
+         } else if (event instanceof HttpResponse) {
+             this.userService.getById(this.loggedUser.id + "")
+                 .subscribe(data => {
+                     this.loggedUser = new User(data);
+                     this.shared.updateLoggedUser(this.loggedUser);
+                     this.getPhoto();
+                     this.isError = false;
+                     this.isEmpty = false;
+                 });
+         }
+        },error => {
+             this.isError = true;
+             this.isEmpty = false;
+         });
+
+     this.selectedFiles = undefined;
   }
 
   deleteFile() {
@@ -120,5 +140,9 @@ export class SettingsComponent {
          this.isEmpty = true;
          this.isSuccess = false;
      }
+  }
+
+  getPhoto() {
+     this.photos = this.fileService.getUploadedPhoto(this.loggedUser.getPhotoLink());
   }
 }

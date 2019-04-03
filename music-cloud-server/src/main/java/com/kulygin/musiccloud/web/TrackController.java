@@ -1,33 +1,33 @@
 package com.kulygin.musiccloud.web;
 
-import com.kulygin.musiccloud.config.Constants;
-import com.kulygin.musiccloud.domain.*;
+import com.kulygin.musiccloud.domain.Genre;
+import com.kulygin.musiccloud.domain.Mood;
+import com.kulygin.musiccloud.domain.Track;
+import com.kulygin.musiccloud.domain.User;
 import com.kulygin.musiccloud.dto.AllTracksDTO;
 import com.kulygin.musiccloud.dto.ErrorResponseBody;
 import com.kulygin.musiccloud.dto.TrackDTO;
 import com.kulygin.musiccloud.dto.TrackFullInfoDTO;
 import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.exception.*;
-import com.kulygin.musiccloud.service.GenreService;
-import com.kulygin.musiccloud.service.MoodService;
-import com.kulygin.musiccloud.service.TrackService;
-import com.kulygin.musiccloud.service.UserService;
+import com.kulygin.musiccloud.service.*;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.servlet.annotation.MultipartConfig;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,55 +44,35 @@ public class TrackController {
     private GenreService genreService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private StorageService storageService;
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public ResponseEntity<?> uploadFile(@RequestParam("uploadedFile") MultipartFile uploadedFileRef) throws PlaylistNotExistsException, TrackIsNotExistsException, FileIOException {
-        // Получаем имя загруженного файла
-        String fileName;
-        // Генерируем уникальное имя файла
+    @RequestMapping(value = "files/upload", method = RequestMethod.POST)
+    public ResponseEntity<?> uploadFile(@RequestParam("uploadedFile") MultipartFile uploadedFileRef) throws PlaylistNotExistsException, TrackIsNotExistsException {
+
         UUID uuid = UUID.randomUUID();
-        fileName = uuid.toString() + ".mp3";
-        // Путь, где загруженный файл будет сохранен.
-        String path = System.getProperty("user.dir") + "/" + Constants.DOWNLOAD_MUSIC_PATH + fileName;
-        // Буффер для хранения данных из uploadedFileRef
-        byte[] buffer = new byte[1000];
-        // Теперь создаем выходной файл outputFile на сервере
-        File outputFile = new File(path);
+        String fileName = uuid.toString() + ".mp3";
 
-        FileInputStream reader = null;
-        FileOutputStream writer = null;
-        int totalBytes = 0;
-        try {
-            outputFile.createNewFile();
-            // Создаем входной поток для чтения данных из него
-            reader = (FileInputStream) uploadedFileRef.getInputStream();
-            // Создаем выходной поток для записи данных
-            writer = new FileOutputStream(outputFile);
-            // Считываем данные uploadedFileRef и пишем их в outputFile
-            int bytesRead = 0;
-            while ((bytesRead = reader.read(buffer)) != -1) {
-                writer.write(buffer);
-                totalBytes += bytesRead;
-            }
-        } catch (IOException iO) {
-            return getErrorResponseBody(ApplicationErrorTypes.IO_ERROR);
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-                if (writer != null) {
-                    writer.close();
-                }
-            } catch (IOException iO) {
-                return getErrorResponseBody(ApplicationErrorTypes.IO_ERROR);
-            }
-        }
+        storageService.storeAudio(uploadedFileRef, fileName);
         try {
             return createTrack(fileName);
         } catch (InvalidDataException e) {
             return getErrorResponseBody(ApplicationErrorTypes.INVALID_DATA);
         }
+    }
+
+    @GetMapping("/get/{filename:.+}")
+    public ResponseEntity<List<String>> getListFiles(@PathVariable String filename) {
+        List<String> fileNames = Arrays.asList(MvcUriComponentsBuilder.fromMethodName(TrackController.class, "getFile", filename).build().toString());
+        return ResponseEntity.ok().body(fileNames);
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+        Resource file = storageService.loadAudioFile(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -274,7 +254,7 @@ public class TrackController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteTrack(@PathVariable("id") Long trackId) throws TrackIsNotExistsException {
+    public ResponseEntity<?> deleteTrack(@PathVariable("id") Long trackId) {
         try {
             trackService.deleteTrackById(trackId);
         } catch (TrackIsNotExistsException trackIsNotExists) {

@@ -1,10 +1,12 @@
 package com.kulygin.musiccloud.service.impl;
 
-import com.kulygin.musiccloud.config.Constants;
 import com.kulygin.musiccloud.domain.*;
 import com.kulygin.musiccloud.exception.*;
 import com.kulygin.musiccloud.repository.TrackRepository;
-import com.kulygin.musiccloud.service.*;
+import com.kulygin.musiccloud.service.GenreService;
+import com.kulygin.musiccloud.service.StatisticalAccountingService;
+import com.kulygin.musiccloud.service.TrackService;
+import com.kulygin.musiccloud.service.UserService;
 import com.mpatric.mp3agic.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.List;
@@ -47,8 +50,7 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track createTrack(String filename) throws TrackHasExistsException, IOException,
-            UnsupportedTagException, FileIsNotExistsException, PlaylistNotExistsException,
-            TrackIsNotExistsException, InvalidDataException {
+            UnsupportedTagException, FileIsNotExistsException, InvalidDataException {
         return parsingMp3File(filename);
     }
 
@@ -197,7 +199,6 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    @Transactional
     public void addTrackToUser(Long userId, Long trackId) throws TrackIsNotExistsException, UserIsNotExistsException {
         Track track = getTrackById(trackId);
         if (track == null) {
@@ -253,11 +254,11 @@ public class TrackServiceImpl implements TrackService {
         return trackRepository.countAll();
     }
 
-    private Track parsingMp3File(String filename) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException, PlaylistNotExistsException, TrackIsNotExistsException {
+    private Track parsingMp3File(String filename) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException {
         // Создаем mp3 файл
         Mp3File mp3File = null;
         try {
-            mp3File = new Mp3File(System.getProperty("user.dir") + "/" + Constants.DOWNLOAD_MUSIC_PATH + filename);
+            mp3File = new Mp3File(Paths.get("storage-audio").resolve(filename).toString());
         } catch (FileNotFoundException fileNotFound) {
             throw new FileIsNotExistsException();
         }
@@ -309,7 +310,7 @@ public class TrackServiceImpl implements TrackService {
                 .album(album)
                 .artist(artist)
                 .year(year)
-                .filename("assets/audio-storage/" + filename)
+                .filename(filename)
                 .duration(duration)
                 .build();
         trackRepository.save(track);

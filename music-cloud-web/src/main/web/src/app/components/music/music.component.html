@@ -47,7 +47,7 @@
             </mat-paginator>
             <mat-list-item *ngFor="let track of tracks" class="track-item">
                 <h4 mat-line class="track-item-control">
-                    <mat-basic-audio-player [audioUrl]="track.filename">
+                    <mat-basic-audio-player *ngFor="let file of track.files | async" [audioUrl]="file">
                     </mat-basic-audio-player>
                 </h4>
                 <div mat-line class="track-title">

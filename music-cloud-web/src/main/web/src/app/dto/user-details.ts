@@ -1,4 +1,5 @@
-import {LocalDate} from './local-date';
+import { LocalDate } from './local-date';
+import { Observable } from 'rxjs';
 
 export class UserDetails {
     private _id : number;
@@ -9,7 +10,6 @@ export class UserDetails {
     private _photoLink : string;
     private _birthday : LocalDate;
 
-
     constructor(data: any) {
         this._id = data.id ? data.id : null;
         this._firstName = data.firstName ? data.firstName : null;
@@ -19,7 +19,6 @@ export class UserDetails {
         this._photoLink = data.photoLink ? data.photoLink : null;
         this._birthday = data.birthday ? new LocalDate(data.birthday) : null;
     }
-
 
     get id(): number {
         return this._id;

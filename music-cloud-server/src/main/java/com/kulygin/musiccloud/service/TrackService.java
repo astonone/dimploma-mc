@@ -19,7 +19,7 @@ public interface TrackService {
 
     void deleteTrackById(Long id) throws TrackIsNotExistsException;
 
-    Track createTrack(String filename) throws TrackHasExistsException, InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, PlaylistNotExistsException, TrackIsNotExistsException, com.mpatric.mp3agic.InvalidDataException;
+    Track createTrack(String filename) throws TrackHasExistsException, IOException, UnsupportedTagException, FileIsNotExistsException, PlaylistNotExistsException, TrackIsNotExistsException, com.mpatric.mp3agic.InvalidDataException;
 
     Track updateTrack(Long trackId, String title, String artist, String album, Integer year, String filename, String duration) throws TrackIsNotExistsException;
 

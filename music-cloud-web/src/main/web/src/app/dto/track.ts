@@ -1,3 +1,5 @@
+import {Observable} from 'rxjs';
+
 export class Track {
     private _id : number;
     private _title : string;
@@ -5,6 +7,7 @@ export class Track {
     private _album : string;
     private _year : string;
     private _filename : string;
+    private _files : Observable<string[]>;
     private _duration : string;
     private _rating : number;
     private _tempRating : number;
@@ -20,6 +23,7 @@ export class Track {
         this._duration = data.duration;
         this._rating = data.rating;
         this._tempRating = null;
+        this._files = null;
     }
 
 
@@ -94,6 +98,15 @@ export class Track {
 
     set tempRating(value: number) {
         this._tempRating = value;
+    }
+
+
+    get files(): Observable<string[]> {
+        return this._files;
+    }
+
+    set files(value: Observable<string[]>) {
+        this._files = value;
     }
 
     toObject() {
