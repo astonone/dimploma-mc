@@ -20,6 +20,10 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
 
+    private static final String[] pages = {"/index.html" ,"/", "/login", "/home", "/user/*", "/music", "/users", "/about", "/settings", "/upload", "/registration"};
+    private static final String[] urls = {"/api/user/create", "/api/user/*/user_details", "/api/user/login"};
+    private static final String[] resources = {"app-icon.png", "/*.ico","/*.png", "/*bundle.js", "/*.otf", "/*.ttf", "/*.woff", "/*.eot", "/*.svg", "/*.js", "/*.css", "/*.html", "/*.jpg", "/*.mp3"};
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,9 +55,9 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
-                .antMatchers("/api/user/create").permitAll()
-                .antMatchers("/api/user/*/user_details").permitAll()
-                .antMatchers("/api/user/login").permitAll()
+                .antMatchers(pages).permitAll()
+                .antMatchers(urls).permitAll()
+                .antMatchers(resources).permitAll()
                 .anyRequest()
                 .fullyAuthenticated()
                 .and()
