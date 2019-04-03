@@ -1,9 +1,9 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
-/dist/
-/node/
-/node_modules/
+music-cloud-web/src/main/web/dist/
+music-cloud-web/src/main/web/node/
+music-cloud-web/src/main/web/node_modules/
 
 ### STS ###
 .apt_generated
@@ -21,6 +21,6 @@
 *.ipr
 
 ### Test data ###
-rcsData/generator/estimateMatrix.csv
-/audio-storage/
-/photo-storage/
+/additional/rcsData/generator/estimateMatrix.csv
+/storage-audio/
+/storage-photo/
