@@ -1,6 +1,6 @@
 ﻿<mat-toolbar color="primary">
-    <img class="app-img" src="../assets/image/app-icon.png">
-    <span class="app-title">Music cloud</span>
+    <img *ngIf="shared.isLogin" class="app-img" src="../assets/app-icon.ico">
+    <span *ngIf="shared.isLogin" class="app-title">Music cloud</span>
     <div *ngIf="shared.isLogin" class="header-control-panel">
         <div class="header-control-nav-panel">
             <button class="header-panel-el" routerLink="/home" mat-raised-button>Главная</button>
