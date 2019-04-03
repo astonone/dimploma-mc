@@ -71,7 +71,7 @@ export class UserService {
   addUserDetails(id, request) {
     var regExp = /{id}/gi;
     let url = this.USER_ADD_USER_DATA.replace(regExp, id);
-    return this.http.put<Observable<Object>>(url, request, this.getOptions())
+    return this.http.put<Observable<Object>>(url, request)
   }
 
   getAllUsers(page: number, pageSize: number) {
