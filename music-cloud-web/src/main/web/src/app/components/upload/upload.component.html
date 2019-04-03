@@ -1,0 +1,12 @@
+<div class="uploaded-container">
+  <h3 class="upload-container-item">Здесь вы можете пополнить коллекцию треков music-cloud</h3>
+  <label class="btn btn-default">
+    <input class="upload-container-item" type="file" name="file" (change)="selectFile($event)"/>
+  </label>
+  <div *ngIf="currentFileUpload" class="progress pb">
+    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+         aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
+      {{progress.percentage}}%</div>
+  </div>
+  <button class="upload-container-item" mat-raised-button color="primary" [disabled]="!selectedFiles" (click)="upload()">Загрузить</button>
+</div>

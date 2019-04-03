@@ -1,0 +1,32 @@
+<mat-sidenav-container class="home-container">
+  <mat-sidenav mode="side" class="left-container" opened>
+    <mat-card class="user-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Профиль</mat-card-title>
+        <mat-card-subtitle>{{printUserName()}}</mat-card-subtitle>
+      </mat-card-header>
+      <img *ngIf="isEmptyPhotoLink()" mat-card-image src="./assets/image/empty-profile-black.png" alt="">
+      <div *ngIf="!isEmptyPhotoLink()">
+        <img *ngFor="let file of photos | async" mat-card-image src="{{file}}" alt="">
+      </div>
+      <mat-card-content class="user-info">
+        <p>Email: {{user.email}}</p>
+        <p>Никнейм: {{user.userDetails.nick}}</p>
+        <p>День рождения: {{user.userDetails.birthday.printDate()}}</p>
+        <p>О пользователе: {{user.userDetails.about}}</p>
+      </mat-card-content>
+    </mat-card>
+  </mat-sidenav>
+  <mat-sidenav-content class="right-container">
+    <mat-list>
+      <mat-tab-group>
+        <mat-tab label="Музыка">
+          <span *ngIf="music.length === 0">На данный момент у пользователя нет музыки</span>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-list>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
