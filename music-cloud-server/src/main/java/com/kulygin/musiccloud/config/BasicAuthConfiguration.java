@@ -22,7 +22,7 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String[] pages = {"/index.html" ,"/", "/login", "/home", "/user/*", "/music", "/users", "/about", "/settings", "/upload", "/registration"};
     private static final String[] urls = {"/api/user/create", "/api/user/*/user_details", "/api/user/login"};
-    private static final String[] resources = {"app-icon.png", "/*.ico","/*.png", "/*bundle.js", "/*.otf", "/*.ttf", "/*.woff", "/*.eot", "/*.svg", "/*.js", "/*.css", "/*.html", "/*.jpg", "/*.mp3"};
+    private static final String[] resources = {"/*.ico","/*.png", "/*bundle.js", "/*.otf", "/*.ttf", "/*.woff", "/*.eot", "/*.svg", "/*.js", "/*.css", "/*.html", "/*.jpg", "/*.mp3"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
