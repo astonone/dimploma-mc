@@ -36,7 +36,9 @@ public class DataSourceInit {
 
         if (driverClassName.equals("com.mysql.jdbc.Driver")) {
             simpleDriverDataSource.setDriverClass(com.mysql.jdbc.Driver.class);
-        } else {
+        } else if (driverClassName.equals("org.postgresql.Driver")) {
+            simpleDriverDataSource.setDriverClass(org.postgresql.Driver.class);
+        }else {
             simpleDriverDataSource.setDriverClass(org.h2.Driver.class);
         }
 

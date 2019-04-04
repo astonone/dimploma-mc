@@ -1,15 +1,12 @@
 <databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <property name="clob.type" value="CLOB" dbms="h2"/>
-    <property name="clob.type" value="TEXT" dbms="mysql"/>
-    <property name="blob.type" value="BLOB" dbms="h2"/>
-    <property name="blob.type" value="BYTEA" dbms="mysql"/>
     <property name="timestamp.type" value="DATETIME" dbms="h2"/>
-    <property name="timestamp.type" value="DATETIME WITHOUT TIME ZONE" dbms="mysql"/>
+    <property name="timestamp.type" value="TIMESTAMP WITHOUT TIME ZONE" dbms="mysql"/>
     <property name="now" value="CURRENT_TIMESTAMP()" dbms="h2"/>
     <property name="now" value="NOW()" dbms="mysql"/>
-    <property name="boolean" value="CHAR(1)"/>
+    <property name="timestamp.type" value="DATETIME WITHOUT TIME ZONE" dbms="postgresql"/>
+    <property name="now" value="NOW()" dbms="postgresql"/>
 
     <changeSet author="viktor.kulygin" id="1">
     <createTable tableName="track">
