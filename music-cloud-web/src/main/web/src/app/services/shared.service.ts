@@ -13,7 +13,7 @@ export class SharedService {
   HOST_DEV: string = 'http://localhost';
   PORT_DEV: string = '8082';
 
-  HOST_PROD: string = 'http://music-cloud-social.herokuapp.com';
+  HOST_PROD: string = 'https://music-cloud-social.herokuapp.com';
 
   isLogin : boolean;
   loggedUser : any;
