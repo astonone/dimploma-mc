@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(schema = "public")
 @EqualsAndHashCode(of = {"id"})
 @ToString(exclude = {"userDetails", "userTracks", "playlists", "friends", "friendRequests"})
 public class User implements org.springframework.security.core.userdetails.UserDetails {

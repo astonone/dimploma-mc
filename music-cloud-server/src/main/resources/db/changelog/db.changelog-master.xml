@@ -2,7 +2,7 @@
                    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     <property name="timestamp.type" value="DATETIME" dbms="h2"/>
-    <property name="timestamp.type" value="TIMESTAMP WITHOUT TIME ZONE" dbms="mysql"/>
+    <property name="timestamp.type" value="DATETIME WITHOUT TIME ZONE" dbms="mysql"/>
     <property name="now" value="CURRENT_TIMESTAMP()" dbms="h2"/>
     <property name="now" value="NOW()" dbms="mysql"/>
     <property name="timestamp.type" value="DATETIME WITHOUT TIME ZONE" dbms="postgresql"/>

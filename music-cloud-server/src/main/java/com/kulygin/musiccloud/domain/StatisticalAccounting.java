@@ -9,7 +9,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(schema = "public")
 public class StatisticalAccounting {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

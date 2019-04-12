@@ -10,7 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(schema = "public")
 @EqualsAndHashCode(of = { "id"})
 @ToString(exclude = {"moods", "genres", "playlists", "users", "sumOfRatings", "countOfRate"})
 public class Track {
