@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {SharedService} from './shared.service';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class TrackService {
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
-    this.SERVER_URL = this.HOST + ':' + this.PORT;
+    this.SERVER_URL = this.shared.getServerURL();
 
     this.UPLOAD_TRACK = this.SERVER_URL + '/api/track/files/upload';
     this.GET_UPLOADED_TRACK = this.SERVER_URL + '/api/track/files/{filename}';

@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../dto/user';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
 
+  isProd: boolean = environment.production;
+
+  HOST_DEV: string = 'http://localhost';
+  PORT_DEV: string = '8082';
+
+  HOST_PROD: string = 'http://music-cloud-social.herokuapp.com';
+
   isLogin : boolean;
   loggedUser : any;
 
   constructor(private router: Router) {}
+
+  getServerURL() {
+    return this.isProd ? (this.HOST_PROD) : (this.HOST_DEV + ':' + this.PORT_DEV);
+  }
 
   getStorage() {
     if (localStorage.getItem('isRemember') === 'true') {

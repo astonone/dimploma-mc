@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { SharedService } from './shared.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +16,8 @@ export class FileService {
     UPLOAD_TRACK: string;
     GET_UPLOADED_TRACK: string;
 
-    constructor(private http : HttpClient) {
-        this.SERVER_URL = this.HOST + ':' + this.PORT;
+    constructor(private http : HttpClient, private shared: SharedService) {
+        this.SERVER_URL = this.shared.getServerURL();
 
         this.USER_UPLOAD_PHOTO = this.SERVER_URL + '/api/user/{id}/upload';
         this.GET_UPLOADED_PHOTO  = this.SERVER_URL + '/api/user/get/{filename}';

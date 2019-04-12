@@ -28,7 +28,7 @@ export class UserService {
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
-    this.SERVER_URL = this.HOST + ':' + this.PORT;
+    this.SERVER_URL = this.shared.getServerURL();
 
     this.USER_LOGIN = this.SERVER_URL + '/api/user/login';
     this.USER_AUTH = this.SERVER_URL + '/api/user/auth';
