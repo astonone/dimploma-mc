@@ -11,7 +11,6 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -34,7 +33,6 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
-    NgxAudioPlayerModule,
     MatCardModule,
     MatProgressBarModule,
     MatTabsModule,
@@ -57,7 +55,6 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatListModule,
     MatSidenavModule,
-    NgxAudioPlayerModule,
     MatCardModule,
     MatProgressBarModule,
     MatTabsModule,
