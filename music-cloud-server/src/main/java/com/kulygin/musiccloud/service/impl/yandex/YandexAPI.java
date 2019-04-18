@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Service
 @Log4j
@@ -61,8 +63,12 @@ public class YandexAPI {
     }
 
     public Resource loadAudioFileFromYandexDisk(String filename) {
-        File file = new File("storage-audio/" + filename);
+        File file = null;
         try {
+            if (!Files.exists(Paths.get("storage-audio"))) {
+                Files.createDirectory(Paths.get("storage-audio"));
+            }
+            file = new File("storage-audio/" + filename);
             file.createNewFile();
             com.yandex.disk.rest.json.Resource resource = restClient.getResources(new ResourcesArgs.Builder()
                     .setPath("/audio-storage/" + filename)
@@ -83,8 +89,12 @@ public class YandexAPI {
     }
 
     public Resource loadPhotoFileFromYandexDisk(String filename) {
-        File file = new File("storage-photo/" + filename);
+        File file = null;
         try {
+            if (!Files.exists(Paths.get("storage-photo"))) {
+                Files.createDirectory(Paths.get("storage-photo"));
+            }
+            file = new File("storage-photo/" + filename);
             file.createNewFile();
             com.yandex.disk.rest.json.Resource resource = restClient.getResources(new ResourcesArgs.Builder()
                     .setPath("/photo-storage/" + filename)
