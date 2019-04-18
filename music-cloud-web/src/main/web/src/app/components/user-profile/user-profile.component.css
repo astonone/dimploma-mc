@@ -8,6 +8,7 @@
 
 .left-container {
     width: 30%;
+    max-width: 300px;
 }
 
 .track-item {

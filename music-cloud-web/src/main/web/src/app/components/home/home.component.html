@@ -8,7 +8,7 @@
             </mat-card-header>
             <img *ngIf="isEmptyPhotoLink()" mat-card-image src="./assets/image/empty-profile-black.png" alt="">
             <div *ngIf="!isEmptyPhotoLink()">
-                <img *ngFor="let file of photos | async" mat-card-image src="{{file}}" alt="">
+                <img class="user-photo" *ngFor="let file of photos | async" mat-card-image src="{{file}}" alt="">
             </div>
             <mat-card-content class="user-info">
                 <p>Email: {{user.email}}</p>
