@@ -46,4 +46,10 @@ export class UsersComponent implements OnInit {
   gotoProfile(id: number) {
     this.router.navigate(['user/'+ id]);
   }
+
+  showUserInfo(user: User) {
+    const firstName = user.userDetails.firstName === null ? '' : user.userDetails.firstName;
+    const lastName = user.userDetails.lastName === null ? '' : user.userDetails.lastName;
+    return firstName === '' && lastName === '' ? user.email : firstName + ' ' + lastName;
+  }
 }

@@ -15,4 +15,10 @@ export class AppComponent {
         public shared: SharedService) {
         this.shared.setLoggedUser();
     }
+
+    showUserInfo() {
+        const firstName = this.shared.loggedUser.userDetails.firstName === null ? '' : this.shared.loggedUser.userDetails.firstName;
+        const lastName = this.shared.loggedUser.userDetails.lastName === null ? '' : this.shared.loggedUser.userDetails.lastName;
+        return firstName === '' && lastName === '' ? this.shared.loggedUser.email : firstName + ' ' + lastName;
+    }
 }

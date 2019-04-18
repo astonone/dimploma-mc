@@ -35,10 +35,10 @@
       </mat-paginator>
       <mat-list-item *ngFor="let user of users">
         <mat-icon mat-list-icon>accessibility</mat-icon>
-        <h4 mat-line>{{user.userDetails.firstName + " " + user.userDetails.lastName}}
+        <h4 mat-line>{{showUserInfo(user)}}
           <button class="go-to-profile" mat-raised-button color="primary" (click)="gotoProfile(user.id)">Перейти в профиль</button>
         </h4>
-        <p mat-line> {{user.userDetails.nick}} </p>
+        <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p>
       </mat-list-item>
     </mat-list>
     <span *ngIf="users.length === 0">На данный момент в системе отсутствуют пользователи</span>
