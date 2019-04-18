@@ -18,11 +18,11 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] pages = {"/index.html" ,"/", "/login", "/home", "/user/*", "/music", "/users", "/about", "/settings", "/upload", "/registration"};
-    private static final String[] urls = {"/api/user/create", "/api/user/*/user_details", "/api/user/login"};
-    private static final String[] resources = {"/*.ico","/*.png", "/*bundle.js", "/*.otf", "/*.ttf", "/*.woff", "/*.eot", "/*.svg", "/*.js", "/*.css", "/*.html", "/*.jpg", "/*.mp3"};
+    private static final String[] pages = {"/index.html", "/", "/login", "/home", "/user/*", "/music", "/users", "/about", "/settings", "/upload", "/registration"};
+    private static final String[] urls = {"/api/user/create", "/api/user/*/user_details", "/api/user/login", "api/user/get/{filename:.+}", "api/user/files/{filename:.+}", "api/track/get/{filename:.+}", "api/track/files/{filename:.+}"};
+    private static final String[] resources = {"/assets/*.ico", "/assets/*.png", "/*.jpg", "/*.mp3", "/*bundle.js", "/*.otf", "/*.ttf", "/*.woff", "/*.eot", "/*.js", "/*.css", "/*.html"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
