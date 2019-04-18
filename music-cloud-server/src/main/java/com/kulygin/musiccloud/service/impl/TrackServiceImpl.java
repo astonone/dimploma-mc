@@ -173,27 +173,41 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track addRating(Track track, Integer ratingValue, User user) {
+        StatisticalAccounting statisticalAccounting = statisticalAccountingService.findByUserAndTrack(user.getId(), track.getId());
+
         Long countOfRate = track.getCountOfRate();
         Long sumOfRatings = track.getSumOfRatings();
-        Double rating = track.getRating();
-        if (countOfRate == null || sumOfRatings == null) {
-            countOfRate = 1L;
-            sumOfRatings = ratingValue.longValue();
-            rating = ratingValue.doubleValue();
-        } else {
-            countOfRate++;
-            sumOfRatings += ratingValue.longValue();
+        Double rating = 0d;
+
+        if (statisticalAccounting != null) {
+            sumOfRatings += ratingValue - statisticalAccounting.getRatingValue().longValue();
             rating = Double.valueOf(new DecimalFormat("#.00").format(sumOfRatings/countOfRate.doubleValue()));
+        } else {
+            if (countOfRate == null || sumOfRatings == null) {
+                countOfRate = 1L;
+                sumOfRatings = ratingValue.longValue();
+                rating = ratingValue.doubleValue();
+            } else {
+                countOfRate++;
+                sumOfRatings += ratingValue.longValue();
+                rating = Double.valueOf(new DecimalFormat("#.00").format(sumOfRatings/countOfRate.doubleValue()));
+            }
         }
+
         track.setCountOfRate(countOfRate);
         track.setSumOfRatings(sumOfRatings);
         track.setRating(rating);
         // Save statistics
-        StatisticalAccounting statisticalAccounting = StatisticalAccounting.builder()
-                .userId(user.getId())
-                .trackId(track.getId())
-                .ratingValue(ratingValue)
-                .build();
+        if (statisticalAccounting == null) {
+            statisticalAccounting = StatisticalAccounting.builder()
+                    .userId(user.getId())
+                    .trackId(track.getId())
+                    .ratingValue(ratingValue)
+                    .build();
+        } else {
+            statisticalAccounting.setRatingValue(ratingValue);
+        }
+
         statisticalAccountingService.save(statisticalAccounting);
         return trackRepository.save(track);
     }

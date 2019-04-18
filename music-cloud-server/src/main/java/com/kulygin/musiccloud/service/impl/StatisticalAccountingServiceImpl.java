@@ -27,4 +27,9 @@ public class StatisticalAccountingServiceImpl implements StatisticalAccountingSe
     public List<StatisticalAccounting> findAll() {
         return statisticalAccountingRepository.findAll();
     }
+
+    @Override
+    public StatisticalAccounting findByUserAndTrack(Long userId, Long trackId) {
+        return statisticalAccountingRepository.findByUserIdAndTrackId(userId, trackId);
+    }
 }
