@@ -4,9 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { FileService } from '../../services/file.service';
 import { Observable } from 'rxjs';
-import {Track} from '../../dto/track';
-import {TrackList} from '../../dto/track-list';
-import {TrackService} from '../../services/track.service';
+import { Track } from '../../dto/track';
+import { TrackList } from '../../dto/track-list';
+import { TrackService } from '../../services/track.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -29,9 +30,13 @@ export class UserProfileComponent implements OnInit {
               private router: Router,
               private userService: UserService,
               private fileService: FileService,
-              private trackService: TrackService) { }
+              private trackService: TrackService,
+              private shared: SharedService) { }
 
   ngOnInit() {
+    if (this.shared.getLoggedUser() === null) {
+      this.router.navigate(['login']);
+    }
     let userId = this.route.snapshot.paramMap.get('id');
     this.loadUser(userId);
     this.loadTracksList(null);

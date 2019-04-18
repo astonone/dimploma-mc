@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { UserService } from '../../services/user.service';
 import { User } from '../../dto/user';
@@ -6,20 +6,20 @@ import { LocalDate } from '../../dto/local-date';
 import { Observable } from 'rxjs';
 import { FileService } from '../../services/file.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
 
   loggedUser : User;
   birthday : Date;
   isAccountDataNotCorrect : boolean;
   isAccountInfoDataNotCorrect : boolean;
   uploadedFile : any;
-  isNotChoosed : boolean;
   isEmpty : boolean;
   isError : boolean;
   isSuccess : boolean;
@@ -32,12 +32,19 @@ export class SettingsComponent {
 
   constructor(private shared : SharedService,
               private userService : UserService,
-              private fileService : FileService) {
+              private fileService : FileService,
+              private router: Router) {
       this.isAccountDataNotCorrect = false;
       this.isAccountInfoDataNotCorrect = false;
       this.loggedUser = this.shared.getLoggedUser();
       this.getPhoto();
       this.birthday = this.loggedUser.userDetails.birthday.toDate();
+  }
+
+   ngOnInit() {
+       if (this.shared.getLoggedUser() === null) {
+           this.router.navigate(['login']);
+       }
   }
 
   saveUserInfo() {

@@ -9,6 +9,7 @@ import { User } from '../../dto/user';
 import { DeleteTrackDialog } from './dialog/delete-track-dialog';
 import { ChangeTrackDialog } from './dialog/change-track-dialog';
 import { FileService } from '../../services/file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-music',
@@ -27,13 +28,17 @@ export class MusicComponent implements OnInit {
   pageSizeOptions : any = [10,25,50,10];
 
   ngOnInit() {
+    if (this.shared.getLoggedUser() === null) {
+      this.router.navigate(['login']);
+    }
     this.loadTracksList(null);
   }
 
   constructor(private trackService: TrackService,
               public dialog: MatDialog,
               private shared: SharedService,
-              private fileService: FileService) {
+              private fileService: FileService,
+              private router: Router) {
     this.user = this.shared.getLoggedUser();
   }
 

@@ -25,6 +25,9 @@ export class UsersComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    if (this.shared.getLoggedUser() === null) {
+      this.router.navigate(['login']);
+    }
     this.loadUserList(null);
   }
 

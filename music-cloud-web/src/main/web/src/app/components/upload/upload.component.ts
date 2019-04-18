@@ -3,6 +3,8 @@ import { TrackService } from '../../services/track.service';
 import { MatDialog } from '@angular/material';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FileService } from '../../services/file.service';
+import { SharedService } from '../../services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-download',
@@ -19,9 +21,14 @@ export class UploadComponent implements OnInit {
 
   constructor(private trackService: TrackService,
               public dialog: MatDialog,
-              private fileService : FileService) { }
+              private fileService : FileService,
+              private shared: SharedService,
+              private router: Router) { }
 
   ngOnInit() {
+    if (this.shared.getLoggedUser() === null) {
+      this.router.navigate(['login']);
+    }
     this.isError = false;
   }
 
