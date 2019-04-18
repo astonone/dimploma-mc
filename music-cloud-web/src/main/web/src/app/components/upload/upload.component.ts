@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 export class UploadComponent implements OnInit {
 
   isError : boolean;
+  isLoading : boolean;
+  isSaving : boolean;
   isSuccess : boolean;
   selectedFiles: FileList;
   currentFileUpload: File;
@@ -46,9 +48,16 @@ export class UploadComponent implements OnInit {
         .subscribe(event => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
+            this.isLoading = true;
+            if (this.progress.percentage === 100) {
+              this.isLoading = false;
+              this.isSaving = true;
+            }
           } else if (event instanceof HttpResponse) {
             this.isError = false;
             this.isSuccess = true;
+            this.isLoading = false;
+            this.isSaving = false;
           }
         },error => {
           this.isError = true;
