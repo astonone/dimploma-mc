@@ -7,8 +7,6 @@ import { SharedService } from './shared.service';
     providedIn: 'root'
 })
 export class FileService {
-    HOST: string = 'http://localhost';
-    PORT: string = '8082';
     SERVER_URL: string;
 
     USER_UPLOAD_PHOTO: string;
@@ -20,7 +18,7 @@ export class FileService {
         this.SERVER_URL = this.shared.getServerURL();
 
         this.USER_UPLOAD_PHOTO = this.SERVER_URL + '/api/user/{id}/upload';
-        this.GET_UPLOADED_PHOTO  = this.SERVER_URL + '/api/user/get/{filename}';
+        this.GET_UPLOADED_PHOTO  = this.SERVER_URL + '/api/user/getYandex/{filename}';
         this.UPLOAD_TRACK = this.SERVER_URL + '/api/track/files/upload';
         this.GET_UPLOADED_TRACK = this.SERVER_URL + '/api/track/getYandex/{filename}';
     }

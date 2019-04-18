@@ -23,6 +23,9 @@ export class SettingsComponent implements OnInit {
   isEmpty : boolean;
   isError : boolean;
   isSuccess : boolean;
+  isSuccessLoading : boolean;
+  isLoading : boolean;
+  isSaving : boolean;
   isSuccessAccountSaving : boolean;
   photos : Observable<string[]>;
 
@@ -116,6 +119,11 @@ export class SettingsComponent implements OnInit {
          .subscribe(event => {
          if (event.type === HttpEventType.UploadProgress) {
              this.progress.percentage = Math.round(100 * event.loaded / event.total);
+             this.isLoading = true;
+             if (this.progress.percentage === 100) {
+                 this.isLoading = false;
+                 this.isSaving = true;
+             }
          } else if (event instanceof HttpResponse) {
              this.userService.getById(this.loggedUser.id + "")
                  .subscribe(data => {
@@ -124,6 +132,9 @@ export class SettingsComponent implements OnInit {
                      this.getPhoto();
                      this.isError = false;
                      this.isEmpty = false;
+                     this.isSuccessLoading = true;
+                     this.isLoading = false;
+                     this.isSaving = false;
                  });
          }
         },error => {

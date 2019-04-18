@@ -7,8 +7,6 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class TrackService {
-  HOST: string = 'http://localhost';
-  PORT: string = '8082';
   SERVER_URL: string;
 
   UPLOAD_TRACK: string;

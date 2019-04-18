@@ -33,6 +33,9 @@
                                     <p>
                                         <label *ngIf="isError" class="uploaded-error-label">Произошла ошибка при загрузке файла!</label>
                                         <label *ngIf="isEmpty" class="uploaded-error-label">Нечего удалять!</label>
+                                        <label *ngIf="isSuccessLoading" class="uploaded-success-label">Файл успешно загружен и сохранен!</label>
+                                        <label *ngIf="isLoading">Идет загрузка, пожалуйста подождите ...</label>
+                                        <label *ngIf="isSaving">Файл загружен, идет сохранение</label>
                                     </p>
                                 </mat-card-content>
                             </mat-card>

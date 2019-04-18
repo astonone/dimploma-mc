@@ -81,4 +81,26 @@ public class YandexAPI {
             return null;
         }
     }
+
+    public Resource loadPhotoFileFromYandexDisk(String filename) {
+        File file = new File("storage-photo/" + filename);
+        try {
+            file.createNewFile();
+            com.yandex.disk.rest.json.Resource resource = restClient.getResources(new ResourcesArgs.Builder()
+                    .setPath("/photo-storage/" + filename)
+                    .setLimit(1)
+                    .setOffset(2)
+                    .build());
+
+            restClient.downloadFile(resource.getPath().getPath(), file, null);
+        } catch (Exception e) {
+            log.error("Problems with file downloading: ", e);
+        }
+        try {
+            UrlResource urlResource = new UrlResource(file.toPath().toUri());
+            return urlResource;
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
 }
