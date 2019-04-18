@@ -22,7 +22,7 @@ export class FileService {
         this.USER_UPLOAD_PHOTO = this.SERVER_URL + '/api/user/{id}/upload';
         this.GET_UPLOADED_PHOTO  = this.SERVER_URL + '/api/user/get/{filename}';
         this.UPLOAD_TRACK = this.SERVER_URL + '/api/track/files/upload';
-        this.GET_UPLOADED_TRACK = this.SERVER_URL + '/api/track/get/{filename}';
+        this.GET_UPLOADED_TRACK = this.SERVER_URL + '/api/track/getYandex/{filename}';
     }
 
     getStorage() {

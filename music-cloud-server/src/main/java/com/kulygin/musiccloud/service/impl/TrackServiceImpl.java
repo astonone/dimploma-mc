@@ -13,7 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -49,9 +49,9 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track createTrack(String filename) throws TrackHasExistsException, IOException,
+    public Track createTrack(File file) throws TrackHasExistsException, IOException,
             UnsupportedTagException, FileIsNotExistsException, InvalidDataException {
-        return parsingMp3File(filename);
+        return parsingMp3File(file);
     }
 
     @Override
@@ -268,16 +268,17 @@ public class TrackServiceImpl implements TrackService {
         return trackRepository.countAll();
     }
 
-    private Track parsingMp3File(String filename) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException {
+    private Track parsingMp3File(File file) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException {
         // Создаем mp3 файл
         Mp3File mp3File = null;
         try {
-            mp3File = new Mp3File(Paths.get("storage-audio").resolve(filename).toString());
+            mp3File = new Mp3File(file);
+            file.delete();
         } catch (FileNotFoundException fileNotFound) {
             throw new FileIsNotExistsException();
         }
         // Проверяем существование файла в базе
-        Track track = trackRepository.findByFilename(filename);
+        Track track = trackRepository.findByFilename(file.getName());
         if (track != null) {
             throw new TrackHasExistsException();
         }
@@ -324,7 +325,7 @@ public class TrackServiceImpl implements TrackService {
                 .album(album)
                 .artist(artist)
                 .year(year)
-                .filename(filename)
+                .filename(file.getName())
                 .duration(duration)
                 .build();
         trackRepository.save(track);

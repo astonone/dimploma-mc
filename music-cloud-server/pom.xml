@@ -85,6 +85,11 @@
             <version>9.4.1208</version>
         </dependency>
         <dependency>
+            <groupId>com.yandex.android</groupId>
+            <artifactId>disk-restapi-sdk</artifactId>
+            <version>1.03</version>
+        </dependency>
+        <dependency>
             <groupId>com.kulygin.musiccloud</groupId>
             <artifactId>music-cloud-web</artifactId>
             <version>${project.version}</version>
