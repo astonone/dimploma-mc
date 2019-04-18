@@ -76,7 +76,11 @@ export class MusicComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.trackService.deleteTrack(track.id).subscribe(() => {
-        this.loadTracksList(null);
+        if (this.tracks.length === 1) {
+          this.deleteTrackFromList(track.id);
+        } else {
+          this.loadTracksList(null);
+        }
       });
     });
   }
@@ -110,5 +114,13 @@ export class MusicComponent implements OnInit {
 
   loadFile(track: Track) {
     track.files = this.fileService.getUploadedTrack(track.filename);
+  }
+
+  deleteTrackFromList(trackId: number) {
+    let index = this.tracks.map(x => {
+      return x.id;
+    }).indexOf(trackId);
+
+    this.tracks.splice(index, 1);
   }
 }

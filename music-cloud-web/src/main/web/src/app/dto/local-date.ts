@@ -1,5 +1,3 @@
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-
 export class LocalDate {
     private _year : number;
     private _month : number;

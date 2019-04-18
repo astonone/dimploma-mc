@@ -1,5 +1,4 @@
 import { LocalDate } from './local-date';
-import { Observable } from 'rxjs';
 
 export class UserDetails {
     private _id : number;

@@ -41,6 +41,7 @@ export class UploadComponent implements OnInit {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
           } else if (event instanceof HttpResponse) {
             this.isError = false;
+            this.isSuccess = true;
           }
         },error => {
           this.isError = true;
