@@ -5,12 +5,14 @@ import com.kulygin.musiccloud.exception.MoodHasExistsException;
 import com.kulygin.musiccloud.exception.MoodIsNotExistsException;
 import com.kulygin.musiccloud.repository.MoodRepository;
 import com.kulygin.musiccloud.service.MoodService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j
 public class MoodServiceImpl implements MoodService {
 
     @Autowired
@@ -33,6 +35,7 @@ public class MoodServiceImpl implements MoodService {
     public Mood createMood(String name) throws MoodHasExistsException {
         Mood mood = moodRepository.findByName(name);
         if (mood != null) {
+            log.error("Mood has not found: " + name);
             throw new MoodHasExistsException();
         }
         return moodRepository.save(Mood.builder()

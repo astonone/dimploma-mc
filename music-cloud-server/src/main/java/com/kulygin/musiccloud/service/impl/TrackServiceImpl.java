@@ -8,6 +8,7 @@ import com.kulygin.musiccloud.service.StatisticalAccountingService;
 import com.kulygin.musiccloud.service.TrackService;
 import com.kulygin.musiccloud.service.UserService;
 import com.mpatric.mp3agic.*;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Log4j
 public class TrackServiceImpl implements TrackService {
 
     @Autowired
@@ -119,10 +121,12 @@ public class TrackServiceImpl implements TrackService {
     public Track addTrackGenre(Long trackId, Long genreId) throws TrackIsNotExistsException, GenreIsNotExistsException {
         Track track = getTrackById(trackId);
         if (track == null) {
+            log.error("Track has not found: " + trackId);
             throw new TrackIsNotExistsException();
         }
         Genre genre = genreService.getGenreById(genreId);
         if (genre == null) {
+            log.error("Genre has not found: " + genreId);
             throw new GenreIsNotExistsException();
         }
         Set<Genre> genres = track.getGenres();
@@ -135,10 +139,12 @@ public class TrackServiceImpl implements TrackService {
     public Track removeTrackGenre(Long trackId, Long genreId) throws TrackIsNotExistsException, GenreIsNotExistsException, TrackHasNotGenreException {
         Track track = getTrackById(trackId);
         if (track == null) {
+            log.error("Track has not found: " + trackId);
             throw new TrackIsNotExistsException();
         }
         Genre genre = genreService.getGenreById(genreId);
         if (genre == null) {
+            log.error("Genre has not found: " + genreId);
             throw new GenreIsNotExistsException();
         }
         Set<Genre> genres = track.getGenres();
@@ -275,11 +281,13 @@ public class TrackServiceImpl implements TrackService {
             mp3File = new Mp3File(file);
             file.delete();
         } catch (FileNotFoundException fileNotFound) {
+            log.error("File is not exists");
             throw new FileIsNotExistsException();
         }
         // Проверяем существование файла в базе
         Track track = trackRepository.findByFilename(file.getName());
         if (track != null) {
+            log.error("Track is not exists");
             throw new TrackHasExistsException();
         }
         // Создаем переменные для сохранения параметров файла и создания плейлистов "на лету"

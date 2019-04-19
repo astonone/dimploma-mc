@@ -35,6 +35,8 @@ public class RecommendationServiceImpl implements RecommendationService {
     public List<Track> getTracksForUser(Long userId, Integer nBestUsers, Integer nBestTracks) {
         collaborativeFiltering.setSettings(databaseFactory, false);
 
+        log.info("Settings has been applied: ");
+
         return collaborativeFiltering.makeRecommendationAndGetTracks(userId.intValue(), nBestUsers, nBestTracks);
     }
 

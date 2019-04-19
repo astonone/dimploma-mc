@@ -4,7 +4,6 @@ import com.yandex.disk.rest.Credentials;
 import com.yandex.disk.rest.ResourcesArgs;
 import com.yandex.disk.rest.RestClient;
 import com.yandex.disk.rest.exceptions.ServerException;
-import com.yandex.disk.rest.exceptions.ServerIOException;
 import com.yandex.disk.rest.json.Link;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -84,6 +83,7 @@ public class YandexAPI {
             UrlResource urlResource = new UrlResource(file.toPath().toUri());
             return urlResource;
         } catch (MalformedURLException e) {
+            log.error("Convertation file to resource error: ", e);
             return null;
         }
     }
@@ -110,6 +110,7 @@ public class YandexAPI {
             UrlResource urlResource = new UrlResource(file.toPath().toUri());
             return urlResource;
         } catch (MalformedURLException e) {
+            log.error("Convertation file to resource error: ", e);
             return null;
         }
     }

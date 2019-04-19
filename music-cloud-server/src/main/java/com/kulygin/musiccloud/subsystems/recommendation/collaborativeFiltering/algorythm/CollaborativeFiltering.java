@@ -4,6 +4,7 @@ import com.kulygin.musiccloud.domain.Track;
 import com.kulygin.musiccloud.service.TrackService;
 import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.config.CFilteringFactory;
 import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.similarity.MeasureOfSimilarity;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 @Component
+@Log4j
 public class CollaborativeFiltering {
     private MeasureOfSimilarity metric;
     private Map<Integer, Map<Integer, Integer>> userRates;
@@ -31,11 +33,11 @@ public class CollaborativeFiltering {
         calculateRecommend(userID, nBestUsers, nBestProducts, similarityProducts);
 
         if (isPrint) {
-            System.out.println("Most correlated products: ");
+            log.info("Most correlated products: ");
             similarityProducts.entrySet().stream()
                     .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                     .limit(nBestProducts)
-                    .forEach(similarityProduct -> System.out.println("  TrackID: " + similarityProduct.getKey() + "  Correlation coefficient: " + similarityProduct.getValue()));
+                    .forEach(similarityProduct -> log.info("  TrackID: " + similarityProduct.getKey() + "  Correlation coefficient: " + similarityProduct.getValue()));
         }
     }
 
@@ -63,11 +65,11 @@ public class CollaborativeFiltering {
         });
 
         if (isPrint) {
-            System.out.println("Most correlated '" + userID + "' with users:");
+            log.info("Most correlated '" + userID + "' with users:");
             matches.entrySet().stream()
                     .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                     .limit(nBestUsers)
-                    .forEach(match -> System.out.println("  UserID: " + match.getKey() + "  Coefficient: " + match.getValue()));
+                    .forEach(match -> log.info("  UserID: " + match.getKey() + "  Coefficient: " + match.getValue()));
         }
 
         Map<Integer, Double> bestMatches = matches.entrySet().stream()
