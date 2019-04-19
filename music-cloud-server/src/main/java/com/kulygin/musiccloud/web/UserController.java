@@ -9,6 +9,7 @@ import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.exception.*;
 import com.kulygin.musiccloud.service.UserService;
 import com.kulygin.musiccloud.service.impl.yandex.YandexAPI;
+import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.generator.GeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -69,7 +70,7 @@ public class UserController {
         } catch (Exception e) {
             return getErrorResponseBody(ApplicationErrorTypes.INVALID_DATA);
         }
-        user = userService.uploadPhoto(user, uploadedFileRef.getOriginalFilename());
+        user = userService.uploadPhoto(user, GeneratorUtils.toTranslitWithotSpaces(uploadedFileRef.getOriginalFilename()));
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
 

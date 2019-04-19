@@ -84,6 +84,10 @@ public class GeneratorUtils {
         return sb.toString();
     }
 
+    public static String toTranslitWithotSpaces(String text) {
+        return toTranslit(text).replaceAll(" ", "-");
+    }
+
     public static int rnd(int min, int max) {
         max -= min;
         return (int) (Math.random() * ++max) + min;

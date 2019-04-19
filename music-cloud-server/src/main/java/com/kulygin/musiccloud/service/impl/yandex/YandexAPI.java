@@ -1,5 +1,6 @@
 package com.kulygin.musiccloud.service.impl.yandex;
 
+import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.generator.GeneratorUtils;
 import com.yandex.disk.rest.Credentials;
 import com.yandex.disk.rest.ResourcesArgs;
 import com.yandex.disk.rest.RestClient;
@@ -43,7 +44,7 @@ public class YandexAPI {
         String serverPathPhoto = "photo-storage/";
         String serverPath = isPicture ? serverPathPhoto : serverPathAudio;
 
-        Link uploadLink = restClient.getUploadLink(serverPath + uploadedFileRef.getOriginalFilename(), true);
+        Link uploadLink = restClient.getUploadLink(serverPath + GeneratorUtils.toTranslitWithotSpaces(uploadedFileRef.getOriginalFilename()), true);
 
         File file =  multipartToFile(uploadedFileRef);
 
@@ -53,7 +54,7 @@ public class YandexAPI {
     }
 
     private File multipartToFile(MultipartFile multipart) throws IllegalStateException, IOException {
-        File convFile = new File(multipart.getOriginalFilename());
+        File convFile = new File(GeneratorUtils.toTranslitWithotSpaces(multipart.getOriginalFilename()));
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(multipart.getBytes());
