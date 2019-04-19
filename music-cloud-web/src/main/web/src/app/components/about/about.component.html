@@ -1,22 +1,43 @@
-<div class="about-container">
-  <mat-card class="about-card">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Music-cloud</mat-card-title>
-      <mat-card-subtitle>Дипломная работа Кулыгина Виктора</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="./assets/image/about-picture.jpg" alt="I am Groot">
-    <mat-card-content>
-      <p>
-        При реализации приложения music-cloud используется следующий стек технологий:
-        Java 8, Spring Boot 2, Liquibase, Lombok, Hibernate 4, система сборки - Maven 3,
-        СУБД - Posgresql 9.6 и H2. Фреймворк для разработки клиентской части веб-приложений Angular 6.
-        Взаимодействие между серверной и клиентской частью происходит по протоколу REST.
-        В качестве системы контроля версий используется Git. Также приложение имеет встроенную рекомендательную
-        систему, построенную на принципе коллаборативной фильтрации
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-    </mat-card-actions>
-  </mat-card>
-</div>
+<mat-sidenav-container class="about-container">
+  <mat-sidenav mode="side" class="about-left-container" opened>
+    <mat-card class="about-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Music-cloud</mat-card-title>
+        <mat-card-subtitle>Дипломная работа Кулыгина Виктора</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image src="./assets/image/about-picture.jpg" alt="I am Groot">
+      <mat-card-content>
+        <p>
+          При реализации приложения music-cloud используется следующий стек технологий:
+          Java 8, Spring Boot 2, Liquibase, Lombok, Hibernate 4, система сборки - Maven 3,
+          СУБД - Posgresql 9.6(prod) и MySql(dev). Фреймворк для разработки клиентской части веб-приложений Angular 6.
+          Взаимодействие между серверной и клиентской частью происходит по протоколу REST.
+          В качестве системы контроля версий используется Git. Также приложение имеет встроенную рекомендательную
+          систему, построенную на принципе коллаборативной фильтрации
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+      </mat-card-actions>
+    </mat-card>
+  </mat-sidenav>
+  <mat-sidenav-content class="about-right-container">
+    <mat-list>
+      <mat-tab-group>
+        <mat-tab label="Обновления в текущей версии">
+          <label>Обновления</label>
+          <mat-list role="list">
+            <mat-list-item role="listitem">Теперь все медиа файлы приложения хранятся в облаке на отдельном сервере</mat-list-item>
+            <mat-list-item role="listitem">Размер аватра пользователя ограничен до 300px по ширине</mat-list-item>
+          </mat-list>
+          <label>Ошибки</label>
+          <mat-list role="list">
+            <mat-list-item role="listitem">Исправлены ошибки при удалении файлов</mat-list-item>
+            <mat-list-item role="listitem">Корректное отображение пользовательской информации</mat-list-item>
+            <mat-list-item role="listitem">Решены проблемы с загрузкой файлов, содержащих в именах кириллицу</mat-list-item>
+          </mat-list>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-list>
+  </mat-sidenav-content>
+</mat-sidenav-container>
