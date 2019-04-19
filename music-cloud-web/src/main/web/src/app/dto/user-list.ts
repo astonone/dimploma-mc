@@ -6,7 +6,7 @@ export class UserList {
 
 
     constructor(data: any) {
-        this._allCount = data._allCount;
+        this._allCount = data.allCount;
         data.users.forEach(user => {
             this._users.push(new User(user));
         });

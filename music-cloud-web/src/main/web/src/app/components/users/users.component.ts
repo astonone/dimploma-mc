@@ -14,11 +14,11 @@ export class UsersComponent implements OnInit {
 
   response : UserList;
   users : User[] = [];
-  usersLength : number = 100;
+  usersLength : number = 10;
   pageEvent : any;
   page: number = 0;
   pageSize : number = 10;
-  pageSizeOptions : any = [10,25,50,10];
+  pageSizeOptions : any = [10,25,50];
 
   constructor(private shared: SharedService,
               private userService: UserService,
@@ -41,6 +41,7 @@ export class UsersComponent implements OnInit {
     } else {
       this.userService.getAllUsers(this.page, this.pageSize).subscribe(data => {
         this.response = new UserList(data);
+        this.usersLength = this.response.allCount;
         this.users = this.response.users;
       });
     }

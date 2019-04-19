@@ -25,7 +25,7 @@ export class MusicComponent implements OnInit {
   pageEvent : any;
   page: number = 0;
   pageSize : number = 10;
-  pageSizeOptions : any = [10,25,50,10];
+  pageSizeOptions : any = [10,25,50];
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
