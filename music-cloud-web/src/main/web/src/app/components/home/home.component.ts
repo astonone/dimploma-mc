@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
     myRequest: any = [];
 
     myMusic: Track[] = [];
+    recommendedMusic: Track[] = [];
+    myPlaylists: any[] = [];
     response: TrackList;
     tracksLength : number = 10;
     pageEvent : any;
@@ -54,6 +56,7 @@ export class HomeComponent implements OnInit {
                         this.user = new User(data);
                         this.getPhoto();
                         this.loadTracksList(null);
+                        this.loadRecommendedTracksList();
                     },
                     error => {
                         if (error.status == 401) {
@@ -65,6 +68,7 @@ export class HomeComponent implements OnInit {
             this.user = new User(JSON.parse(this.shared.getStorage().getItem('loggedUser')));
             this.getPhoto();
             this.loadTracksList(null);
+            this.loadRecommendedTracksList();
         }
         } else {
             this.router.navigate(['login']);
@@ -86,7 +90,7 @@ export class HomeComponent implements OnInit {
                     this.response = new TrackList(data);
                     this.tracksLength = this.response.allCount;
                     this.myMusic = this.response.tracks;
-                    this.loadAudioFiles();
+                    this.loadAudioFiles(this.myMusic);
                 });
         } else {
             this.trackService.getUserTracks(this.user.id, this.page, this.pageSize)
@@ -94,14 +98,23 @@ export class HomeComponent implements OnInit {
                 this.response = new TrackList(data);
                 this.tracksLength = this.response.allCount;
                 this.myMusic = this.response.tracks;
-                this.loadAudioFiles();
+                this.loadAudioFiles(this.myMusic);
             });
         }
     }
 
-    loadAudioFiles() {
-        for (let i = 0; i < this.myMusic.length; i++) {
-            this.loadFile(this.myMusic[i]);
+    loadRecommendedTracksList() {
+        this.trackService.getRecommendedUserTracks(this.user.id)
+            .subscribe(data => {
+                this.response = new TrackList(data);
+                this.recommendedMusic = this.response.tracks;
+                this.loadAudioFiles(this.recommendedMusic);
+            });
+    }
+
+    loadAudioFiles(tracks: Track[]) {
+        for (let i = 0; i < tracks.length; i++) {
+            this.loadFile(tracks[i]);
         }
     }
 
