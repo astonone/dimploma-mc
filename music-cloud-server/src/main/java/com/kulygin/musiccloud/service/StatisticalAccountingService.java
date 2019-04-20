@@ -10,4 +10,6 @@ public interface StatisticalAccountingService {
     void saveAll(List<StatisticalAccounting> statisticalAccountings);
 
     List<StatisticalAccounting> findAll();
+
+    StatisticalAccounting findByUserAndTrack(Long userId, Long trackId);
 }

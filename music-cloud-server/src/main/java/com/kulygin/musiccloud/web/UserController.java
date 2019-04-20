@@ -7,8 +7,9 @@ import com.kulygin.musiccloud.dto.UserDetailsDTO;
 import com.kulygin.musiccloud.dto.UsersDTO;
 import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.exception.*;
-import com.kulygin.musiccloud.service.StorageService;
 import com.kulygin.musiccloud.service.UserService;
+import com.kulygin.musiccloud.service.impl.yandex.YandexAPI;
+import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.generator.GeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -37,7 +39,7 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private StorageService storageService;
+    private YandexAPI yandexAPI;
 
     @RequestMapping("/login")
     public boolean login(@RequestBody User user) {
@@ -59,29 +61,30 @@ public class UserController {
     }
 
     @RequestMapping(value = "{id}/upload", method = RequestMethod.POST)
-    public ResponseEntity<?> uploadFile(@PathVariable("id") Long userId, @RequestParam("uploadedFile") MultipartFile uploadedFileRef) {
+    public ResponseEntity<?> uploadToYandexDisk(@PathVariable("id") Long userId, @RequestParam("uploadedFile") MultipartFile uploadedFileRef) {
         User user = userService.getUserById(userId);
+        File file = null;
         if (user == null) {
             return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
         }
-
-        UUID uuid = UUID.randomUUID();
-        String fileName = uuid.toString() + uploadedFileRef.getOriginalFilename().substring(uploadedFileRef.getOriginalFilename().lastIndexOf("."));
-
-        storageService.storePhoto(uploadedFileRef, fileName);
-        user = userService.uploadPhoto(user, fileName);
+        try {
+            file = yandexAPI.uploadFileToYandexDisk(uploadedFileRef, true);
+        } catch (Exception e) {
+            return getErrorResponseBody(ApplicationErrorTypes.INVALID_DATA);
+        }
+        user = userService.uploadPhoto(user, file.getName());
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
 
-    @GetMapping("/get/{filename:.+}")
-    public ResponseEntity<List<String>> getListFiles(@PathVariable String filename) {
+    @GetMapping("/getYandex/{filename:.+}")
+    public ResponseEntity<List<String>> getFileFromYaDisk(@PathVariable String filename) {
         List<String> fileNames = Arrays.asList(MvcUriComponentsBuilder.fromMethodName(UserController.class, "getFile", filename).build().toString());
         return ResponseEntity.ok().body(fileNames);
     }
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = storageService.loadPhotoFile(filename);
+        Resource file = yandexAPI.loadPhotoFileFromYandexDisk(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);

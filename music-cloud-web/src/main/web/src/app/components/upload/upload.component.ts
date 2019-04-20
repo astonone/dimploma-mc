@@ -3,6 +3,8 @@ import { TrackService } from '../../services/track.service';
 import { MatDialog } from '@angular/material';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FileService } from '../../services/file.service';
+import { SharedService } from '../../services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-download',
@@ -12,6 +14,8 @@ import { FileService } from '../../services/file.service';
 export class UploadComponent implements OnInit {
 
   isError : boolean;
+  isLoading : boolean;
+  isSaving : boolean;
   isSuccess : boolean;
   selectedFiles: FileList;
   currentFileUpload: File;
@@ -19,9 +23,14 @@ export class UploadComponent implements OnInit {
 
   constructor(private trackService: TrackService,
               public dialog: MatDialog,
-              private fileService : FileService) { }
+              private fileService : FileService,
+              private shared: SharedService,
+              private router: Router) { }
 
   ngOnInit() {
+    if (this.shared.getLoggedUser() === null) {
+      this.router.navigate(['login']);
+    }
     this.isError = false;
   }
 
@@ -39,8 +48,16 @@ export class UploadComponent implements OnInit {
         .subscribe(event => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progress.percentage = Math.round(100 * event.loaded / event.total);
+            this.isLoading = true;
+            if (this.progress.percentage === 100) {
+              this.isLoading = false;
+              this.isSaving = true;
+            }
           } else if (event instanceof HttpResponse) {
             this.isError = false;
+            this.isSuccess = true;
+            this.isLoading = false;
+            this.isSaving = false;
           }
         },error => {
           this.isError = true;

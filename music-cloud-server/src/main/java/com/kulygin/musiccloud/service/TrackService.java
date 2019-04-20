@@ -6,10 +6,10 @@ import com.kulygin.musiccloud.domain.Track;
 import com.kulygin.musiccloud.domain.User;
 import com.kulygin.musiccloud.exception.*;
 import com.mpatric.mp3agic.UnsupportedTagException;
-import com.sun.media.sound.InvalidDataException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface TrackService {
 
     void deleteTrackById(Long id) throws TrackIsNotExistsException;
 
-    Track createTrack(String filename) throws TrackHasExistsException, IOException, UnsupportedTagException, FileIsNotExistsException, PlaylistNotExistsException, TrackIsNotExistsException, com.mpatric.mp3agic.InvalidDataException;
+    Track createTrack(File file) throws TrackHasExistsException, IOException, UnsupportedTagException, FileIsNotExistsException, PlaylistNotExistsException, TrackIsNotExistsException, com.mpatric.mp3agic.InvalidDataException;
 
     Track updateTrack(Long trackId, String title, String artist, String album, Integer year, String filename, String duration) throws TrackIsNotExistsException;
 

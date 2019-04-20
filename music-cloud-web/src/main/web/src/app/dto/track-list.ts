@@ -5,10 +5,10 @@ export class TrackList {
     private _allCount : number;
 
     constructor(data: any) {
-        for (let i = 0; i < data.tracks.length; i++) {
-            this._tracks.push(new Track(data.tracks[i]));
-        }
         this._allCount = data.countAll;
+        data.tracks.forEach(track => {
+            this._tracks.push(new Track(track));
+        });
     }
 
     get tracks(): Track[] {

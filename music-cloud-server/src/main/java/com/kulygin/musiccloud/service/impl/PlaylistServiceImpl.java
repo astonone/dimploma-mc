@@ -8,10 +8,12 @@ import com.kulygin.musiccloud.exception.PlaylistNotExistsException;
 import com.kulygin.musiccloud.repository.PlaylistRepository;
 import com.kulygin.musiccloud.repository.TrackRepository;
 import com.kulygin.musiccloud.service.PlaylistService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Log4j
 public class PlaylistServiceImpl implements PlaylistService {
     @Autowired
     private PlaylistRepository playlistRepository;
@@ -27,6 +29,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     public Playlist createPlaylist(String name, User user) throws PlaylistHasExistsException {
         Playlist playlist = playlistRepository.findByNameAndUser(name, user);
         if (playlist != null) {
+            log.error("Playlist has not found: " + name);
             throw new PlaylistHasExistsException();
         }
         Playlist newPlaylist = Playlist.builder()

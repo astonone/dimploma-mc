@@ -14,17 +14,20 @@ export class UsersComponent implements OnInit {
 
   response : UserList;
   users : User[] = [];
-  usersLength : number = 100;
+  usersLength : number = 10;
   pageEvent : any;
   page: number = 0;
   pageSize : number = 10;
-  pageSizeOptions : any = [10,25,50,10];
+  pageSizeOptions : any = [10,25,50];
 
   constructor(private shared: SharedService,
               private userService: UserService,
               private router: Router) { }
 
   ngOnInit() {
+    if (this.shared.getLoggedUser() === null) {
+      this.router.navigate(['login']);
+    }
     this.loadUserList(null);
   }
 
@@ -38,6 +41,7 @@ export class UsersComponent implements OnInit {
     } else {
       this.userService.getAllUsers(this.page, this.pageSize).subscribe(data => {
         this.response = new UserList(data);
+        this.usersLength = this.response.allCount;
         this.users = this.response.users;
       });
     }
@@ -45,5 +49,11 @@ export class UsersComponent implements OnInit {
 
   gotoProfile(id: number) {
     this.router.navigate(['user/'+ id]);
+  }
+
+  showUserInfo(user: User) {
+    const firstName = user.userDetails.firstName === null ? '' : user.userDetails.firstName;
+    const lastName = user.userDetails.lastName === null ? '' : user.userDetails.lastName;
+    return firstName === '' && lastName === '' ? user.email : firstName + ' ' + lastName;
   }
 }

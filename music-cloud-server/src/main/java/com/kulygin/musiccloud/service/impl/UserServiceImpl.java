@@ -7,6 +7,7 @@ import com.kulygin.musiccloud.exception.*;
 import com.kulygin.musiccloud.repository.UserDetailsRepository;
 import com.kulygin.musiccloud.repository.UserRepository;
 import com.kulygin.musiccloud.service.UserService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@Log4j
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
@@ -41,6 +43,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) throws UserIsNotExistsException {
         User user = getUserById(id);
         if (user == null) {
+            log.error("User has not found: " + id);
             throw new UserIsNotExistsException();
         } else {
             userRepository.deleteById(id);
@@ -51,6 +54,7 @@ public class UserServiceImpl implements UserService {
     public User createUser(String email, String password) throws UserHasExistsException {
         User user = findUserByEmail(email);
         if (user != null) {
+            log.error("User has exist: " + email);
             throw new UserHasExistsException();
         } else {
             return userRepository.save(User.builder()
@@ -101,10 +105,12 @@ public class UserServiceImpl implements UserService {
     public void sendFriendRequest(Long inviterId, Long friendId) throws UserIsNotExistsException, UserAlreadyHasFriendException, RequestAlreadySentException {
         User inviter = getUserById(inviterId);
         if (inviter == null) {
+            log.error("User has not found: " + inviterId);
             throw new UserIsNotExistsException();
         }
         User friend = getUserById(friendId);
         if (friend == null) {
+            log.error("User has not found: " + friendId);
             throw new UserIsNotExistsException();
         }
         if (inviter.getFriends() != null) {
@@ -130,10 +136,12 @@ public class UserServiceImpl implements UserService {
     public void cancelFriendRequest(Long cancelerId, Long friendId) throws UserIsNotExistsException, UserHasNotFriendRequestException, RequestNotExistException {
         User canceler = getUserById(cancelerId);
         if (canceler == null) {
+            log.error("User has not found: " + cancelerId);
             throw new UserIsNotExistsException();
         }
         User friend = getUserById(friendId);
         if (friend == null) {
+            log.error("User has not found: " + friendId);
             throw new UserIsNotExistsException();
         }
         if (canceler.getFriendRequests().size() == 0) {
@@ -151,10 +159,12 @@ public class UserServiceImpl implements UserService {
     public void addFriend(Long inviterId, Long friendId) throws UserIsNotExistsException, UserHasNotFriendRequestException, RequestNotExistException {
         User inviter = getUserById(inviterId);
         if (inviter == null) {
+            log.error("User has not found: " + inviterId);
             throw new UserIsNotExistsException();
         }
         User friend = getUserById(friendId);
         if (friend == null) {
+            log.error("User has not found: " + friendId);
             throw new UserIsNotExistsException();
         }
         if (friend.getFriendRequests().size() == 0) {
@@ -177,10 +187,12 @@ public class UserServiceImpl implements UserService {
     public void removeFriend(Long removerId, Long friendId) throws UserIsNotExistsException, UserHasNotFriendException {
         User remover = getUserById(removerId);
         if (remover == null) {
+            log.error("User has not found: " + removerId);
             throw new UserIsNotExistsException();
         }
         User friend = getUserById(friendId);
         if (friend == null) {
+            log.error("User has not found: " + friendId);
             throw new UserIsNotExistsException();
         }
         if (remover.getFriends().contains(friend)) {

@@ -18,3 +18,7 @@
     width: 300px;
     margin: 10px 10px 10px 10px;
 }
+
+.uploaded-success-label {
+    color: green;
+}

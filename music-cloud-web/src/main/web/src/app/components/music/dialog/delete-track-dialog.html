@@ -3,6 +3,6 @@
     <p>Вы действительно хотите удалить этот трек?</p>
 </div>
 <div mat-dialog-actions>
-    <button mat-raised-button color="warn" (click)="onYesClick()" cdkFocusInitial>Да</button>
+    <button mat-raised-button color="warn" [mat-dialog-close]="isOk" cdkFocusInitial>Да</button>
     <button mat-raised-button color="primary" (click)="onNoClick()">Отмена</button>
 </div>

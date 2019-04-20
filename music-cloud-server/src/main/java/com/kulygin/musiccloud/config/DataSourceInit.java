@@ -38,8 +38,8 @@ public class DataSourceInit {
             simpleDriverDataSource.setDriverClass(com.mysql.jdbc.Driver.class);
         } else if (driverClassName.equals("org.postgresql.Driver")) {
             simpleDriverDataSource.setDriverClass(org.postgresql.Driver.class);
-        }else {
-            simpleDriverDataSource.setDriverClass(org.h2.Driver.class);
+        } else {
+            throw new RuntimeException("Unknown database driver");
         }
 
         simpleDriverDataSource.setUsername(username);

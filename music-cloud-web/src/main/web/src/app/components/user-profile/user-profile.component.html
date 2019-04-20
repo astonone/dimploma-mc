@@ -21,7 +21,33 @@
   <mat-sidenav-content class="right-container">
     <mat-list>
       <mat-tab-group>
-        <mat-tab label="Музыка">
+        <mat-tab label="Музыка пользователя">
+          <mat-list>
+            <mat-paginator [length]="tracksLength"
+                           [pageIndex]="page"
+                           [pageSize]="pageSize"
+                           [pageSizeOptions]="pageSizeOptions"
+                           (page)="pageEvent = loadTracksList($event)"
+                           *ngIf="music.length !== 0">
+            </mat-paginator>
+            <mat-list-item *ngFor="let track of music" class="track-item">
+              <h4 mat-line class="track-item-control">
+                <audio controls *ngFor="let file of track.files | async" class="audio-player">
+                  <source src={{file}} type="audio/mpeg">
+                  <p>Ваш браузер не поддерживает HTML5 audio. Воспользуйтесь
+                    <a href={{file}}>этой ссыклой</a></p>
+                </audio>
+              </h4>
+              <div mat-line class="track-title">
+                <div>
+                  {{track.title + ", " + track.artist + ", " + track.year}}
+                </div>
+                <div>
+                  <span class="item">Рейтинг: <b>{{track.rating}}</b></span>
+                </div>
+              </div>
+            </mat-list-item>
+          </mat-list>
           <span *ngIf="music.length === 0">На данный момент у пользователя нет музыки</span>
         </mat-tab>
       </mat-tab-group>

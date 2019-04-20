@@ -8,4 +8,20 @@
 
 .left-container {
     width: 30%;
+    max-width: 300px;
+}
+
+.track-item {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.track-title {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.audio-player {
+    width: 100%;
 }

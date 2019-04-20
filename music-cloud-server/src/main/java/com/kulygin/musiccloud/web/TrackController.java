@@ -11,6 +11,7 @@ import com.kulygin.musiccloud.dto.TrackFullInfoDTO;
 import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.exception.*;
 import com.kulygin.musiccloud.service.*;
+import com.kulygin.musiccloud.service.impl.yandex.YandexAPI;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.servlet.annotation.MultipartConfig;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -45,34 +47,30 @@ public class TrackController {
     @Autowired
     private UserService userService;
     @Autowired
-    private StorageService storageService;
+    private YandexAPI yandexAPI;
 
-    @RequestMapping(value = "files/upload", method = RequestMethod.POST)
-    public ResponseEntity<?> uploadFile(@RequestParam("uploadedFile") MultipartFile uploadedFileRef) throws PlaylistNotExistsException, TrackIsNotExistsException {
-
-        UUID uuid = UUID.randomUUID();
-        String fileName = uuid.toString() + ".mp3";
-
-        storageService.storeAudio(uploadedFileRef, fileName);
-        try {
-            return createTrack(fileName);
-        } catch (InvalidDataException e) {
-            return getErrorResponseBody(ApplicationErrorTypes.INVALID_DATA);
-        }
-    }
-
-    @GetMapping("/get/{filename:.+}")
-    public ResponseEntity<List<String>> getListFiles(@PathVariable String filename) {
+    @GetMapping("/getYandex/{filename:.+}")
+    public ResponseEntity<List<String>> getFileFromYaDisk(@PathVariable String filename) {
         List<String> fileNames = Arrays.asList(MvcUriComponentsBuilder.fromMethodName(TrackController.class, "getFile", filename).build().toString());
         return ResponseEntity.ok().body(fileNames);
     }
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        Resource file = storageService.loadAudioFile(filename);
+        Resource file = yandexAPI.loadAudioFileFromYandexDisk(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);
+    }
+
+    @RequestMapping(value = "files/upload", method = RequestMethod.POST)
+    public ResponseEntity<?> uploadToYandexDisk(@RequestParam("uploadedFile") MultipartFile uploadedFileRef) {
+        try {
+            File file = yandexAPI.uploadFileToYandexDisk(uploadedFileRef, false);
+            return createTrack(file);
+        } catch (Exception e) {
+            return getErrorResponseBody(ApplicationErrorTypes.INVALID_DATA);
+        }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -263,10 +261,10 @@ public class TrackController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    private ResponseEntity<?> createTrack(String filename) throws PlaylistNotExistsException, TrackIsNotExistsException, InvalidDataException {
+    private ResponseEntity<?> createTrack(File file) throws PlaylistNotExistsException, TrackIsNotExistsException, InvalidDataException {
         Track track = null;
         try {
-            track = trackService.createTrack(filename);
+            track = trackService.createTrack(file);
         } catch (TrackHasExistsException trackHasExists) {
             return getErrorResponseBody(ApplicationErrorTypes.TRACK_HAS_EXISTS);
         } catch (FileIsNotExistsException FileIsNotExists) {

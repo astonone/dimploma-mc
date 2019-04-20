@@ -9,6 +9,7 @@ import { User } from '../../dto/user';
 import { DeleteTrackDialog } from './dialog/delete-track-dialog';
 import { ChangeTrackDialog } from './dialog/change-track-dialog';
 import { FileService } from '../../services/file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-music',
@@ -24,16 +25,20 @@ export class MusicComponent implements OnInit {
   pageEvent : any;
   page: number = 0;
   pageSize : number = 10;
-  pageSizeOptions : any = [10,25,50,10];
+  pageSizeOptions : any = [10,25,50];
 
   ngOnInit() {
+    if (this.shared.getLoggedUser() === null) {
+      this.router.navigate(['login']);
+    }
     this.loadTracksList(null);
   }
 
   constructor(private trackService: TrackService,
               public dialog: MatDialog,
               private shared: SharedService,
-              private fileService: FileService) {
+              private fileService: FileService,
+              private router: Router) {
     this.user = this.shared.getLoggedUser();
   }
 
@@ -75,9 +80,15 @@ export class MusicComponent implements OnInit {
       data : null
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.trackService.deleteTrack(track.id).subscribe(() => {
-        this.loadTracksList(null);
-      });
+      if (result) {
+        this.trackService.deleteTrack(track.id).subscribe(() => {
+          if (this.tracks.length === 1) {
+            this.deleteTrackFromList(track.id, this.tracks);
+          } else {
+            this.loadTracksList(null);
+          }
+        });
+      }
     });
   }
 
@@ -110,5 +121,13 @@ export class MusicComponent implements OnInit {
 
   loadFile(track: Track) {
     track.files = this.fileService.getUploadedTrack(track.filename);
+  }
+
+  deleteTrackFromList(trackId: number, tracks: Track[]) {
+    let index = tracks.map(x => {
+      return x.id;
+    }).indexOf(trackId);
+
+    tracks.splice(index, 1);
   }
 }

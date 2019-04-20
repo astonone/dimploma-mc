@@ -4,6 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { FileService } from '../../services/file.service';
 import { Observable } from 'rxjs';
+import { Track } from '../../dto/track';
+import { TrackList } from '../../dto/track-list';
+import { TrackService } from '../../services/track.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,17 +17,29 @@ import { Observable } from 'rxjs';
 export class UserProfileComponent implements OnInit {
 
   user: User;
-  music: any = [];
   photos: Observable<string[]>;
+  music: Track[] = [];
+  response: TrackList;
+  tracksLength : number = 10;
+  pageEvent : any;
+  page: number = 0;
+  pageSize : number = 10;
+  pageSizeOptions : any = [10,25,50,10];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private userService: UserService,
-              private fileService: FileService) { }
+              private fileService: FileService,
+              private trackService: TrackService,
+              private shared: SharedService) { }
 
   ngOnInit() {
+    if (this.shared.getLoggedUser() === null) {
+      this.router.navigate(['login']);
+    }
     let userId = this.route.snapshot.paramMap.get('id');
     this.loadUser(userId);
+    this.loadTracksList(null);
   }
 
   isEmptyPhotoLink() {
@@ -43,5 +59,36 @@ export class UserProfileComponent implements OnInit {
 
   getPhoto() {
     this.photos = this.fileService.getUploadedPhoto(this.user.getPhotoLink());
+  }
+
+  loadTracksList(event) {
+    let userId = Number(this.route.snapshot.paramMap.get('id'));
+    if (event) {
+      this.trackService.getUserTracks(userId, event.pageIndex, event.pageSize)
+          .subscribe(data => {
+            this.response = new TrackList(data);
+            this.tracksLength = this.response.allCount;
+            this.music = this.response.tracks;
+            this.loadAudioFiles();
+          });
+    } else {
+      this.trackService.getUserTracks(userId, this.page, this.pageSize)
+          .subscribe(data => {
+            this.response = new TrackList(data);
+            this.tracksLength = this.response.allCount;
+            this.music = this.response.tracks;
+            this.loadAudioFiles();
+          });
+    }
+  }
+
+  loadAudioFiles() {
+    for (let i = 0; i < this.music.length; i++) {
+      this.loadFile(this.music[i]);
+    }
+  }
+
+  loadFile(track: Track) {
+    track.files = this.fileService.getUploadedTrack(track.filename);
   }
 }

@@ -8,12 +8,13 @@ import com.kulygin.musiccloud.service.StatisticalAccountingService;
 import com.kulygin.musiccloud.service.TrackService;
 import com.kulygin.musiccloud.service.UserService;
 import com.mpatric.mp3agic.*;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Log4j
 public class TrackServiceImpl implements TrackService {
 
     @Autowired
@@ -49,9 +51,9 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public Track createTrack(String filename) throws TrackHasExistsException, IOException,
+    public Track createTrack(File file) throws TrackHasExistsException, IOException,
             UnsupportedTagException, FileIsNotExistsException, InvalidDataException {
-        return parsingMp3File(filename);
+        return parsingMp3File(file);
     }
 
     @Override
@@ -119,10 +121,12 @@ public class TrackServiceImpl implements TrackService {
     public Track addTrackGenre(Long trackId, Long genreId) throws TrackIsNotExistsException, GenreIsNotExistsException {
         Track track = getTrackById(trackId);
         if (track == null) {
+            log.error("Track has not found: " + trackId);
             throw new TrackIsNotExistsException();
         }
         Genre genre = genreService.getGenreById(genreId);
         if (genre == null) {
+            log.error("Genre has not found: " + genreId);
             throw new GenreIsNotExistsException();
         }
         Set<Genre> genres = track.getGenres();
@@ -135,10 +139,12 @@ public class TrackServiceImpl implements TrackService {
     public Track removeTrackGenre(Long trackId, Long genreId) throws TrackIsNotExistsException, GenreIsNotExistsException, TrackHasNotGenreException {
         Track track = getTrackById(trackId);
         if (track == null) {
+            log.error("Track has not found: " + trackId);
             throw new TrackIsNotExistsException();
         }
         Genre genre = genreService.getGenreById(genreId);
         if (genre == null) {
+            log.error("Genre has not found: " + genreId);
             throw new GenreIsNotExistsException();
         }
         Set<Genre> genres = track.getGenres();
@@ -173,27 +179,41 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Track addRating(Track track, Integer ratingValue, User user) {
+        StatisticalAccounting statisticalAccounting = statisticalAccountingService.findByUserAndTrack(user.getId(), track.getId());
+
         Long countOfRate = track.getCountOfRate();
         Long sumOfRatings = track.getSumOfRatings();
-        Double rating = track.getRating();
-        if (countOfRate == null || sumOfRatings == null) {
-            countOfRate = 1L;
-            sumOfRatings = ratingValue.longValue();
-            rating = ratingValue.doubleValue();
-        } else {
-            countOfRate++;
-            sumOfRatings += ratingValue.longValue();
+        Double rating = 0d;
+
+        if (statisticalAccounting != null) {
+            sumOfRatings += ratingValue - statisticalAccounting.getRatingValue().longValue();
             rating = Double.valueOf(new DecimalFormat("#.00").format(sumOfRatings/countOfRate.doubleValue()));
+        } else {
+            if (countOfRate == null || sumOfRatings == null) {
+                countOfRate = 1L;
+                sumOfRatings = ratingValue.longValue();
+                rating = ratingValue.doubleValue();
+            } else {
+                countOfRate++;
+                sumOfRatings += ratingValue.longValue();
+                rating = Double.valueOf(new DecimalFormat("#.00").format(sumOfRatings/countOfRate.doubleValue()));
+            }
         }
+
         track.setCountOfRate(countOfRate);
         track.setSumOfRatings(sumOfRatings);
         track.setRating(rating);
         // Save statistics
-        StatisticalAccounting statisticalAccounting = StatisticalAccounting.builder()
-                .userId(user.getId())
-                .trackId(track.getId())
-                .ratingValue(ratingValue)
-                .build();
+        if (statisticalAccounting == null) {
+            statisticalAccounting = StatisticalAccounting.builder()
+                    .userId(user.getId())
+                    .trackId(track.getId())
+                    .ratingValue(ratingValue)
+                    .build();
+        } else {
+            statisticalAccounting.setRatingValue(ratingValue);
+        }
+
         statisticalAccountingService.save(statisticalAccounting);
         return trackRepository.save(track);
     }
@@ -254,17 +274,20 @@ public class TrackServiceImpl implements TrackService {
         return trackRepository.countAll();
     }
 
-    private Track parsingMp3File(String filename) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException {
+    private Track parsingMp3File(File file) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException {
         // Создаем mp3 файл
         Mp3File mp3File = null;
         try {
-            mp3File = new Mp3File(Paths.get("storage-audio").resolve(filename).toString());
+            mp3File = new Mp3File(file);
+            file.delete();
         } catch (FileNotFoundException fileNotFound) {
+            log.error("File is not exists");
             throw new FileIsNotExistsException();
         }
         // Проверяем существование файла в базе
-        Track track = trackRepository.findByFilename(filename);
+        Track track = trackRepository.findByFilename(file.getName());
         if (track != null) {
+            log.error("Track is not exists");
             throw new TrackHasExistsException();
         }
         // Создаем переменные для сохранения параметров файла и создания плейлистов "на лету"
@@ -310,7 +333,7 @@ public class TrackServiceImpl implements TrackService {
                 .album(album)
                 .artist(artist)
                 .year(year)
-                .filename(filename)
+                .filename(file.getName())
                 .duration(duration)
                 .build();
         trackRepository.save(track);

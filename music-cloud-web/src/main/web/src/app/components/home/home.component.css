@@ -7,6 +7,7 @@
 
 .home-left-container {
     width: 30%;
+    max-width: 300px;
 }
 
 .track-item {
@@ -27,4 +28,8 @@
 
 .rate {
     width: 120px;
+}
+
+.audio-player {
+    width: 100%;
 }

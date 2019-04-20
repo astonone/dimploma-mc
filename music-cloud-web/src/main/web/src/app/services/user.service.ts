@@ -8,8 +8,6 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class UserService {
-  HOST: string = 'http://localhost';
-  PORT: string = '8082';
   SERVER_URL: string;
 
   USER_LOGIN : string;

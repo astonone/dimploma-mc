@@ -7,8 +7,6 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class TrackService {
-  HOST: string = 'http://localhost';
-  PORT: string = '8082';
   SERVER_URL: string;
 
   UPLOAD_TRACK: string;
@@ -20,6 +18,7 @@ export class TrackService {
   RATE_TRACK: string;
   UPDATE_TRACK: string;
   GET_UPLOADED_TRACK: string;
+  GET_RECOMENDED_TRACKS: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -34,6 +33,7 @@ export class TrackService {
     this.DELETE_TRACK = this.SERVER_URL + '/api/track/{id}';
     this.RATE_TRACK = this.SERVER_URL + '/api/track/{id}/rating?ratingValue={ratingValue}&userId={userId}';
     this.UPDATE_TRACK = this.SERVER_URL + '/api/track/{id}/update';
+    this.GET_RECOMENDED_TRACKS = this.SERVER_URL + '/api/recommend/tracksForUser/{id}?nBestUsers=10&nBestTracks=10';
   }
 
   private getOptions() {
@@ -98,5 +98,11 @@ export class TrackService {
     let regExp = /{id}/gi;
     let url = this.UPDATE_TRACK.replace(regExp, id + "");
     return this.http.post<Observable<Object>>(url, track, this.getOptions());
+  }
+
+  getRecommendedUserTracks(id: number) {
+    let regExp = /{id}/gi;
+    let url = this.GET_RECOMENDED_TRACKS.replace(regExp, id + "");
+    return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 }
