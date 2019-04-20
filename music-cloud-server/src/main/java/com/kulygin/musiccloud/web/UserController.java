@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -62,15 +63,16 @@ public class UserController {
     @RequestMapping(value = "{id}/upload", method = RequestMethod.POST)
     public ResponseEntity<?> uploadToYandexDisk(@PathVariable("id") Long userId, @RequestParam("uploadedFile") MultipartFile uploadedFileRef) {
         User user = userService.getUserById(userId);
+        File file = null;
         if (user == null) {
             return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
         }
         try {
-            yandexAPI.uploadFileToYandexDisk(uploadedFileRef, true);
+            file = yandexAPI.uploadFileToYandexDisk(uploadedFileRef, true);
         } catch (Exception e) {
             return getErrorResponseBody(ApplicationErrorTypes.INVALID_DATA);
         }
-        user = userService.uploadPhoto(user, GeneratorUtils.toUUID());
+        user = userService.uploadPhoto(user, file.getName());
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
 

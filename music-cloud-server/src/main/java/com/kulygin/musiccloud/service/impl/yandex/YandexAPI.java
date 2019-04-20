@@ -1,6 +1,5 @@
 package com.kulygin.musiccloud.service.impl.yandex;
 
-import com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.generator.GeneratorUtils;
 import com.yandex.disk.rest.Credentials;
 import com.yandex.disk.rest.ResourcesArgs;
 import com.yandex.disk.rest.RestClient;
@@ -20,6 +19,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 @Log4j
@@ -44,7 +44,7 @@ public class YandexAPI {
         String serverPathPhoto = "photo-storage/";
         String serverPath = isPicture ? serverPathPhoto : serverPathAudio;
 
-        String filename = GeneratorUtils.toUUID();
+        String filename = UUID.randomUUID().toString() + uploadedFileRef.getOriginalFilename().substring(uploadedFileRef.getOriginalFilename().lastIndexOf("."));
 
         Link uploadLink = restClient.getUploadLink(serverPath + filename, true);
 
