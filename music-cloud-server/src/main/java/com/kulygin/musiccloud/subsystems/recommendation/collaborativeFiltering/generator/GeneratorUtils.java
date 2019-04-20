@@ -2,6 +2,7 @@ package com.kulygin.musiccloud.subsystems.recommendation.collaborativeFiltering.
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class GeneratorUtils {
     private static final Map<String, String> letters = new HashMap<>();
@@ -84,8 +85,8 @@ public class GeneratorUtils {
         return sb.toString();
     }
 
-    public static String toTranslitWithotSpaces(String text) {
-        return toTranslit(text).replaceAll(" ", "-");
+    public static String toUUID() {
+        return UUID.randomUUID().toString();
     }
 
     public static int rnd(int min, int max) {

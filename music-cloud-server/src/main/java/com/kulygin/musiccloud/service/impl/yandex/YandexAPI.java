@@ -44,17 +44,19 @@ public class YandexAPI {
         String serverPathPhoto = "photo-storage/";
         String serverPath = isPicture ? serverPathPhoto : serverPathAudio;
 
-        Link uploadLink = restClient.getUploadLink(serverPath + GeneratorUtils.toTranslitWithotSpaces(uploadedFileRef.getOriginalFilename()), true);
+        String filename = GeneratorUtils.toUUID();
 
-        File file =  multipartToFile(uploadedFileRef);
+        Link uploadLink = restClient.getUploadLink(serverPath + filename, true);
+
+        File file =  multipartToFile(uploadedFileRef, filename);
 
         restClient.uploadFile(uploadLink, true, file, null);
 
         return file;
     }
 
-    private File multipartToFile(MultipartFile multipart) throws IllegalStateException, IOException {
-        File convFile = new File(GeneratorUtils.toTranslitWithotSpaces(multipart.getOriginalFilename()));
+    private File multipartToFile(MultipartFile multipart, String filename) throws IllegalStateException, IOException {
+        File convFile = new File(filename);
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(multipart.getBytes());

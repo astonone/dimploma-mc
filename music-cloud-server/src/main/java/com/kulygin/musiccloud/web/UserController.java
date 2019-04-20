@@ -70,7 +70,7 @@ public class UserController {
         } catch (Exception e) {
             return getErrorResponseBody(ApplicationErrorTypes.INVALID_DATA);
         }
-        user = userService.uploadPhoto(user, GeneratorUtils.toTranslitWithotSpaces(uploadedFileRef.getOriginalFilename()));
+        user = userService.uploadPhoto(user, GeneratorUtils.toUUID());
         return new ResponseEntity<>(convert(user), HttpStatus.OK);
     }
 
