@@ -11,6 +11,7 @@ import { ChangeTrackDialog } from '../music/dialog/change-track-dialog';
 import { MatDialog } from '@angular/material';
 import { FileService } from '../../services/file.service';
 import { Observable } from 'rxjs';
+import {AddTrackToUserDialog} from '../music/dialog/add-track-to-user-dialog';
 
 @Component({
     selector: 'home',
@@ -74,6 +75,22 @@ export class HomeComponent implements OnInit {
             this.router.navigate(['login']);
         }
     }
+
+    addTrackToUser(id: number) {
+        this.trackService.addTrackToUser(this.user.id, id)
+            .subscribe(data => {
+                this.openTrackCreatedDialog(null);
+            });
+    }
+
+    openTrackCreatedDialog(response : any) : void {
+        const dialogRef = this.dialog.open(AddTrackToUserDialog, {
+            width: '250px',
+            data : response
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    };
 
     isEmptyPhotoLink() {
         return this.user.email !== '' ? this.user.isEmptyPhotoLink() : false;

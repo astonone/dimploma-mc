@@ -93,6 +93,7 @@
                                     {{track.title + ", " + track.artist + ", " + track.year}}
                                 </div>
                                 <div>
+                                    <mat-icon class="item" mat-list-icon (click)="addTrackToUser(track.id)">add_circle_outline</mat-icon>
                                     <mat-icon class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
                                     <mat-form-field class="item rate">
                                         <mat-label>Ваша оценка</mat-label>
