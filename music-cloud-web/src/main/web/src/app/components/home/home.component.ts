@@ -83,6 +83,14 @@ export class HomeComponent implements OnInit {
             });
     }
 
+    addTrackToUserFromRec(id: number) {
+        this.trackService.addTrackToUser(this.user.id, id)
+            .subscribe(data => {
+                this.openTrackCreatedDialog(null);
+                this.loadTracksList(null);
+            });
+    }
+
     openTrackCreatedDialog(response : any) : void {
         const dialogRef = this.dialog.open(AddTrackToUserDialog, {
             width: '250px',
@@ -138,16 +146,19 @@ export class HomeComponent implements OnInit {
     deleteTrackFromUser(track : Track) {
         const dialogRef = this.dialog.open(DeleteTrackDialog, {
             width: '250px',
-            data : {
-                track: track,
-                tracks: this.myMusic,
-                user: this.user,
-                deleteTrackFromList: this.deleteTrack,
-                loadTracksList: this.loadTracksList,
-                isUser: true
-            }
+            data : null
         });
         dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.trackService.deleteTrackFromUser(this.user.id, track.id)
+                    .subscribe(() => {
+                        if (this.myMusic.length === 1) {
+                            this.deleteTrack(track.id, this.myMusic);
+                        } else {
+                            this.loadTracksList(null);
+                        }
+                    });
+            }
         });
     }
 

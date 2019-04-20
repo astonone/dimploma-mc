@@ -77,15 +77,18 @@ export class MusicComponent implements OnInit {
   deleteTrack(track : Track) {
     const dialogRef = this.dialog.open(DeleteTrackDialog, {
       width: '250px',
-      data : {
-        track: track,
-        tracks: this.tracks,
-        deleteTrackFromList: this.deleteTrackFromList,
-        loadTracksList: this.loadTracksList,
-        isUser: false
-      }
+      data : null
     });
     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.trackService.deleteTrack(track.id).subscribe(() => {
+          if (this.tracks.length === 1) {
+            this.deleteTrackFromList(track.id, this.tracks);
+          } else {
+            this.loadTracksList(null);
+          }
+        });
+      }
     });
   }
 
