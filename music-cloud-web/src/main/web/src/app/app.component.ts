@@ -10,9 +10,7 @@ import { SharedService } from './services/shared.service';
 })
 
 export class AppComponent {
-
-    constructor(
-        public shared: SharedService) {
+    constructor(public shared: SharedService) {
         this.shared.setLoggedUser();
     }
 

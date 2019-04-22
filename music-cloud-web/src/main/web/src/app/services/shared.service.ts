@@ -20,6 +20,10 @@ export class SharedService {
 
   constructor(private router: Router) {}
 
+  isMobile() {
+    return screen.width < 481;
+  }
+
   getServerURL() {
     return this.isProd ? (this.HOST_PROD) : (this.HOST_DEV + ':' + this.PORT_DEV);
   }

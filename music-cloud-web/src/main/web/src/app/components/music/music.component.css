@@ -1,12 +1,28 @@
-.music-container {
-    height: calc(100vh - 64px);
+.music {
+ }
+
+.music__filter {
+    background-color: #fff;
 }
 
-.right-container {
+.music__player {
+    background-color: #fafafa;
 }
 
-.left-container {
-    width: 30%;
+@media screen and (min-width: 481px) {
+    .music {
+        display: flex;
+        min-height: calc(100vh - 64px);
+    }
+
+    .music__filter {
+        border-right: solid 1px rgba(0,0,0,.12);
+        width: 30%;
+    }
+
+    .music__player {
+        width: 70%;
+    }
 }
 
 .music-filter-text-input {
@@ -31,11 +47,6 @@
     display: flex !important;
     justify-content: space-between;
     align-items: center;
-}
-
-.header-label {
-    position: absolute;
-    margin-top: 5px;
 }
 
 .item {

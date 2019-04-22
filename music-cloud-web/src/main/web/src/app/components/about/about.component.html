@@ -1,5 +1,5 @@
-<mat-sidenav-container class="about-container">
-  <mat-sidenav mode="side" class="about-left-container" opened>
+<div class="about">
+  <div class="about__card">
     <mat-card class="about-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
@@ -20,27 +20,22 @@
       <mat-card-actions>
       </mat-card-actions>
     </mat-card>
-  </mat-sidenav>
-  <mat-sidenav-content class="about-right-container">
+  </div>
+  <div class="about__content">
     <mat-list>
       <mat-tab-group>
         <mat-tab label="Обновления в текущей версии">
-          <label>Версия релиза 0.0.26 alpha 2</label><br>
+          <label>Версия релиза 0.0.27 alpha 3</label><br>
           <label>Обновления</label>
           <mat-list role="list">
-            <mat-list-item role="listitem">Теперь все медиа файлы приложения хранятся в облаке на отдельном сервере</mat-list-item>
-            <mat-list-item role="listitem">Размер аватара пользователя ограничен до 300px по ширине</mat-list-item>
-            <mat-list-item role="listitem">Улучшена страница рекомендованных треков</mat-list-item>
+            <mat-list-item role="listitem">Изменен интерфейс приложения, теперь он адаптирован под мобильные устройства</mat-list-item>
           </mat-list>
           <label>Ошибки</label>
           <mat-list role="list">
-            <mat-list-item role="listitem">Исправлены ошибки при удалении файлов</mat-list-item>
-            <mat-list-item role="listitem">Корректное отображение пользовательской информации</mat-list-item>
-            <mat-list-item role="listitem">Решены проблемы с загрузкой файлов, содержащих в именах кириллицу</mat-list-item>
-            <mat-list-item role="listitem">Исправлено отображение страниц в разделе "Люди"</mat-list-item>
+            <mat-list-item role="listitem">Исправлено отображение контента на некоторых страницах</mat-list-item>
           </mat-list>
         </mat-tab>
       </mat-tab-group>
     </mat-list>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+</div>

@@ -3,7 +3,6 @@ import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material';
 import { CreateUserDialog } from './dialog/create-user-dialog';
 import { ErrorCreateUserDialog } from './dialog/error-create-user-dialog';
-import { SharedService } from '../../services/shared.service';
 import { User } from '../../dto/user';
 import { LocalDate } from '../../dto/local-date';
 
@@ -19,7 +18,6 @@ export class RegistrationComponent {
   isNotValid : boolean;
 
   constructor(private userService : UserService,
-              private shared : SharedService,
               public dialog: MatDialog) {
     this.newUser = this.createEmptyUser();
   }

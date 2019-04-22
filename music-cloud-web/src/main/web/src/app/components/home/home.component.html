@@ -1,8 +1,8 @@
-﻿<mat-sidenav-container class="home-container">
-    <mat-sidenav mode="side" class="home-left-container" opened>
-        <mat-card class="user-card">
+﻿<div class="home">
+    <div class="home__card">
+        <mat-card>
             <mat-card-header>
-                <div mat-card-avatar class="example-header-image"></div>
+                <div mat-card-avatar></div>
                 <mat-card-title>Мой профиль</mat-card-title>
                 <mat-card-subtitle>{{printUserName()}}</mat-card-subtitle>
             </mat-card-header>
@@ -17,8 +17,9 @@
                 <p>Обо мне: {{user.userDetails.about}}</p>
             </mat-card-content>
         </mat-card>
-    </mat-sidenav>
-    <mat-sidenav-content class="home-right-container">
+    </div>
+
+    <div class="home__content">
         <mat-list>
             <mat-tab-group>
                 <mat-tab label="Моя музыка">
@@ -119,6 +120,6 @@
                 </mat-tab>
             </mat-tab-group>
         </mat-list>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+    </div>
+</div>
 

@@ -11,7 +11,7 @@ import { ChangeTrackDialog } from '../music/dialog/change-track-dialog';
 import { MatDialog } from '@angular/material';
 import { FileService } from '../../services/file.service';
 import { Observable } from 'rxjs';
-import {AddTrackToUserDialog} from '../music/dialog/add-track-to-user-dialog';
+import { AddTrackToUserDialog } from '../music/dialog/add-track-to-user-dialog';
 
 @Component({
     selector: 'home',
@@ -22,6 +22,7 @@ import {AddTrackToUserDialog} from '../music/dialog/add-track-to-user-dialog';
 })
 
 export class HomeComponent implements OnInit {
+
     user: User;
 
     myFriends: any = [];

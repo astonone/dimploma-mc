@@ -36,7 +36,7 @@ export class MusicComponent implements OnInit {
 
   constructor(private trackService: TrackService,
               public dialog: MatDialog,
-              private shared: SharedService,
+              public shared: SharedService,
               private fileService: FileService,
               private router: Router) {
     this.user = this.shared.getLoggedUser();

@@ -1,5 +1,5 @@
 .app-img {
-    height: 90%;
+    height: 64px;
 }
 
 .app-title {
@@ -13,12 +13,25 @@
     justify-content: space-between;
 }
 
-.header-control-nav-panel {
+.header-control-label-panel {
     display: flex;
+    align-items: center;
 }
 
-.header-control-auth-panel {
+.header-control-menu-panel {
     display: flex;
+    align-items: center;
+}
+
+.sidenav {
+    width: 200px;
+    box-shadow: 3px 0 6px rgba(0,0,0,.24);
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .header-panel-el {

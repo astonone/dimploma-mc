@@ -1,36 +1,95 @@
-.settings-container {
-    height: calc(100vh - 64px);
+.setting {
 }
 
-.right-container {
+.setting__about {
+    background-color: #fff;
 }
 
-.left-container {
-    width: 0%;
+.setting__user {
+    background-color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .setting-text-input {
-    width: 300px;
+    width: 95vw;
 }
 
-.settings-tab {
-    padding: 10px;
+.setting-main-text-input {
+    width: 95vw;
+}
+
+.user__about_label {
+    text-align: center;
+}
+
+.user__settings_label {
+    text-align: center;
+}
+
+@media screen and (min-width: 481px) {
+    .setting {
+        display: flex;
+        min-height: calc(100vh - 64px);
+    }
+
+    .setting__about {
+        border-right: solid 1px rgba(0, 0, 0, .12);
+        width: 30%;
+        padding: 10px 10px 10px 10px;
+    }
+
+    .setting__user {
+        width: 70%;
+        display: block;
+        padding: 10px 10px 10px 10px;
+    }
+
+    .setting-text-input {
+        width: 100%;
+    }
+
+    .setting-main-text-input {
+        width: 300px;
+    }
+
+
+    .user__about_label {
+        text-align: left;
+    }
+
+    .user__settings_label {
+        text-align: left;
+    }
 }
 
 .about-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.about-left {
-    width: 20%;
+.about-avatar {
 }
 
-.about-right {
-
+.about-settings {
 }
 
-.user-card {
-    width: 80%;
+@media screen and (min-width: 481px) {
+    .about-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .about-avatar {
+        width: 100%;
+    }
+
+    .about-settings {
+        padding: 10px 10px 10px 10px;
+        width: 100%;
+    }
 }
 
 .save-error-label {
@@ -40,13 +99,9 @@
 .uploaded-error-label {
     color: red;
 }
+
 .uploaded-success-label {
     color: green;
-}
-
-.user-image {
-    width: 100%;
-    height: 100%;
 }
 
 .upload-button {
