@@ -83,41 +83,43 @@
                 <mat-tab label="Рекомендации">
                     <span *ngIf="recommendedMusic.length === 0">На данный момент недостаточно данных для формирования рекомендаций</span>
                     <mat-list>
-                        <mat-list-item *ngFor="let track of recommendedMusic" class="track-item">
-                            <h4 mat-line class="track-item-control">
-                                <audio controls *ngFor="let file of track.files | async" class="audio-player">
-                                    <source src={{file}} type="audio/mpeg">
-                                    <p>Ваш браузер не поддерживает HTML5 audio. Воспользуйтесь
-                                        <a href={{file}}>этой ссыклой</a></p>
-                                </audio>
-                            </h4>
-                            <div mat-line class="track-title">
-                                <div>
-                                    {{track.title + ", " + track.artist + ", " + track.year}}
+                        <ul *ngFor="let track of recommendedMusic" class="track-list">
+                            <li class="track-item">
+                                <h4 mat-line>
+                                    <audio controls *ngFor="let file of track.files | async" class="audio-player">
+                                        <source src={{file}} type="audio/mpeg">
+                                        <p>Ваш браузер не поддерживает HTML5 audio. Воспользуйтесь
+                                            <a href={{file}}>этой ссыклой</a></p>
+                                    </audio>
+                                </h4>
+                                <div mat-line class="track-title">
+                                    <div class="track__info">
+                                        {{track.title + ", " + track.artist + ", " + track.year}}
+                                    </div>
+                                    <div class="track__control">
+                                        <mat-icon class="item" mat-list-icon (click)="addTrackToUserFromRec(track.id)">add_circle_outline</mat-icon>
+                                        <mat-icon class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
+                                        <mat-form-field class="item rate">
+                                            <mat-label>Ваша оценка</mat-label>
+                                            <mat-select [(ngModel)]="track.tempRating" (selectionChange)="rateTrack(track)">
+                                                <mat-option>None</mat-option>
+                                                <mat-option value="1">1</mat-option>
+                                                <mat-option value="2">2</mat-option>
+                                                <mat-option value="3">3</mat-option>
+                                                <mat-option value="4">4</mat-option>
+                                                <mat-option value="5">5</mat-option>
+                                                <mat-option value="6">6</mat-option>
+                                                <mat-option value="7">7</mat-option>
+                                                <mat-option value="8">8</mat-option>
+                                                <mat-option value="9">9</mat-option>
+                                                <mat-option value="10">10</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <span class="item">Рейтинг: <b>{{track.rating}}</b></span>
+                                    </div>
                                 </div>
-                                <div>
-                                    <mat-icon class="item" mat-list-icon (click)="addTrackToUserFromRec(track.id)">add_circle_outline</mat-icon>
-                                    <mat-icon class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
-                                    <mat-form-field class="item rate">
-                                        <mat-label>Ваша оценка</mat-label>
-                                        <mat-select [(ngModel)]="track.tempRating" (selectionChange)="rateTrack(track)">
-                                            <mat-option>None</mat-option>
-                                            <mat-option value="1">1</mat-option>
-                                            <mat-option value="2">2</mat-option>
-                                            <mat-option value="3">3</mat-option>
-                                            <mat-option value="4">4</mat-option>
-                                            <mat-option value="5">5</mat-option>
-                                            <mat-option value="6">6</mat-option>
-                                            <mat-option value="7">7</mat-option>
-                                            <mat-option value="8">8</mat-option>
-                                            <mat-option value="9">9</mat-option>
-                                            <mat-option value="10">10</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                    <span class="item">Рейтинг: <b>{{track.rating}}</b></span>
-                                </div>
-                            </div>
-                        </mat-list-item>
+                            </li>
+                        </ul>
                     </mat-list>
                 </mat-tab>
             </mat-tab-group>

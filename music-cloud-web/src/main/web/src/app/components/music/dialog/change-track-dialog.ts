@@ -6,6 +6,7 @@ import { TrackService } from '../../../services/track.service';
 @Component({
     selector: 'change-track-dialog',
     templateUrl: 'change-track-dialog.html',
+    styleUrls: ['../music.component.css']
 })
 export class ChangeTrackDialog {
 

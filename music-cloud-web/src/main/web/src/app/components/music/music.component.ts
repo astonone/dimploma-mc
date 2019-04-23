@@ -76,7 +76,6 @@ export class MusicComponent implements OnInit {
 
   deleteTrack(track : Track) {
     const dialogRef = this.dialog.open(DeleteTrackDialog, {
-      width: '250px',
       data : null
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -94,7 +93,6 @@ export class MusicComponent implements OnInit {
 
   openTrackCreatedDialog(response : any) : void {
     const dialogRef = this.dialog.open(AddTrackToUserDialog, {
-      width: '250px',
       data : response
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -103,7 +101,6 @@ export class MusicComponent implements OnInit {
 
   changeTrack(track : Track) {
     const dialogRef = this.dialog.open(ChangeTrackDialog, {
-      width: '400px',
       data : track
     });
     dialogRef.afterClosed().subscribe(result => {

@@ -47,11 +47,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
 }
 
 .track__control {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .audio-player {
@@ -75,6 +77,37 @@
 .filter-buttons {
     display: flex;
     justify-content: center;
+}
+
+.change-track-label {
+    text-align: center;
+}
+
+.change-track-text-field {
+    width: 95%;
+}
+
+.change-track-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.additional-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-window-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-window-text-item {
+    text-align: center;
+}
+
+.modal-window-button {
+    margin-top: 5px;
 }
 
 @media screen and (min-width: 481px) {

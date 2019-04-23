@@ -33,3 +33,18 @@
 .text-filed-hint {
     color: red;
 }
+
+.modal-window-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-window-text-item {
+    text-align: center;
+}
+
+@media screen and (min-width: 481px) {
+    .registration-text-input {
+        width: 300px;
+    }
+}

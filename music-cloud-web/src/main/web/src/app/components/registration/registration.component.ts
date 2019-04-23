@@ -58,7 +58,6 @@ export class RegistrationComponent {
 
   openUserCreatedDialog(userDetails : any) : void {
     const dialogRef = this.dialog.open(CreateUserDialog, {
-        width: '350px',
         data: userDetails
       });
     dialogRef.afterClosed().subscribe(result => {
@@ -68,7 +67,6 @@ export class RegistrationComponent {
 
   openErrorUserCreatedDialog(response : any) : void{
     const dialogRef = this.dialog.open(ErrorCreateUserDialog, {
-      width: '250px',
       data : response
     });
     dialogRef.afterClosed().subscribe(result => {

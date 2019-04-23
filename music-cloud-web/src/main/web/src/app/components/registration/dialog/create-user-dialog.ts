@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'create-user-dialog',
     templateUrl: 'create-user-dialog.html',
+    styleUrls: ['../registration.component.css']
 })
 export class CreateUserDialog {
 

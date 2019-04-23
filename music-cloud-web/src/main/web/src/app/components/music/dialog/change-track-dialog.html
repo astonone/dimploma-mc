@@ -1,25 +1,25 @@
-<h1 mat-dialog-title>Редактирование</h1>
+<h1 mat-dialog-title class="change-track-label">Редактирование</h1>
 <div mat-dialog-content>
-    <mat-form-field style="width: 300px" appearance="outline">
+    <mat-form-field appearance="outline" class="change-track-text-field">
         <mat-label>Название</mat-label>
         <input matInput type="email" placeholder="Введите название" [(ngModel)]="track.title">
     </mat-form-field>
-    <mat-form-field style="width: 300px" appearance="outline">
+    <mat-form-field appearance="outline" class="change-track-text-field">
         <mat-label>Испольнитель</mat-label>
         <input matInput type="email" placeholder="Введите исполнителя" [(ngModel)]="track.artist">
     </mat-form-field>
-    <mat-form-field style="width: 300px" appearance="outline">
+    <mat-form-field appearance="outline" class="change-track-text-field">
         <mat-label>Альбом</mat-label>
         <input matInput type="email" placeholder="Введите название альбома" [(ngModel)]="track.album">
     </mat-form-field>
-    <mat-form-field style="width: 300px" appearance="outline">
+    <mat-form-field appearance="outline" class="change-track-text-field">
         <mat-label>Год</mat-label>
-        <input matInput type="email" placeholder="Введите год" [(ngModel)]="track.year">
+        <input matInput type="email" placeholder="Введите год" [(ngModel)]="track.year" class="change-track-text-field">
     </mat-form-field>
-    <span *ngIf="!isValid" style="color: red">Нельзя сохранить пустое поле!</span>
-    <button mat-raised-button color="accent">Дополнительные настройки</button>
+    <span class="change-track-label" *ngIf="!isValid" style="color: red">Нельзя сохранить пустое поле!</span>
 </div>
-<div mat-dialog-actions>
-    <button mat-raised-button color="primary" (click)="onYesClick()" cdkFocusInitial>Сохранить</button>
-    <button mat-raised-button color="warn" (click)="onNoClick()">Отмена</button>
+<div mat-dialog-actions class="modal-window-buttons">
+    <button mat-raised-button color="accent" class="modal-window-button">Дополнительные настройки</button>
+    <button mat-raised-button color="primary" class="modal-window-button" (click)="onYesClick()" cdkFocusInitial>Сохранить</button>
+    <button mat-raised-button color="warn" class="modal-window-button" (click)="onNoClick()">Отмена</button>
 </div>
