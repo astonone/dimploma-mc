@@ -13,6 +13,16 @@
     background-color: #fafafa;
 }
 
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.go-to-profile {
+    position: absolute;
+    margin-left: 10px;
+}
+
 @media screen and (min-width: 481px) {
     .users {
         display: flex;
@@ -27,6 +37,12 @@
     .users__content {
         width: 70%;
     }
+
+    .go-to-profile {
+        position: absolute;
+        margin-left: 10px;
+        cursor: pointer;
+    }
 }
 
 .user-filter-text-input {
@@ -40,11 +56,6 @@
 
 .user-filter-label {
     margin: 10px;
-}
-
-.go-to-profile {
-    position: absolute;
-    margin-left: 10px;
 }
 
 .header-label {

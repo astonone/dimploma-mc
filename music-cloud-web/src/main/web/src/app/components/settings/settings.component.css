@@ -12,6 +12,26 @@
     align-items: center;
 }
 
+.user-card {
+    width: 95vw;
+    margin-bottom: 15px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.user-control-buttons {
+    margin-left: 25px;
+}
+
 .setting-text-input {
     width: 95vw;
 }
@@ -54,13 +74,16 @@
         width: 300px;
     }
 
-
     .user__about_label {
         text-align: left;
     }
 
     .user__settings_label {
         text-align: left;
+    }
+
+    .user-card {
+        width: 100%;
     }
 }
 
@@ -106,6 +129,7 @@
 
 .upload-button {
     margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 .save-button {
@@ -113,5 +137,9 @@
 }
 
 .delete-button {
+    margin-top: 5px;
+}
+
+.delete-user-button {
     margin-left: 10px;
 }

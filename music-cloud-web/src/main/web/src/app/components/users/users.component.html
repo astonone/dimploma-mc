@@ -27,7 +27,7 @@
             <input matInput placeholder="Введите никнейм пользователя">
           </mat-form-field>
         </div>
-        <div>
+        <div class="filter-buttons">
           <button class="user-filter-search-button" mat-raised-button color="primary">Поиск</button>
           <button class="user-filter-search-button" mat-raised-button color="warn">Сброс фильтров</button>
         </div>
@@ -43,9 +43,9 @@
                      (page)="pageEvent = loadUserList($event)">
       </mat-paginator>
       <mat-list-item *ngFor="let user of users">
-        <mat-icon mat-list-icon>accessibility</mat-icon>
+        <mat-icon mat-list-icon>account_circle</mat-icon>
         <h4 mat-line>{{showUserInfo(user)}}
-          <button class="go-to-profile" mat-raised-button color="primary" (click)="gotoProfile(user.id)">Перейти в профиль</button>
+          <mat-icon class="go-to-profile" (click)="gotoProfile(user.id)" mat-list-icon>arrow_forward_ios</mat-icon>
         </h4>
         <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p>
       </mat-list-item>

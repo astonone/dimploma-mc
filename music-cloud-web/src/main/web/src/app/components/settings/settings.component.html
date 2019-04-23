@@ -70,7 +70,7 @@
                     <label *ngIf="isSuccess" class="uploaded-success-label">Данные сохранены!</label>
                 </p>
                 <label *ngIf="isAccountInfoDataNotCorrect" class="uploaded-error-label">Неккоректные данные!</label>
-                <div>
+                <div class="filter-buttons">
                     <button class="save-button" mat-raised-button color="warn" (click)="saveUserInfo()">Сохранить</button>
                 </div>
             </div>
@@ -100,9 +100,9 @@
             <label *ngIf="isAccountDataNotCorrect" class="save-error-label">Ошибка, вы ввели неккоретные данные!</label>
             <label *ngIf="isSuccessAccountSaving" class="uploaded-success-label">Данные сохранены!</label>
         </div>
-        <div>
+        <div class="user-control-buttons">
             <button mat-raised-button color="primary" (click)="saveAccount()">Сохранить</button>
-            <button class="delete-button" mat-raised-button color="warn" (click)="deleteAccount()">Удалить аккаунт</button>
+            <button class="delete-user-button" mat-raised-button color="warn" (click)="deleteAccount()">Удалить аккаунт</button>
         </div>
     </div>
 </div>

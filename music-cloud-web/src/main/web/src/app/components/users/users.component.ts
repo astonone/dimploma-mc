@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { UserList } from '../../dto/user-list';
 import { User } from '../../dto/user';
 import { Router } from '@angular/router';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'app-users',
@@ -22,7 +23,8 @@ export class UsersComponent implements OnInit {
 
   constructor(private shared: SharedService,
               private userService: UserService,
-              private router: Router) { }
+              private router: Router,
+              private fileService: FileService) { }
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {

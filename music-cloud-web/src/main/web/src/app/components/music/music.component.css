@@ -38,15 +38,28 @@
     margin: 10px;
 }
 
+.track-item-control {
+
+}
+
 .track-item {
-    margin-top: 20px;
-    margin-bottom: 30px;
+    list-style-type:none;
+    margin: 0px 0px 0px 0px;
 }
 
 .track-title {
-    display: flex !important;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.track__control {
+    display: flex;
     align-items: center;
+}
+
+.audio-player {
+    width: 100%;
 }
 
 .item {
@@ -58,7 +71,31 @@
     width: 120px;
 }
 
-.audio-player {
-    width: 100%;
+.track-list {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (min-width: 481px) {
+    .track-list {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .track-item {
+        list-style-type:none;
+        margin: 0px 0px 0px 0px;
+    }
+
+    .track-title {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+    }
 }
 
