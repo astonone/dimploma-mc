@@ -25,14 +25,36 @@
     <mat-list>
       <mat-tab-group>
         <mat-tab label="Обновления в текущей версии">
-          <label>Версия релиза 0.0.27 alpha 3</label><br>
+          <label>Версия релиза 0.0.28 alpha 3</label><br>
           <label>Обновления</label>
           <mat-list role="list">
             <mat-list-item role="listitem">Изменен интерфейс приложения, теперь он адаптирован под мобильные устройства</mat-list-item>
+            <mat-list-item role="listitem">Добавлены результаты расчета производительности рекомендательной системы</mat-list-item>
           </mat-list>
           <label>Ошибки</label>
           <mat-list role="list">
             <mat-list-item role="listitem">Исправлено отображение контента на некоторых страницах</mat-list-item>
+            <mat-list-item role="listitem">Исправлено отображение модальных окон на мобильных устройствах</mat-list-item>
+          </mat-list>
+        </mat-tab>
+        <mat-tab label="Результаты тестирования рекомендательной системы">
+          <label>Результаты вычислительного эксперимента</label><br>
+          <label>Все расчеты были произведены на компьютере со следующими характеристиками</label><br>
+          <mat-list role="list">
+            <mat-list-item role="listitem">ОС: Windows 10 x64</mat-list-item>
+            <mat-list-item role="listitem">Процессор: Core i7, 2.8 ГГц</mat-list-item>
+            <mat-list-item role="listitem">Оперативная память: 16 ГБ, ddr4</mat-list-item>
+            <mat-list-item role="listitem">Накопитель: SSD 250 ГБ</mat-list-item>
+            <label>
+              Для теста была сгенерирована таблица на 1млн записей, для 1000 пользователей и 1000 продуктов,
+              и были выполнены расчеты на основе 500 ближайших пользователей и 100 рекомендуемых продуктов
+            </label>
+            <mat-list-item role="listitem">Препроцессинг (чтение из файла и создание структуры): 12.686s</mat-list-item>
+            <mat-list-item role="listitem">Косинусная мера: 0.791s</mat-list-item>
+            <mat-list-item role="listitem">Евклидово расстояние: 0.757s</mat-list-item>
+            <mat-list-item role="listitem">Манхэттенское расстояние: 0.758s</mat-list-item>
+            <mat-list-item role="listitem">Коэффициент корреляции Пирсона: 0.792s</mat-list-item>
+            <mat-list-item role="listitem">Коэффициент Танимото: 0.762s</mat-list-item>
           </mat-list>
         </mat-tab>
       </mat-tab-group>
