@@ -38,10 +38,6 @@
     margin: 10px;
 }
 
-.track-item-control {
-
-}
-
 .track-item {
     list-style-type:none;
     margin: 0px 0px 0px 0px;
@@ -75,6 +71,7 @@
     padding-left: 5px;
     padding-right: 5px;
 }
+
 .filter-buttons {
     display: flex;
     justify-content: center;
