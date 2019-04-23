@@ -48,4 +48,6 @@ public interface UserService {
     User updateUser(UserDTO userDTO);
 
     User deletePhoto(User user);
+
+    Set<User> getAllFriends(User user);
 }

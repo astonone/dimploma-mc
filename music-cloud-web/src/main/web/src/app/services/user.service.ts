@@ -23,6 +23,12 @@ export class UserService {
   USER_UPDATE_INFO: string;
   USER_GET_BY_ID: string;
   GET_UPLOADED_PHOTO: string;
+  SEND_FRIEND_REQUEST: string;
+  CANCEL_FRIEND_REQUEST: string;
+  ADD_FRIEND_REQUEST: string;
+  REMOVE_FRIEND_REQUEST: string;
+  GET_FRIEND_REQUESTS: string;
+  GET_FRIENDS: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -41,6 +47,12 @@ export class UserService {
     this.USER_DELETE_PHOTO = this.SERVER_URL + '/api/user/{id}/deletePhoto';
     this.USER_UPDATE_INFO = this.SERVER_URL + '/api/user/{id}/user_details';
     this.GET_UPLOADED_PHOTO  = this.SERVER_URL + '/api/user/files/{filename}';
+    this.SEND_FRIEND_REQUEST  = this.SERVER_URL + '/api/user/{id}/sendFriendRequest?friendId={friendId}';
+    this.CANCEL_FRIEND_REQUEST  = this.SERVER_URL + '/api/user/{id}/cancelFriendRequest?friendId={friendId}';
+    this.ADD_FRIEND_REQUEST  = this.SERVER_URL + '/api/user/{id}/applyFriendRequest?inviterId={inviterId}';
+    this.REMOVE_FRIEND_REQUEST  = this.SERVER_URL + '/api/user/{id}/removeFriend?friendId={friendId}';
+    this.GET_FRIEND_REQUESTS  = this.SERVER_URL + '/api/user/{id}/requests';
+    this.GET_FRIENDS = this.SERVER_URL + '/api/user/{id}/friends';
   }
 
   private getOptions() {
@@ -49,6 +61,50 @@ export class UserService {
     });
 
     return { headers: headers };
+  }
+
+  sendFriendRequest(userId: number, friendId: number) {
+    let regExp = /{id}/gi;
+    let regExp2 = /{friendId}/gi;
+    let url = this.SEND_FRIEND_REQUEST.replace(regExp, userId.toString());
+    url = url.replace(regExp2, friendId.toString());
+    return this.http.post<Observable<Object>>(url, {}, this.getOptions());
+  }
+
+  cancelFriendRequest(userId: number, friendId: number) {
+    let regExp = /{id}/gi;
+    let regExp2 = /{friendId}/gi;
+    let url = this.CANCEL_FRIEND_REQUEST.replace(regExp, userId.toString());
+    url = url.replace(regExp2, friendId.toString());
+    return this.http.post<Observable<Object>>(url, {}, this.getOptions());
+  }
+
+  addFriend(userId: number, inviterId: number) {
+    let regExp = /{id}/gi;
+    let regExp2 = /{inviterId}/gi;
+    let url = this.ADD_FRIEND_REQUEST.replace(regExp, userId.toString());
+    url = url.replace(regExp2, inviterId.toString());
+    return this.http.post<Observable<Object>>(url, {}, this.getOptions());
+  }
+
+  removeFriend(userId: number, friendId: number) {
+    let regExp = /{id}/gi;
+    let regExp2 = /{friendId}/gi;
+    let url = this.REMOVE_FRIEND_REQUEST.replace(regExp, userId.toString());
+    url = url.replace(regExp2, friendId.toString());
+    return this.http.post<Observable<Object>>(url, {}, this.getOptions());
+  }
+
+  getAllFriendRequests(userId: number) {
+    let regExp = /{id}/gi;
+    let url = this.GET_FRIEND_REQUESTS.replace(regExp, userId.toString());
+    return this.http.get<Observable<Object>>(url, this.getOptions());
+  }
+
+  getAllFriends(userId: number) {
+    let regExp = /{id}/gi;
+    let url = this.GET_FRIENDS.replace(regExp, userId.toString());
+    return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 
   login(email:string, password: string) {
@@ -75,7 +131,7 @@ export class UserService {
   getAllUsers(page: number, pageSize: number) {
     let regExp = /{page}/gi;
     let regExp2 = /{pageSize}/gi;
-    let url = this.USER_GET_ALL.replace(regExp, page + "");
+    let url = this.USER_GET_ALL.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize + "");
     return this.http.get<Observable<Object>>(url, this.getOptions())
   }
@@ -86,19 +142,19 @@ export class UserService {
 
   deletePhoto(id:number) {
     let regExp = /{id}/gi;
-    let url = this.USER_DELETE_PHOTO.replace(regExp, id + "");
+    let url = this.USER_DELETE_PHOTO.replace(regExp, id.toString());
     return this.http.post<Observable<Object>>(url, {},this.getOptions());
   }
 
   updateUserInfo(user:User) {
     let regExp = /{id}/gi;
-    let url = this.USER_UPDATE_INFO.replace(regExp, user.id + "");
+    let url = this.USER_UPDATE_INFO.replace(regExp, user.id.toString());
     return this.http.put<Observable<Object>>(url, user.userDetails.toObject(), this.getOptions())
   }
 
   deleteUser(id:number) {
     let regExp = /{id}/gi;
-    let url = this.USER_DELETE.replace(regExp, id + "");
+    let url = this.USER_DELETE.replace(regExp, id.toString());
     return this.http.delete<Observable<Object>>(url, this.getOptions())
   }
 

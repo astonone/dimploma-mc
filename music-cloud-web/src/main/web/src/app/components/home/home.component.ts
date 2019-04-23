@@ -12,6 +12,8 @@ import { MatDialog } from '@angular/material';
 import { FileService } from '../../services/file.service';
 import { Observable } from 'rxjs';
 import { AddTrackToUserDialog } from '../music/dialog/add-track-to-user-dialog';
+import { UserList } from '../../dto/user-list';
+import { FriendDialog } from './dialog/friend-dialog';
 
 @Component({
     selector: 'home',
@@ -25,13 +27,15 @@ export class HomeComponent implements OnInit {
 
     user: User;
 
-    myFriends: any = [];
-    myRequest: any = [];
+    myFriends: User[] = [];
+    myRequest: User[] = [];
 
     myMusic: Track[] = [];
     recommendedMusic: Track[] = [];
     myPlaylists: any[] = [];
     response: TrackList;
+    responseFriendRequests: UserList;
+    responseFriends: UserList;
     tracksLength : number = 10;
     pageEvent : any;
     page: number = 0;
@@ -58,6 +62,8 @@ export class HomeComponent implements OnInit {
                         this.user = new User(data);
                         this.getPhoto();
                         this.loadTracksList(null);
+                        this.loadFriendRequests();
+                        this.loadFriends();
                         this.loadRecommendedTracksList();
                     },
                     error => {
@@ -69,6 +75,8 @@ export class HomeComponent implements OnInit {
         } else {
             this.user = new User(JSON.parse(this.shared.getStorage().getItem('loggedUser')));
             this.getPhoto();
+            this.loadFriendRequests();
+            this.loadFriends();
             this.loadTracksList(null);
             this.loadRecommendedTracksList();
         }
@@ -196,4 +204,66 @@ export class HomeComponent implements OnInit {
 
         tracks.splice(index, 1);
     }
+
+    loadFriendRequests() {
+        this.myRequest = [];
+        this.userService.getAllFriendRequests(this.user.id)
+            .subscribe(data => {
+                this.responseFriendRequests = new UserList(data);
+                this.responseFriendRequests.users.forEach(user => {
+                    this.myRequest.push(new User(user));
+                });
+            });
+    }
+
+    loadFriends() {
+        this.myFriends = [];
+        this.userService.getAllFriends(this.user.id)
+            .subscribe(data => {
+                this.responseFriends = new UserList(data);
+                this.responseFriends.users.forEach(user => {
+                    this.myFriends.push(new User(user));
+                });
+            });
+    }
+
+    gotoProfile(id: number) {
+        this.router.navigate(['user/'+ id]);
+    }
+
+    showUserInfo(user: User) {
+        const firstName = user.userDetails.firstName === null ? '' : user.userDetails.firstName;
+        const lastName = user.userDetails.lastName === null ? '' : user.userDetails.lastName;
+        return firstName === '' && lastName === '' ? user.email : firstName + ' ' + lastName;
+    }
+
+    addFriend(user: User) {
+        this.userService.addFriend(this.user.id, user.id)
+            .subscribe(() => {
+                this.openFriendDialog({title:'Друзья', description: 'Пользователь добавлен в друзья'});
+                this.loadFriendRequests();
+                this.loadFriends();
+            }, error => {
+                this.openFriendDialog({title:'Ошибка', description: 'Произошла ошибка:' + error.error.message});
+                console.log(error);
+            });
+    }
+
+    cancelFriendRequest(user: User) {
+        this.userService.cancelFriendRequest(this.user.id, user.id)
+            .subscribe(() => {
+                this.openFriendDialog({title:'Друзья', description: 'Заявка была отлонена'});
+                this.loadFriendRequests();
+            }, error => {
+                this.openFriendDialog({title:'Ошибка', description: 'Произошла ошибка:' + error.error.message});
+            });
+    }
+
+    openFriendDialog(data : any) : void {
+        const dialogRef = this.dialog.open(FriendDialog, {
+            data : data
+        });
+        dialogRef.afterClosed().subscribe(result => {
+        });
+    };
 }

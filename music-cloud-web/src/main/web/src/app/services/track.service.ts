@@ -47,8 +47,8 @@ export class TrackService {
   getAllTracks(page: number, pageSize: number) {
     let regExp = /{page}/gi;
     let regExp2 = /{pageSize}/gi;
-    let url = this.GET_ALL_TRACKS.replace(regExp, page + "");
-    url = url.replace(regExp2, pageSize + "");
+    let url = this.GET_ALL_TRACKS.replace(regExp, page.toString());
+    url = url.replace(regExp2, pageSize.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions())
   }
 
@@ -56,31 +56,31 @@ export class TrackService {
     let regExp = /{page}/gi;
     let regExp2 = /{pageSize}/gi;
     let regExp3 = /{id}/gi;
-    let url = this.GET_USER_TRACKS.replace(regExp, page + "");
-    url = url.replace(regExp2, pageSize + "");
-    url = url.replace(regExp3, id + "");
+    let url = this.GET_USER_TRACKS.replace(regExp, page.toString());
+    url = url.replace(regExp2, pageSize.toString());
+    url = url.replace(regExp3, id.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions())
   }
 
   addTrackToUser(userId: number, trackId: number) {
     let regExp = /{id}/gi;
     let regExp2 = /{userId}/gi;
-    let url = this.ADD_TRACK_TO_USER.replace(regExp, trackId + "");
-    url = url.replace(regExp2, userId + "");
+    let url = this.ADD_TRACK_TO_USER.replace(regExp, trackId.toString());
+    url = url.replace(regExp2, userId.toString());
     return this.http.put<Observable<Object>>(url,{}, this.getOptions())
   }
 
   deleteTrackFromUser(userId: number, trackId: number) {
     let regExp = /{id}/gi;
     let regExp2 = /{userId}/gi;
-    let url = this.DELETE_TRACK_FROM_USER.replace(regExp, trackId + "");
-    url = url.replace(regExp2, userId + "");
+    let url = this.DELETE_TRACK_FROM_USER.replace(regExp, trackId.toString());
+    url = url.replace(regExp2, userId.toString());
     return this.http.delete<Observable<Object>>(url, this.getOptions())
   }
 
   deleteTrack(id: number) {
     let regExp = /{id}/gi;
-    let url = this.DELETE_TRACK.replace(regExp, id + "");
+    let url = this.DELETE_TRACK.replace(regExp, id.toString());
     return this.http.delete<Observable<Object>>(url, this.getOptions());
   }
 
@@ -88,21 +88,21 @@ export class TrackService {
     let regExp = /{id}/gi;
     let regExp2 = /{ratingValue}/gi;
     let regExp3 = /{userId}/gi;
-    let url = this.RATE_TRACK.replace(regExp, trackId + "");
-    url = url.replace(regExp2, ratingValue + "");
-    url = url.replace(regExp3, userId + "");
+    let url = this.RATE_TRACK.replace(regExp, trackId.toString());
+    url = url.replace(regExp2, ratingValue.toString());
+    url = url.replace(regExp3, userId.toString());
     return this.http.put<Observable<Object>>(url,{}, this.getOptions());
   }
 
   updateTrack(id: number, track : any) {
     let regExp = /{id}/gi;
-    let url = this.UPDATE_TRACK.replace(regExp, id + "");
+    let url = this.UPDATE_TRACK.replace(regExp, id.toString());
     return this.http.post<Observable<Object>>(url, track, this.getOptions());
   }
 
   getRecommendedUserTracks(id: number) {
     let regExp = /{id}/gi;
-    let url = this.GET_RECOMENDED_TRACKS.replace(regExp, id + "");
+    let url = this.GET_RECOMENDED_TRACKS.replace(regExp, id.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 }

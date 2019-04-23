@@ -179,7 +179,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/cancelFriendRequest", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}/cancelFriendRequest", method = RequestMethod.POST)
     public ResponseEntity<?> cancelFriendRequest(@PathVariable("id") Long cancelerId, @RequestParam("friendId") Long friendId) {
         try {
             userService.cancelFriendRequest(cancelerId, friendId);
@@ -207,7 +207,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/removeFriend", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}/removeFriend", method = RequestMethod.POST)
     public ResponseEntity<?> removeFriend(@PathVariable("id") Long removerId, @RequestParam("friendId") Long friendId) {
         try {
             userService.removeFriend(removerId, friendId);
@@ -227,6 +227,16 @@ public class UserController {
         }
         Set<User> requests = userService.getAllFriendRequests(user);
         return new ResponseEntity<>(convertUserList(requests, null), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/friends", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllFriends(@PathVariable("id") Long userId) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
+            return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
+        }
+        Set<User> friends = userService.getAllFriends(user);
+        return new ResponseEntity<>(convertUserList(friends, null), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)

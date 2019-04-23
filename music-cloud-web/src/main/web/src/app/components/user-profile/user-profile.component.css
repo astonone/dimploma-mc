@@ -41,6 +41,11 @@
     width: 100%;
 }
 
+.user-profile-buttons {
+    display: flex;
+    justify-content: center;
+}
+
 @media screen and (min-width: 481px) {
     .home {
         display: flex;

@@ -264,4 +264,9 @@ public class UserServiceImpl implements UserService {
         userDetails.setPhotoLink(null);
         return userRepository.save(user);
     }
+
+    @Override
+    public Set<User> getAllFriends(User user) {
+        return user.getFriends();
+    }
 }

@@ -41,7 +41,7 @@ export class FileService {
 
     pushPhotoFileToStorage(id:number, file: File) : Observable<HttpEvent<{}>> {
         let regExp = /{id}/gi;
-        let url = this.USER_UPLOAD_PHOTO.replace(regExp, id + "");
+        let url = this.USER_UPLOAD_PHOTO.replace(regExp, id.toString());
 
         const formData: FormData = new FormData();
 
