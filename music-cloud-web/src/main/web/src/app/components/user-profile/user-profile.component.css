@@ -1,14 +1,28 @@
-.home-container {
-    height: calc(100vh - 64px);
+.home {
 }
 
-.right-container {
-
+.home__card {
+    background-color: #fff;
 }
 
-.left-container {
-    width: 30%;
-    max-width: 300px;
+.home__content {
+}
+
+@media screen and (min-width: 481px) {
+    .home {
+        display: flex;
+        min-height: calc(100vh - 64px);
+    }
+
+    .home__card {
+        border-right: solid 1px rgba(0,0,0,.12);
+        width: 30%;
+    }
+
+    .home__content {
+        min-height: 100%;
+        width: 70%;
+    }
 }
 
 .track-item {

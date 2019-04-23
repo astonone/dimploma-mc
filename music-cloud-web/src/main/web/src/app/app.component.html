@@ -24,10 +24,6 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary" class="header-control-panel">
-            <div class="header-control-label-panel">
-                <img class="app-img" src="../assets/app-icon.ico">
-                <span class="app-title">Music cloud</span>
-            </div>
             <div class="header-control-menu-panel">
                 <button
                         (click)="drawer.toggle()"
@@ -40,6 +36,10 @@
                  <div *ngIf="!shared.isMobile() && shared.isLogin" class="header-panel-el">Вы вошли как: {{showUserInfo()}}</div>
                 <button *ngIf="!shared.isMobile() && shared.isLogin" class="header-panel-el" routerLink="/settings" mat-raised-button color="accent">Настройки</button>
                 <button  *ngIf="!shared.isMobile() && shared.isLogin" class="header-panel-el" mat-raised-button color="warn" (click)="shared.logout()">Выход</button>
+            </div>
+            <div class="header-control-label-panel">
+                <span class="app-title">Music cloud</span>
+                <img class="app-img" src="../assets/app-icon.png">
             </div>
         </mat-toolbar>
         <router-outlet></router-outlet>
