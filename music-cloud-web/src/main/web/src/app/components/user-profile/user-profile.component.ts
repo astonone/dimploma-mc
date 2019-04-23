@@ -43,11 +43,11 @@ export class UserProfileComponent implements OnInit {
   }
 
   isEmptyPhotoLink() {
-    return this.user.email !== '' ? this.user.isEmptyPhotoLink() : false;
+    return this.user.email ? this.user.isEmptyPhotoLink() : false;
   }
 
   printUserName() {
-    return this.user.email !== '' ? this.user.printUserName() : '';
+    return this.user.email ? this.user.printUserName() : '';
   }
 
   loadUser(id: string) {
