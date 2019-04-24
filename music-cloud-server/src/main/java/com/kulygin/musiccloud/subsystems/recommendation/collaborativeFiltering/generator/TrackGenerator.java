@@ -24,7 +24,7 @@ public class TrackGenerator {
     private void readData() {
         artists = new ArrayList<>();
         try {
-            artists.addAll(Files.readAllLines(Paths.get("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\additional\\generator\\music\\music.txt")));
+            artists.addAll(Files.readAllLines(Paths.get("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\additional\\rcsData\\generator\\music\\music.txt")));
         } catch (IOException e) {
             log.error("Error via file reading: ",e);
         }
