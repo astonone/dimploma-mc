@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MoodRepository extends JpaRepository<Mood,Long> {
-    @Cacheable("mood")
     Mood findByName(String name);
     @Cacheable("mood")
     Page<Mood> findAll(Pageable pageable);

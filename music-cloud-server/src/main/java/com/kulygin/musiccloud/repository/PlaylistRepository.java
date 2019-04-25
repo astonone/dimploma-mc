@@ -6,6 +6,5 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
-    @Cacheable("playlist")
     Playlist findByNameAndUser(String name, User user);
 }

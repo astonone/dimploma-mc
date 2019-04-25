@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface TrackRepository extends JpaRepository<Track,Long> {
-    @Cacheable("track")
     Track findByFilename(String filename);
     @Cacheable("track")
     Page<Track> findAll(Pageable pageable);
