@@ -250,6 +250,18 @@ public class UserController {
         return new ResponseEntity<>(convertUserList(resultListOfUsers, count), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    public ResponseEntity<?> findUsers(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize, @RequestParam("firstName") String firstName,
+                                       @RequestParam("lastName") String lastName, @RequestParam("nickName") String nickName) {
+        Page<User> users = userService.findUsers(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")), firstName, lastName, nickName);
+        List<User> resultListOfUsers = users.getContent();
+        if (resultListOfUsers.size() == 0) {
+            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
+        }
+        int count = userService.countUsers(firstName, lastName, nickName);
+        return new ResponseEntity<>(convertUserList(resultListOfUsers, count), HttpStatus.OK);
+    }
+
     private UsersDTO convertUserList(Collection<User> dbModel, Integer count) {
         return (dbModel == null) ? null : new UsersDTO(dbModel, count);
     }

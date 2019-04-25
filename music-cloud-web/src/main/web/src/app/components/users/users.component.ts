@@ -20,6 +20,10 @@ export class UsersComponent implements OnInit {
   page: number = 0;
   pageSize : number = 10;
   pageSizeOptions : any = [10,25,50];
+  //filters
+  firstName: string = '';
+  lastName: string = '';
+  nickName: string = '';
 
   constructor(private shared: SharedService,
               private userService: UserService,
@@ -57,5 +61,23 @@ export class UsersComponent implements OnInit {
     const firstName = user.userDetails.firstName === null ? '' : user.userDetails.firstName;
     const lastName = user.userDetails.lastName === null ? '' : user.userDetails.lastName;
     return firstName === '' && lastName === '' ? user.email : firstName + ' ' + lastName;
+  }
+
+  findUsers() {
+    this.users = [];
+    this.usersLength = 0;
+
+    this.userService.findUsers(this.page, this.pageSize, this.firstName, this.lastName, this.nickName).subscribe(data => {
+      this.response = new UserList(data);
+      this.usersLength = this.response.allCount;
+      this.users = this.response.users;
+    });
+  }
+
+  clearFilters() {
+    this.loadUserList(null);
+    this.firstName = '';
+    this.lastName = '';
+    this.nickName = '';
   }
 }

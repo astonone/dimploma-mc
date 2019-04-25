@@ -12,24 +12,24 @@
         <div>
           <mat-form-field class="user-filter-text-input" appearance="outline">
             <mat-label>Имя</mat-label>
-            <input matInput placeholder="Введите имя пользователя">
+            <input matInput placeholder="Введите имя пользователя" [(ngModel)]="firstName" (keyup.enter)="findUsers()">
           </mat-form-field>
         </div>
         <div>
           <mat-form-field class="user-filter-text-input" appearance="outline">
             <mat-label>Фамилия</mat-label>
-            <input matInput placeholder="Введите фамилию пользователя">
+            <input matInput placeholder="Введите фамилию пользователя" [(ngModel)]="lastName" (keyup.enter)="findUsers()">
           </mat-form-field>
         </div>
         <div>
           <mat-form-field class="user-filter-text-input" appearance="outline">
             <mat-label>Никнейм</mat-label>
-            <input matInput placeholder="Введите никнейм пользователя">
+            <input matInput placeholder="Введите никнейм пользователя" [(ngModel)]="nickName" (keyup.enter)="findUsers()">
           </mat-form-field>
         </div>
         <div class="filter-buttons">
-          <button class="user-filter-search-button" mat-raised-button color="primary">Поиск</button>
-          <button class="user-filter-search-button" mat-raised-button color="warn">Сброс фильтров</button>
+          <button class="user-filter-search-button" mat-raised-button color="primary" (click)="findUsers()">Поиск</button>
+          <button class="user-filter-search-button" mat-raised-button color="warn" (click)="clearFilters()">Сброс фильтров</button>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -50,6 +50,6 @@
         <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p>
       </mat-list-item>
     </mat-list>
-    <span *ngIf="users.length === 0">На данный момент в системе отсутствуют пользователи</span>
+    <span *ngIf="users.length === 0">Пользватели не найдены</span>
   </div>
 </div>

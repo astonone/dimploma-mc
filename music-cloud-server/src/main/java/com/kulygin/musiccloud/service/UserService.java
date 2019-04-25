@@ -43,6 +43,10 @@ public interface UserService {
 
     Page<User> getUsersPagination(PageRequest request);
 
+    Page<User> findUsers(PageRequest request, String firstName, String lastName, String nickName);
+
+    int countUsers(String firstName, String lastName, String nickName);
+
     int countAll();
 
     User updateUser(UserDTO userDTO);

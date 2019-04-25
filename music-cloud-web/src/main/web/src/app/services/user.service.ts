@@ -29,6 +29,7 @@ export class UserService {
   REMOVE_FRIEND_REQUEST: string;
   GET_FRIEND_REQUESTS: string;
   GET_FRIENDS: string;
+  GET_USERS: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -53,6 +54,7 @@ export class UserService {
     this.REMOVE_FRIEND_REQUEST  = this.SERVER_URL + '/api/user/{id}/removeFriend?friendId={friendId}';
     this.GET_FRIEND_REQUESTS  = this.SERVER_URL + '/api/user/{id}/requests';
     this.GET_FRIENDS = this.SERVER_URL + '/api/user/{id}/friends';
+    this.GET_USERS = this.SERVER_URL + '/api/user/find?page={page}&pageSize={pageSize}&firstName={firstName}&lastName={lastName}&nickName={nickName}';
   }
 
   private getOptions() {
@@ -133,6 +135,20 @@ export class UserService {
     let regExp2 = /{pageSize}/gi;
     let url = this.USER_GET_ALL.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize + "");
+    return this.http.get<Observable<Object>>(url, this.getOptions())
+  }
+
+  findUsers(page: number, pageSize: number, firstName: string, lastName: string, nickName: string) {
+    let regExp = /{page}/gi;
+    let regExp2 = /{pageSize}/gi;
+    let regExp3 = /{firstName}/gi;
+    let regExp4 = /{lastName}/gi;
+    let regExp5 = /{nickName}/gi;
+    let url = this.GET_USERS.replace(regExp, page.toString());
+    url = url.replace(regExp2, pageSize.toString());
+    url = url.replace(regExp3, firstName);
+    url = url.replace(regExp4, lastName);
+    url = url.replace(regExp5, nickName);
     return this.http.get<Observable<Object>>(url, this.getOptions())
   }
 
