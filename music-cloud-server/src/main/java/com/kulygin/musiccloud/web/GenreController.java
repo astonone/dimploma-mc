@@ -44,6 +44,15 @@ public class GenreController {
         return new ResponseEntity<>(convert(resultListOfGenres), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllGenresn() {
+        List<Genre> genres = genreService.findAll();
+        if (genres.size() == 0) {
+            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
+        }
+        return new ResponseEntity<>(convert(genres), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteGenre(@PathVariable("id") Long genreId) {
         try {

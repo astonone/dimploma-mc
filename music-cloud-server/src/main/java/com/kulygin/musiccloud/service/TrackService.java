@@ -1,13 +1,12 @@
 package com.kulygin.musiccloud.service;
 
-import com.kulygin.musiccloud.domain.Genre;
-import com.kulygin.musiccloud.domain.Mood;
-import com.kulygin.musiccloud.domain.Track;
-import com.kulygin.musiccloud.domain.User;
+import com.kulygin.musiccloud.domain.*;
+import com.kulygin.musiccloud.dto.TrackFullInfoDTO;
 import com.kulygin.musiccloud.exception.*;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +29,10 @@ public interface TrackService {
     Page<Track> getTracksByMoodPagination(PageRequest pageRequest, Mood mood);
 
     Page<Track> getTracksByUserPagination(PageRequest id, User user);
+
+    Page<Track> findTracks(PageRequest pageRequest, TrackFullInfoDTO trackFullInfoDTO);
+
+    int countTracks(TrackFullInfoDTO trackFullInfoDTO);
 
     int countTracksByUserPagination(User user);
 

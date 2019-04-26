@@ -12,36 +12,37 @@
                 <div>
                     <mat-form-field class="music-filter-text-input" appearance="outline">
                         <mat-label>Название песни</mat-label>
-                        <input matInput placeholder="Введите название песни">
+                        <input matInput placeholder="Введите название песни" [(ngModel)]="title" (keyup.enter)="findTracks()">
                     </mat-form-field>
                 </div>
                 <div>
                     <mat-form-field class="music-filter-text-input" appearance="outline">
                         <mat-label>Автор</mat-label>
-                        <input matInput placeholder="Введите интересующего автора или группу">
+                        <input matInput placeholder="Введите интересующего автора или группу" [(ngModel)]="artist" (keyup.enter)="findTracks()">
                     </mat-form-field>
                 </div>
                 <div>
-                    <mat-form-field class="music-filter-text-input" appearance="outline">
+                    <mat-form-field class="music-filter-text-input">
                         <mat-label>Жанр</mat-label>
-                        <input matInput placeholder="Введите интересующий жанр">
+                        <mat-select [(ngModel)]="selectedGenres" multiple>
+                            <mat-option *ngFor="let genre of genres" [value]="genre">
+                                {{genre.name}}</mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
                 <div>
-                    <mat-form-field class="music-filter-text-input" appearance="outline">
+                    <mat-form-field class="music-filter-text-input">
                         <mat-label>Настроение</mat-label>
-                        <input matInput placeholder="Введите интересующее вас настроение музыки">
-                    </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field class="music-filter-text-input" appearance="outline">
-                        <mat-label>Плейлист</mat-label>
-                        <input matInput placeholder="Введите название плейлиста">
+                        <mat-select [(ngModel)]="selectedMoods" multiple>
+                            <mat-option *ngFor="let mood of moods" [value]="mood">
+                                {{mood.name}}
+                            </mat-option>
+                        </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="filter-buttons">
-                    <button class="music-filter-search-button" mat-raised-button color="primary">Поиск</button>
-                    <button class="music-filter-search-button" mat-raised-button color="warn">Сброс фильтров</button>
+                    <button class="music-filter-search-button" mat-raised-button color="primary" (click)="findTracks()">Поиск</button>
+                    <button class="music-filter-search-button" mat-raised-button color="warn" (click)="clearFilters()">Сброс фильтров</button>
                 </div>
             </mat-expansion-panel>
         </mat-accordion>
@@ -95,7 +96,7 @@
                 </li>
             </ul>
         </mat-list>
-        <span *ngIf="tracks.length === 0">На данный момент в системе отсутствуют музыкальные композиции</span>
+        <span *ngIf="tracks.length === 0">Музыкальные композиции не найдены</span>
     </div>
 </div>
 

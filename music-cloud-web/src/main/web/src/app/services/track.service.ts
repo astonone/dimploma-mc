@@ -2,23 +2,25 @@ import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedService } from './shared.service';
+import { TrackFullInfo } from '../dto/track-full-info';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrackService {
-  SERVER_URL: string;
+  private SERVER_URL: string;
 
-  UPLOAD_TRACK: string;
-  GET_ALL_TRACKS: string;
-  GET_USER_TRACKS: string;
-  ADD_TRACK_TO_USER: string;
-  DELETE_TRACK_FROM_USER: string;
-  DELETE_TRACK: string;
-  RATE_TRACK: string;
-  UPDATE_TRACK: string;
-  GET_UPLOADED_TRACK: string;
-  GET_RECOMENDED_TRACKS: string;
+  private UPLOAD_TRACK: string;
+  private GET_ALL_TRACKS: string;
+  private GET_USER_TRACKS: string;
+  private ADD_TRACK_TO_USER: string;
+  private DELETE_TRACK_FROM_USER: string;
+  private DELETE_TRACK: string;
+  private RATE_TRACK: string;
+  private UPDATE_TRACK: string;
+  private GET_UPLOADED_TRACK: string;
+  private GET_RECOMMENDED_TRACKS: string;
+  private FIND_TRACKS: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {
@@ -33,7 +35,8 @@ export class TrackService {
     this.DELETE_TRACK = this.SERVER_URL + '/api/track/{id}';
     this.RATE_TRACK = this.SERVER_URL + '/api/track/{id}/rating?ratingValue={ratingValue}&userId={userId}';
     this.UPDATE_TRACK = this.SERVER_URL + '/api/track/{id}/update';
-    this.GET_RECOMENDED_TRACKS = this.SERVER_URL + '/api/recommend/tracksForUser/{id}?nBestUsers=10&nBestTracks=10';
+    this.GET_RECOMMENDED_TRACKS = this.SERVER_URL + '/api/recommend/tracksForUser/{id}?nBestUsers=10&nBestTracks=10';
+    this.FIND_TRACKS = this.SERVER_URL + '/api/track/find?page={page}&pageSize={pageSize}';
   }
 
   private getOptions() {
@@ -50,6 +53,14 @@ export class TrackService {
     let url = this.GET_ALL_TRACKS.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions())
+  }
+
+  findTracks(request: any, page: number, pageSize: number) {
+    let regExp = /{page}/gi;
+    let regExp2 = /{pageSize}/gi;
+    let url = this.FIND_TRACKS.replace(regExp, page.toString());
+    url = url.replace(regExp2, pageSize.toString());
+    return this.http.post<Observable<Object>>(url, request, this.getOptions())
   }
 
   getUserTracks(id:number, page: number, pageSize: number) {
@@ -102,7 +113,7 @@ export class TrackService {
 
   getRecommendedUserTracks(id: number) {
     let regExp = /{id}/gi;
-    let url = this.GET_RECOMENDED_TRACKS.replace(regExp, id.toString());
+    let url = this.GET_RECOMMENDED_TRACKS.replace(regExp, id.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 }

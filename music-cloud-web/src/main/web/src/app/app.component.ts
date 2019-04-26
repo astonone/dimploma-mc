@@ -15,8 +15,8 @@ export class AppComponent {
     }
 
     showUserInfo() {
-        const firstName = this.shared.loggedUser.userDetails.firstName === null ? '' : this.shared.loggedUser.userDetails.firstName;
-        const lastName = this.shared.loggedUser.userDetails.lastName === null ? '' : this.shared.loggedUser.userDetails.lastName;
-        return firstName === '' && lastName === '' ? this.shared.loggedUser.email : firstName + ' ' + lastName;
+        const firstName = this.shared.getLoggedUser().userDetails.firstName === null ? '' : this.shared.getLoggedUser().userDetails.firstName;
+        const lastName = this.shared.getLoggedUser().userDetails.lastName === null ? '' : this.shared.getLoggedUser().userDetails.lastName;
+        return firstName === '' && lastName === '' ? this.shared.getLoggedUser().email : firstName + ' ' + lastName;
     }
 }

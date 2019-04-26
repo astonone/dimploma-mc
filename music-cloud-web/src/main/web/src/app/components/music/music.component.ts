@@ -10,6 +10,12 @@ import { DeleteTrackDialog } from './dialog/delete-track-dialog';
 import { ChangeTrackDialog } from './dialog/change-track-dialog';
 import { FileService } from '../../services/file.service';
 import { Router } from '@angular/router';
+import { Genre } from '../../dto/genre';
+import { Mood } from '../../dto/mood';
+import { GenreService } from '../../services/genre.service';
+import { MoodService } from '../../services/mood.service';
+import { GenreList } from '../../dto/genre-list';
+import { MoodList } from '../../dto/mood-list';
 
 @Component({
   selector: 'app-music',
@@ -26,19 +32,30 @@ export class MusicComponent implements OnInit {
   page: number = 0;
   pageSize : number = 10;
   pageSizeOptions : any = [10,25,50];
+  //filters
+  title: string = '';
+  artist: string = '';
+  genres: Genre[] = [];
+  moods: Mood[] = [];
+  selectedGenres:  Genre[] = [];
+  selectedMoods: Mood[] = [];
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
       this.router.navigate(['login']);
     }
     this.loadTracksList(null);
+    this.loadGenres();
+    this.loadMoods();
   }
 
   constructor(private trackService: TrackService,
               public dialog: MatDialog,
               public shared: SharedService,
               private fileService: FileService,
-              private router: Router) {
+              private router: Router,
+              private genreService: GenreService,
+              private moodService: MoodService) {
     this.user = this.shared.getLoggedUser();
   }
 
@@ -126,5 +143,46 @@ export class MusicComponent implements OnInit {
     }).indexOf(trackId);
 
     tracks.splice(index, 1);
+  }
+
+  findTracks() {
+    let genresObj = [];
+    let moodsObj = [];
+    this.selectedGenres.forEach(genre => genresObj.push(genre.toObject()));
+    this.selectedMoods.forEach(mood => moodsObj.push(mood.toObject()));
+    let request = {
+      title: this.title,
+      artist: this.artist,
+      genres: genresObj,
+      moods: moodsObj
+    };
+    this.trackService.findTracks(request, this.page, this.pageSize).subscribe(data => {
+      this.response = new TrackList(data);
+      this.tracksLength = this.response.allCount;
+      this.tracks = this.response.tracks;
+      this.loadAudioFiles();
+    });
+  }
+
+  clearFilters() {
+    this.title = '';
+    this.artist = '';
+    this.selectedGenres = [];
+    this.selectedMoods = [];
+    this.loadTracksList(null);
+  }
+
+  loadGenres() {
+    this.genreService.getAllGenres().subscribe(data => {
+      let allGenres : GenreList = new GenreList(data);
+      this.genres = allGenres.genres;
+    });
+  }
+
+  loadMoods() {
+    this.moodService.getAllMoods().subscribe(data => {
+      let allMoods : MoodList = new MoodList(data);
+      this.moods = allMoods.moods;
+    });
   }
 }

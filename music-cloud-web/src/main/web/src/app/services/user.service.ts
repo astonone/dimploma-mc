@@ -8,28 +8,28 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class UserService {
-  SERVER_URL: string;
+  private SERVER_URL: string;
 
-  USER_LOGIN : string;
-  USER_AUTH : string;
-  USER_GET: string;
-  USER_DELETE: string;
-  USER_GET_ALL: string;
-  USER_CREATE: string;
-  USER_UPDATE: string;
-  USER_ADD_USER_DATA: string;
-  USER_UPLOAD_PHOTO: string;
-  USER_DELETE_PHOTO: string;
-  USER_UPDATE_INFO: string;
-  USER_GET_BY_ID: string;
-  GET_UPLOADED_PHOTO: string;
-  SEND_FRIEND_REQUEST: string;
-  CANCEL_FRIEND_REQUEST: string;
-  ADD_FRIEND_REQUEST: string;
-  REMOVE_FRIEND_REQUEST: string;
-  GET_FRIEND_REQUESTS: string;
-  GET_FRIENDS: string;
-  GET_USERS: string;
+  private USER_LOGIN : string;
+  private USER_AUTH : string;
+  private USER_GET: string;
+  private USER_DELETE: string;
+  private USER_GET_ALL: string;
+  private USER_CREATE: string;
+  private USER_UPDATE: string;
+  private USER_ADD_USER_DATA: string;
+  private USER_UPLOAD_PHOTO: string;
+  private USER_DELETE_PHOTO: string;
+  private USER_UPDATE_INFO: string;
+  private USER_GET_BY_ID: string;
+  private GET_UPLOADED_PHOTO: string;
+  private SEND_FRIEND_REQUEST: string;
+  private CANCEL_FRIEND_REQUEST: string;
+  private ADD_FRIEND_REQUEST: string;
+  private REMOVE_FRIEND_REQUEST: string;
+  private GET_FRIEND_REQUESTS: string;
+  private GET_FRIENDS: string;
+  private GET_USERS: string;
 
   constructor(private http : HttpClient,
               private shared : SharedService) {

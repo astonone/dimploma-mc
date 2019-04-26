@@ -1,9 +1,6 @@
 package com.kulygin.musiccloud.repository;
 
-import com.kulygin.musiccloud.domain.Genre;
-import com.kulygin.musiccloud.domain.Mood;
-import com.kulygin.musiccloud.domain.Track;
-import com.kulygin.musiccloud.domain.User;
+import com.kulygin.musiccloud.domain.*;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,4 +27,8 @@ public interface TrackRepository extends JpaRepository<Track,Long> {
     @Cacheable("track")
     @Query("select count(t) from Track t")
     int countAll();
+    @Cacheable("track")
+    Page<Track> findAllByTitleOrArtistOrGenresInOrMoodsIn(Pageable pageable, String title, String artist, Set<Genre> genres, Set<Mood> moods);
+    @Cacheable("track")
+    int countAllByTitleOrArtistOrGenresInOrMoodsIn(String title, String artist, Set<Genre> genres, Set<Mood> moods);
 }

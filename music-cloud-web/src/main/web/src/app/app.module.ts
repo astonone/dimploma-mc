@@ -14,6 +14,9 @@ import { UserService } from './services/user.service';
 import { SharedService } from './services/shared.service';
 import { TrackService } from './services/track.service';
 import { FileService } from './services/file.service';
+import { GenreService } from './services/genre.service';
+import { MoodService } from './services/mood.service';
+import { PlaylistService } from './services/playlist.service';
 
 /*Components*/
 import { HomeComponent } from './components/home/home.component';
@@ -73,7 +76,10 @@ import { FriendDialog } from './components/home/dialog/friend-dialog';
         UserService,
         TrackService,
         SharedService,
-        FileService
+        FileService,
+        GenreService,
+        MoodService,
+        PlaylistService
     ],
     bootstrap: [AppComponent]
 })

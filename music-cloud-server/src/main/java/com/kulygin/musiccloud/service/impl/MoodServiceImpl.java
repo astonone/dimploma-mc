@@ -11,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 @Log4j
 public class MoodServiceImpl implements MoodService {
@@ -46,5 +49,15 @@ public class MoodServiceImpl implements MoodService {
     @Override
     public Page<Mood> getAllMoodsPagination(PageRequest pageRequest) {
         return moodRepository.findAll(pageRequest);
+    }
+
+    @Override
+    public List<Mood> findAll() {
+        return moodRepository.findAll();
+    }
+
+    @Override
+    public Set<Mood> findAllByIds(List<Long> ids) {
+        return moodRepository.findAllByIdIn(ids);
     }
 }

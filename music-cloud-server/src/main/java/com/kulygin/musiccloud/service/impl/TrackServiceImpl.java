@@ -1,28 +1,29 @@
 package com.kulygin.musiccloud.service.impl;
 
 import com.kulygin.musiccloud.domain.*;
+import com.kulygin.musiccloud.dto.GenreDTO;
+import com.kulygin.musiccloud.dto.MoodDTO;
+import com.kulygin.musiccloud.dto.TrackFullInfoDTO;
 import com.kulygin.musiccloud.exception.*;
 import com.kulygin.musiccloud.repository.TrackRepository;
-import com.kulygin.musiccloud.service.GenreService;
-import com.kulygin.musiccloud.service.StatisticalAccountingService;
-import com.kulygin.musiccloud.service.TrackService;
-import com.kulygin.musiccloud.service.UserService;
+import com.kulygin.musiccloud.service.*;
 import com.mpatric.mp3agic.*;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j
@@ -32,6 +33,8 @@ public class TrackServiceImpl implements TrackService {
     private TrackRepository trackRepository;
     @Autowired
     private GenreService genreService;
+    @Autowired
+    private MoodService moodService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -108,6 +111,18 @@ public class TrackServiceImpl implements TrackService {
         Set<User> users = new HashSet<>();
         users.add(user);
         return trackRepository.findAllByUsersContains(pageRequest, users);
+    }
+
+    @Override
+    public Page<Track> findTracks(PageRequest pageRequest, TrackFullInfoDTO trackFullInfoDTO) {
+        return trackRepository.findAllByTitleOrArtistOrGenresInOrMoodsIn(pageRequest, trackFullInfoDTO.getTitle(), trackFullInfoDTO.getArtist(),
+                genreService.findAllByIds(trackFullInfoDTO.getGenres().stream().map(GenreDTO::getId).collect(Collectors.toList())), moodService.findAllByIds(trackFullInfoDTO.getMoods().stream().map(MoodDTO::getId).collect(Collectors.toList())));
+    }
+
+    @Override
+    public int countTracks(TrackFullInfoDTO trackFullInfoDTO) {
+        return trackRepository.countAllByTitleOrArtistOrGenresInOrMoodsIn(trackFullInfoDTO.getTitle(), trackFullInfoDTO.getArtist(),
+                genreService.findAllByIds(trackFullInfoDTO.getGenres().stream().map(GenreDTO::getId).collect(Collectors.toList())), moodService.findAllByIds(trackFullInfoDTO.getMoods().stream().map(MoodDTO::getId).collect(Collectors.toList())));
     }
 
     @Override

@@ -6,6 +6,9 @@ import com.kulygin.musiccloud.exception.MoodIsNotExistsException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+import java.util.Set;
+
 public interface MoodService {
 
     Mood getMoodById(Long id);
@@ -15,4 +18,8 @@ public interface MoodService {
     Mood createMood(String name) throws MoodHasExistsException;
 
     Page<Mood> getAllMoodsPagination(PageRequest pageRequest);
+
+    List<Mood> findAll();
+
+    Set<Mood> findAllByIds(List<Long> ids);
 }

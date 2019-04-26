@@ -93,6 +93,17 @@ public class TrackController {
         return new ResponseEntity<>(convert(resultListOfTrack, count), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/find", method = RequestMethod.POST)
+    public ResponseEntity<?> findTracks(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize, @RequestBody TrackFullInfoDTO trackDTO) {
+        Page<Track> tracks = trackService.findTracks(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")), trackDTO);
+        List<Track> resultListOfTrack = tracks.getContent();
+        if (resultListOfTrack.size() == 0) {
+            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
+        }
+        int count = trackService.countTracks(trackDTO);
+        return new ResponseEntity<>(convert(resultListOfTrack, count), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/getTracksByUser/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTracksByUser(@PathVariable("id") Long userId, @RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
         User user = userService.getUserById(userId);

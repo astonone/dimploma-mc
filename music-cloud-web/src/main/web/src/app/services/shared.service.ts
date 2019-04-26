@@ -8,15 +8,15 @@ import { environment } from '../../environments/environment';
 })
 export class SharedService {
 
-  isProd: boolean = environment.production;
+  private isProd: boolean = environment.production;
 
-  HOST_DEV: string = 'http://localhost';
-  PORT_DEV: string = '8082';
+  private HOST_DEV: string = 'http://localhost';
+  private PORT_DEV: string = '8082';
 
-  HOST_PROD: string = 'https://music-cloud-social.herokuapp.com';
+  private HOST_PROD: string = 'https://music-cloud-social.herokuapp.com';
 
-  isLogin : boolean;
-  loggedUser : any;
+  private isLogin : boolean;
+  private loggedUser : any;
 
   constructor(private router: Router) {}
 

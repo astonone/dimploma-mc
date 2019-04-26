@@ -23,7 +23,7 @@
                             <input type="file" name="file" (change)="selectFile($event)"/>
                         </label>
                         <button class="upload-button" mat-raised-button color="primary" [disabled]="!selectedFiles" (click)="upload()">Загрузить</button>
-                        <button class="delete-button" mat-raised-button color="accent" (click)="deleteFile()">Удалить</button>
+                        <button class="delete-button" mat-raised-button color="warn" (click)="deleteFile()">Удалить</button>
                         <p>
                             <label *ngIf="isError" class="uploaded-error-label">Произошла ошибка при загрузке файла!</label>
                             <label *ngIf="isEmpty" class="uploaded-error-label">Нечего удалять!</label>
@@ -71,7 +71,7 @@
                 </p>
                 <label *ngIf="isAccountInfoDataNotCorrect" class="uploaded-error-label">Неккоректные данные!</label>
                 <div class="filter-buttons">
-                    <button class="save-button" mat-raised-button color="warn" (click)="saveUserInfo()">Сохранить</button>
+                    <button class="save-button" mat-raised-button color="primary" (click)="saveUserInfo()">Сохранить</button>
                 </div>
             </div>
         </div>
