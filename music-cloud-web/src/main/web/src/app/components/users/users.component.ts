@@ -24,6 +24,7 @@ export class UsersComponent implements OnInit {
   firstName: string = '';
   lastName: string = '';
   nickName: string = '';
+  isFind: boolean = false;
 
   constructor(private shared: SharedService,
               private userService: UserService,
@@ -39,17 +40,33 @@ export class UsersComponent implements OnInit {
 
   loadUserList(event) {
     if (event) {
-      this.userService.getAllUsers(event.pageIndex, event.pageSize).subscribe(data => {
-        this.response = new UserList(data);
-        this.usersLength = this.response.allCount;
-        this.users = this.response.users;
-      });
+      if (!this.isFind) {
+        this.userService.getAllUsers(event.pageIndex, event.pageSize).subscribe(data => {
+          this.response = new UserList(data);
+          this.usersLength = this.response.allCount;
+          this.users = this.response.users;
+        });
+      } else {
+        this.userService.findUsers(event.pageIndex, event.pageSize, this.firstName, this.lastName, this.nickName).subscribe(data => {
+          this.response = new UserList(data);
+          this.usersLength = this.response.allCount;
+          this.users = this.response.users;
+        });
+      }
     } else {
-      this.userService.getAllUsers(this.page, this.pageSize).subscribe(data => {
-        this.response = new UserList(data);
-        this.usersLength = this.response.allCount;
-        this.users = this.response.users;
-      });
+      if (!this.isFind) {
+        this.userService.getAllUsers(this.page, this.pageSize).subscribe(data => {
+          this.response = new UserList(data);
+          this.usersLength = this.response.allCount;
+          this.users = this.response.users;
+        });
+      } else {
+        this.userService.findUsers(this.page, this.pageSize, this.firstName, this.lastName, this.nickName).subscribe(data => {
+          this.response = new UserList(data);
+          this.usersLength = this.response.allCount;
+          this.users = this.response.users;
+        });
+      }
     }
   }
 
@@ -64,17 +81,14 @@ export class UsersComponent implements OnInit {
   }
 
   findUsers() {
+    this.isFind = true;
     this.users = [];
     this.usersLength = 0;
-
-    this.userService.findUsers(this.page, this.pageSize, this.firstName, this.lastName, this.nickName).subscribe(data => {
-      this.response = new UserList(data);
-      this.usersLength = this.response.allCount;
-      this.users = this.response.users;
-    });
+    this.loadUserList(null);
   }
 
   clearFilters() {
+    this.isFind = false;
     this.loadUserList(null);
     this.firstName = '';
     this.lastName = '';

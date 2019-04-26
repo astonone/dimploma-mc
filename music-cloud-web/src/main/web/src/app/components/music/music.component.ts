@@ -39,6 +39,7 @@ export class MusicComponent implements OnInit {
   moods: Mood[] = [];
   selectedGenres:  Genre[] = [];
   selectedMoods: Mood[] = [];
+  isFind: boolean = false;
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
@@ -61,20 +62,58 @@ export class MusicComponent implements OnInit {
 
   loadTracksList(event) {
     if (event) {
-      this.trackService.getAllTracks(event.pageIndex, event.pageSize)
-          .subscribe(data => {
-            this.response = new TrackList(data);
-            this.tracksLength = this.response.allCount;
-            this.tracks = this.response.tracks;
-            this.loadAudioFiles();
-          });
+      if (!this.isFind) {
+        this.trackService.getAllTracks(event.pageIndex, event.pageSize)
+            .subscribe(data => {
+              this.response = new TrackList(data);
+              this.tracksLength = this.response.allCount;
+              this.tracks = this.response.tracks;
+              this.loadAudioFiles();
+            });
+      } else {
+        let genresObj = [];
+        let moodsObj = [];
+        this.selectedGenres.forEach(genre => genresObj.push(genre.toObject()));
+        this.selectedMoods.forEach(mood => moodsObj.push(mood.toObject()));
+        let request = {
+          title: this.title,
+          artist: this.artist,
+          genres: genresObj,
+          moods: moodsObj
+        };
+        this.trackService.findTracks(request, event.pageIndex, event.pageSize).subscribe(data => {
+          this.response = new TrackList(data);
+          this.tracksLength = this.response.allCount;
+          this.tracks = this.response.tracks;
+          this.loadAudioFiles();
+        });
+      }
     } else {
-      this.trackService.getAllTracks(this.page, this.pageSize).subscribe(data => {
-        this.response = new TrackList(data);
-        this.tracks = this.response.tracks;
-        this.tracksLength = this.response.allCount;
-        this.loadAudioFiles();
-      });
+      if (!this.isFind) {
+        this.trackService.getAllTracks(this.page, this.pageSize).subscribe(data => {
+          this.response = new TrackList(data);
+          this.tracks = this.response.tracks;
+          this.tracksLength = this.response.allCount;
+          this.loadAudioFiles();
+        });
+      } else {
+        let genresObj = [];
+        let moodsObj = [];
+        this.selectedGenres.forEach(genre => genresObj.push(genre.toObject()));
+        this.selectedMoods.forEach(mood => moodsObj.push(mood.toObject()));
+        let request = {
+          title: this.title,
+          artist: this.artist,
+          genres: genresObj,
+          moods: moodsObj
+        };
+        this.trackService.findTracks(request, this.page, this.pageSize).subscribe(data => {
+          this.response = new TrackList(data);
+          this.tracksLength = this.response.allCount;
+          this.tracks = this.response.tracks;
+          this.loadAudioFiles();
+        });
+      }
     }
   }
 
@@ -146,25 +185,14 @@ export class MusicComponent implements OnInit {
   }
 
   findTracks() {
-    let genresObj = [];
-    let moodsObj = [];
-    this.selectedGenres.forEach(genre => genresObj.push(genre.toObject()));
-    this.selectedMoods.forEach(mood => moodsObj.push(mood.toObject()));
-    let request = {
-      title: this.title,
-      artist: this.artist,
-      genres: genresObj,
-      moods: moodsObj
-    };
-    this.trackService.findTracks(request, this.page, this.pageSize).subscribe(data => {
-      this.response = new TrackList(data);
-      this.tracksLength = this.response.allCount;
-      this.tracks = this.response.tracks;
-      this.loadAudioFiles();
-    });
+    this.isFind = true;
+    this.tracks = [];
+    this.tracksLength = 0;
+    this.loadTracksList(null);
   }
 
   clearFilters() {
+    this.isFind = false;
     this.title = '';
     this.artist = '';
     this.selectedGenres = [];
