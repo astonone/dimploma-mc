@@ -24,6 +24,6 @@ public interface TrackRepository extends JpaRepository<Track,Long> {
     List<Track> findAllByIdIn(List<Long> ids);
     @Query("select count(t) from Track t")
     int countAll();
-    Page<Track> findAllByTitleOrArtistOrGenresInOrMoodsIn(Pageable pageable, String title, String artist, Set<Genre> genres, Set<Mood> moods);
-    int countAllByTitleOrArtistOrGenresInOrMoodsIn(String title, String artist, Set<Genre> genres, Set<Mood> moods);
+    Page<Track> findAllDistinctByTitleOrArtistOrGenresInOrMoodsIn(Pageable pageable, String title, String artist, Set<Genre> genres, Set<Mood> moods);
+    int countAllDistinctByTitleOrArtistOrGenresInOrMoodsIn(String title, String artist, Set<Genre> genres, Set<Mood> moods);
 }

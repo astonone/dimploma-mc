@@ -129,13 +129,13 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public Page<Track> findTracks(PageRequest pageRequest, TrackFullInfoDTO trackFullInfoDTO) {
-        return trackRepository.findAllByTitleOrArtistOrGenresInOrMoodsIn(pageRequest, trackFullInfoDTO.getTitle(), trackFullInfoDTO.getArtist(),
+        return trackRepository.findAllDistinctByTitleOrArtistOrGenresInOrMoodsIn(pageRequest, trackFullInfoDTO.getTitle(), trackFullInfoDTO.getArtist(),
                 genreService.findAllByIds(trackFullInfoDTO.getGenres().stream().map(GenreDTO::getId).collect(Collectors.toList())), moodService.findAllByIds(trackFullInfoDTO.getMoods().stream().map(MoodDTO::getId).collect(Collectors.toList())));
     }
 
     @Override
     public int countTracks(TrackFullInfoDTO trackFullInfoDTO) {
-        return trackRepository.countAllByTitleOrArtistOrGenresInOrMoodsIn(trackFullInfoDTO.getTitle(), trackFullInfoDTO.getArtist(),
+        return trackRepository.countAllDistinctByTitleOrArtistOrGenresInOrMoodsIn(trackFullInfoDTO.getTitle(), trackFullInfoDTO.getArtist(),
                 genreService.findAllByIds(trackFullInfoDTO.getGenres().stream().map(GenreDTO::getId).collect(Collectors.toList())), moodService.findAllByIds(trackFullInfoDTO.getMoods().stream().map(MoodDTO::getId).collect(Collectors.toList())));
     }
 
