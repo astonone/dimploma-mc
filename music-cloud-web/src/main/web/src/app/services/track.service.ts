@@ -20,7 +20,11 @@ export class TrackService {
   private GET_UPLOADED_TRACK: string;
   private GET_RECOMMENDED_TRACKS: string;
   private FIND_TRACKS: string;
-  private GET_TRACK: string;
+  private GET_TRACK_FULL_INFO: string;
+  private ADD_TRACK_MOOD: string;
+  private REMOVE_TRACK_MOOD: string;
+  private ADD_TRACK_GENRE: string;
+  private REMOVE_TRACK_GENRE: string;
 
   constructor(private http: HttpClient,
               private shared: SharedService) {
@@ -37,7 +41,11 @@ export class TrackService {
     this.UPDATE_TRACK = this.SERVER_URL + '/api/track/{id}/update';
     this.GET_RECOMMENDED_TRACKS = this.SERVER_URL + '/api/recommend/tracksForUser/{id}?nBestUsers=10&nBestTracks=10';
     this.FIND_TRACKS = this.SERVER_URL + '/api/track/find?page={page}&pageSize={pageSize}';
-    this.GET_TRACK = this.SERVER_URL + '/api/track/{id}';
+    this.GET_TRACK_FULL_INFO = this.SERVER_URL + '/api/track/{id}/fullInfo';
+    this.ADD_TRACK_MOOD = this.SERVER_URL + '/api/track/{id}/mood?moodId={moodId}';
+    this.REMOVE_TRACK_MOOD = this.SERVER_URL + '/api/track/{id}/mood?moodId={moodId}';
+    this.ADD_TRACK_GENRE = this.SERVER_URL + '/api/track/{id}/genre?genreId={genreId}';
+    this.REMOVE_TRACK_GENRE = this.SERVER_URL + '/api/track/{id}/genre?genreId={genreId}';
   }
 
   private getOptions() {
@@ -46,6 +54,38 @@ export class TrackService {
     });
 
     return { headers: headers };
+  }
+
+  public addTrackGenre(trackId: number, genreId: number) {
+    const regExp = /{id}/gi;
+    const regExp2 = /{genreId}/gi;
+    let url = this.ADD_TRACK_GENRE.replace(regExp, trackId.toString());
+    url = url.replace(regExp2, genreId.toString());
+    return this.http.put<Observable<Object>>(url, {}, this.getOptions());
+  }
+
+  public addTrackMood(trackId: number, moodId: number) {
+    const regExp = /{id}/gi;
+    const regExp2 = /{moodId}/gi;
+    let url = this.ADD_TRACK_MOOD.replace(regExp, trackId.toString());
+    url = url.replace(regExp2, moodId.toString());
+    return this.http.put<Observable<Object>>(url, {}, this.getOptions());
+  }
+
+  public removeTrackGenre(trackId: number, genreId: number) {
+    const regExp = /{id}/gi;
+    const regExp2 = /{genreId}/gi;
+    let url = this.REMOVE_TRACK_GENRE.replace(regExp, trackId.toString());
+    url = url.replace(regExp2, genreId.toString());
+    return this.http.delete<Observable<Object>>(url, this.getOptions());
+  }
+
+  public removeTrackMood(trackId: number, moodId: number) {
+    const regExp = /{id}/gi;
+    const regExp2 = /{moodId}/gi;
+    let url = this.REMOVE_TRACK_MOOD.replace(regExp, trackId.toString());
+    url = url.replace(regExp2, moodId.toString());
+    return this.http.delete<Observable<Object>>(url, this.getOptions());
   }
 
   public getAllTracks(page: number, pageSize: number) {
@@ -90,9 +130,9 @@ export class TrackService {
     return this.http.delete<Observable<Object>>(url, this.getOptions());
   }
 
-  public getTrack(id: number) {
+  public getTrackFullInfo(id: number) {
     const regExp = /{id}/gi;
-    const url = this.GET_TRACK.replace(regExp, id.toString());
+    const url = this.GET_TRACK_FULL_INFO.replace(regExp, id.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 

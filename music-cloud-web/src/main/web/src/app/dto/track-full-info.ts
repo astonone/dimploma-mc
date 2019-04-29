@@ -13,8 +13,23 @@ export class TrackFullInfo {
     private _duration: string;
     private _rating: number;
     private _tempRating: number;
-    private _genres: Genre[];
-    private _moods: Mood[];
+    private _genres: Genre[] = [];
+    private _moods: Mood[] = [];
+
+    public static createEmptyObject() {
+        return new TrackFullInfo({
+           id: '',
+           title: '',
+           artist: '',
+           album: '',
+           year: '',
+           filename: '',
+           duration: '',
+           rating: '',
+           genres: [],
+           moods: []
+        });
+    }
 
     constructor(data: any) {
         this._id = data.id;

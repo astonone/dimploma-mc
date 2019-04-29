@@ -13,7 +13,7 @@ import { FileService } from '../../services/file.service';
 import { Observable } from 'rxjs';
 import { AddTrackToUserDialog } from '../music/dialog/add-track-to-user-dialog';
 import { UserList } from '../../dto/user-list';
-import { FriendDialog } from './dialog/friend-dialog';
+import { InfoDialog } from './dialog/info-dialog';
 
 @Component({
     selector: 'home',
@@ -85,14 +85,14 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    addTrackToUser(id: number) {
+    public addTrackToUser(id: number) {
         this.trackService.addTrackToUser(this.user.id, id)
             .subscribe(data => {
                 this.openTrackCreatedDialog(null);
             });
     }
 
-    addTrackToUserFromRec(id: number) {
+    public addTrackToUserFromRec(id: number) {
         this.trackService.addTrackToUser(this.user.id, id)
             .subscribe(data => {
                 this.openTrackCreatedDialog(null);
@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    openTrackCreatedDialog(response: any): void {
+    private openTrackCreatedDialog(response: any): void {
         const dialogRef = this.dialog.open(AddTrackToUserDialog, {
             width: '250px',
             data : response
@@ -109,15 +109,15 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    isEmptyPhotoLink() {
+    public isEmptyPhotoLink() {
         return this.user.email ? this.user.isEmptyPhotoLink() : false;
     }
 
-    printUserName() {
+    public printUserName() {
         return this.user.email ? this.user.printUserName() : '';
     }
 
-    loadTracksList(event) {
+    private loadTracksList(event) {
         if (event) {
             this.trackService.getUserTracks(this.user.id, event.pageIndex, event.pageSize)
                 .subscribe(data => {
@@ -137,7 +137,7 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    loadRecommendedTracksList() {
+    private loadRecommendedTracksList() {
         this.trackService.getRecommendedUserTracks(this.user.id)
             .subscribe(data => {
                 this.response = new TrackList(data);
@@ -146,13 +146,13 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    loadAudioFiles(tracks: Track[]) {
+    private loadAudioFiles(tracks: Track[]) {
         for (let i = 0; i < tracks.length; i++) {
             this.loadFile(tracks[i]);
         }
     }
 
-    deleteTrackFromUser(track: Track) {
+    public deleteTrackFromUser(track: Track) {
         const dialogRef = this.dialog.open(DeleteTrackDialog, {
             width: '250px',
             data : null
@@ -171,7 +171,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    changeTrack(track: Track) {
+    public changeTrack(track: Track) {
         const dialogRef = this.dialog.open(ChangeTrackDialog, {
             width: '400px',
             data : track
@@ -180,7 +180,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    rateTrack(track: Track) {
+    public rateTrack(track: Track) {
         this.trackService.rateTrack(track.id, this.user.id, track.tempRating)
             .subscribe(data => {
                 const updatedTrack = new Track(data);
@@ -189,15 +189,15 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    getPhoto() {
+    private getPhoto() {
         this.photos = this.fileService.getUploadedPhoto(this.user.getPhotoLink());
     }
 
-    loadFile(track: Track) {
+    private loadFile(track: Track) {
         track.files = this.fileService.getUploadedTrack(track.filename);
     }
 
-    deleteTrack(trackId: number, tracks: Track[]) {
+    public deleteTrack(trackId: number, tracks: Track[]) {
         const index = tracks.map(x => {
             return x.id;
         }).indexOf(trackId);
@@ -205,7 +205,7 @@ export class HomeComponent implements OnInit {
         tracks.splice(index, 1);
     }
 
-    loadFriendRequests() {
+    private loadFriendRequests() {
         this.myRequest = [];
         this.userService.getAllFriendRequests(this.user.id)
             .subscribe(data => {
@@ -216,7 +216,7 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    loadFriends() {
+    private loadFriends() {
         this.myFriends = [];
         this.userService.getAllFriends(this.user.id)
             .subscribe(data => {
@@ -227,17 +227,17 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    gotoProfile(id: number) {
+    public gotoProfile(id: number) {
         this.router.navigate(['user/' + id]);
     }
 
-    showUserInfo(user: User) {
+    public showUserInfo(user: User) {
         const firstName = user.userDetails.firstName === null ? '' : user.userDetails.firstName;
         const lastName = user.userDetails.lastName === null ? '' : user.userDetails.lastName;
         return firstName === '' && lastName === '' ? user.email : firstName + ' ' + lastName;
     }
 
-    addFriend(user: User) {
+    public addFriend(user: User) {
         this.userService.addFriend(this.user.id, user.id)
             .subscribe(() => {
                 this.openFriendDialog({title: 'Друзья', description: 'Пользователь добавлен в друзья'});
@@ -249,7 +249,7 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    cancelFriendRequest(user: User) {
+    public cancelFriendRequest(user: User) {
         this.userService.cancelFriendRequest(this.user.id, user.id)
             .subscribe(() => {
                 this.openFriendDialog({title: 'Друзья', description: 'Заявка была отлонена'});
@@ -259,8 +259,8 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    openFriendDialog(data: any): void {
-        const dialogRef = this.dialog.open(FriendDialog, {
+    private openFriendDialog(data: any): void {
+        const dialogRef = this.dialog.open(InfoDialog, {
             data : data
         });
         dialogRef.afterClosed().subscribe(result => {

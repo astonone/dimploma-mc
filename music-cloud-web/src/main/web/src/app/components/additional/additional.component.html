@@ -1,5 +1,50 @@
 <div class="additional-container">
   <h3 class="additional-container-item">Здесь вы можете задать для треков жанры и настроения</h3>
-  <span>Трек: {{track.title + ", " + track.artist + ", " + track.year}}</span>
+  <span class="additional-container-item">Трек: {{track.title + ", " + track.artist + ", " + track.year}}</span>
+  <div class="track-info-container">
+    <div class="track-info-container-genres">
+      <span>Жанры</span>
+      <div *ngFor="let genre of track.genres">
+        <span>{{genre.name}}</span>
+      </div>
+      <br>
+      <span *ngIf="track.genres.length === 0">Пока нет жанров</span>
+    </div>
+    <div class="track-info-container-moods">
+      <span>Настроения</span>
+      <div *ngFor="let mood of track.moods">
+        <span>{{mood.name}}</span>
+      </div>
+      <br>
+      <span *ngIf="track.moods.length === 0">Пока нет настроений</span>
+    </div>
+  </div>
+  <div class="filter-text-input">
+    <mat-form-field class="filter-text-input">
+      <mat-label>Жанр</mat-label>
+      <mat-select [(ngModel)]="selectedGenre">
+        <mat-option *ngFor="let genre of genres" [value]="genre">
+          {{genre.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="control-buttons">
+      <button class="control-button" mat-raised-button color="primary" (click)="addTrackGenre()">Добавить</button>
+      <button class="control-button" mat-raised-button color="warn" (click)="removeTrackGenre()">Удалить</button>
+    </div>
+  </div>
+  <div class="filter-text-input">
+    <mat-form-field class="filter-text-input">
+      <mat-label>Настроение</mat-label>
+      <mat-select [(ngModel)]="selectedMood">
+        <mat-option *ngFor="let mood of moods" [value]="mood">
+          {{mood.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="control-buttons">
+      <button class="control-button" mat-raised-button color="primary" (click)="addTrackMood()">Добавить</button>
+      <button class="control-button" mat-raised-button color="warn" (click)="removeTrackMood()">Удалить</button>
+    </div>
+  </div>
 </div>
 

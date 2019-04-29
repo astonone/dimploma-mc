@@ -8,7 +8,7 @@ import { Track } from '../../dto/track';
 import { TrackList } from '../../dto/track-list';
 import { TrackService } from '../../services/track.service';
 import { SharedService } from '../../services/shared.service';
-import { FriendDialog } from '../home/dialog/friend-dialog';
+import { InfoDialog } from '../home/dialog/info-dialog';
 import { MatDialog } from '@angular/material';
 import { UserList } from '../../dto/user-list';
 
@@ -19,7 +19,7 @@ import { UserList } from '../../dto/user-list';
 })
 export class UserProfileComponent implements OnInit {
 
-  public user: User;
+  public user: User = User.createEmptyUser();
   public loggedUser: User;
   public photos: Observable<string[]>;
   public music: Track[] = [];
@@ -146,7 +146,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   private openFriendDialog(data: any): void {
-    const dialogRef = this.dialog.open(FriendDialog, {
+    const dialogRef = this.dialog.open(InfoDialog, {
       data : data
     });
     dialogRef.afterClosed().subscribe(result => {

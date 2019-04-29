@@ -48,7 +48,7 @@ export class ChangeTrackDialog {
     }
 
     private isValidInput() {
-        return (this.track.title !== '')  && (this.track.artist !== '') && (this.track.album !== '') && (this.track.year !== '');
+        return (this.track.title !== '')  && (this.track.artist !== '');
     }
 
     public gotoAdditional() {

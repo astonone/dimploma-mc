@@ -9,6 +9,31 @@ export class User {
     private _dateCreate: LocalDate;
     private _userDetails: UserDetails;
 
+    public static createEmptyUser() {
+        return new User({
+            id : '',
+            email: '',
+            password: '',
+            dateCreate: '',
+            userDetails: User.createEmptyUserDetails()
+        });
+    }
+
+    public static createEmptyUserDetails() {
+        return new UserDetails({
+            id : '',
+            firstName: '',
+            lastName: '',
+            about: '',
+            birthday: {
+                year: '',
+                month: '',
+                day: ''
+            },
+            nick: '',
+            photoLink: ''
+        });
+    }
 
     constructor(data: any) {
         this._id = data.id;
@@ -17,7 +42,7 @@ export class User {
         this._newPassword = data.newPassword;
         this._dateCreate = new LocalDate(data.dateCreate);
         this._userDetails = !data.userDetails || data.userDetails.id !== null ? new UserDetails(data.userDetails) :
-            this.createEmptyUserDetails();
+            User.createEmptyUserDetails();
     }
 
     get id(): number {
@@ -66,22 +91,6 @@ export class User {
 
     set userDetails(value: UserDetails) {
         this._userDetails = value;
-    }
-
-    public createEmptyUserDetails() {
-        return new UserDetails({
-            id : '',
-            firstName: '',
-            lastName: '',
-            about: '',
-            birthday: {
-                year: '',
-                month: '',
-                day: ''
-            },
-            nick: '',
-            photoLink: ''
-        });
     }
 
     public toObject() {

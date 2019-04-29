@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    login() {
+    public login() {
         if (this.isRemember) {
             localStorage.setItem('isRemember', 'true');
         } else {

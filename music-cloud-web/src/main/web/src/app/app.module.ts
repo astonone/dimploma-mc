@@ -35,7 +35,7 @@ import { ErrorCreateUserDialog } from './components/registration/dialog/error-cr
 import { AddTrackToUserDialog } from './components/music/dialog/add-track-to-user-dialog';
 import { DeleteTrackDialog } from './components/music/dialog/delete-track-dialog';
 import { ChangeTrackDialog } from './components/music/dialog/change-track-dialog';
-import { FriendDialog } from './components/home/dialog/friend-dialog';
+import { InfoDialog } from './components/home/dialog/info-dialog';
 import { AdditionalComponent } from './components/additional/additional.component';
 
 @NgModule({
@@ -63,7 +63,7 @@ import { AdditionalComponent } from './components/additional/additional.componen
         AddTrackToUserDialog,
         DeleteTrackDialog,
         ChangeTrackDialog,
-        FriendDialog
+        InfoDialog
 ,
         AdditionalComponent
     ],
@@ -73,7 +73,7 @@ import { AdditionalComponent } from './components/additional/additional.componen
         AddTrackToUserDialog,
         DeleteTrackDialog,
         ChangeTrackDialog,
-        FriendDialog
+        InfoDialog
     ],
     providers: [
         UserService,

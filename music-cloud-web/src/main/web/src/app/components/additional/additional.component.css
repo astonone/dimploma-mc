@@ -23,3 +23,39 @@
 .additional-success-label {
     color: green;
 }
+
+.filter-text-input {
+    margin: 10px;
+    width: 95%;
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.control-button {
+    margin: 5px 5px 5px 5px;
+}
+
+.track-info-container {
+    display: flex;
+    text-align: center;
+}
+
+.track-info-container-moods {
+    font-weight: bold;
+    margin: 10px 10px 10px 10px;
+}
+
+.track-info-container-genres {
+    font-weight: bold;
+    margin: 10px 10px 10px 10px;
+}
+
+@media screen and (min-width: 481px) {
+    .filter-text-input {
+        margin: 10px;
+        width: 300px;
+    }
+}

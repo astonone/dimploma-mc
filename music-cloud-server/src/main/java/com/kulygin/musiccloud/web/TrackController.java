@@ -160,7 +160,7 @@ public class TrackController {
         } catch (GenreIsNotExistsException genreIsNotExists) {
             return getErrorResponseBody(ApplicationErrorTypes.GENRE_ID_NOT_FOUND);
         }
-        return new ResponseEntity<>(convert(track), HttpStatus.OK);
+        return new ResponseEntity<>(convertTrackFullInfo(track), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/genre", method = RequestMethod.DELETE)
@@ -175,7 +175,7 @@ public class TrackController {
         } catch (TrackHasNotGenreException trackHasNotGenreException) {
             return getErrorResponseBody(ApplicationErrorTypes.TRACK_HAS_NOT_GENRE);
         }
-        return new ResponseEntity<>(convert(track), HttpStatus.OK);
+        return new ResponseEntity<>(convertTrackFullInfo(track), HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}/mood", method = RequestMethod.PUT)
@@ -190,7 +190,7 @@ public class TrackController {
             return getErrorResponseBody(ApplicationErrorTypes.MOOD_ID_NOT_FOUND);
         }
         track = trackService.addTrackMood(track, mood);
-        return new ResponseEntity<>(convert(track), HttpStatus.OK);
+        return new ResponseEntity<>(convertTrackFullInfo(track), HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}/mood", method = RequestMethod.DELETE)
@@ -210,7 +210,7 @@ public class TrackController {
         } catch (TrackHasNotThisMoodException trackHasNotThisMoodException) {
             return getErrorResponseBody(ApplicationErrorTypes.TRACK_HAS_NOT_THIS_MOOD);
         }
-        return new ResponseEntity<Object>(convert(track), HttpStatus.OK);
+        return new ResponseEntity<Object>(convertTrackFullInfo(track), HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}/rating", method = RequestMethod.PUT)
