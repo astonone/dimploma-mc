@@ -1,9 +1,9 @@
 export class LocalDate {
-    private _year : number;
-    private _month : number;
-    private _day : number;
+    private _year: number;
+    private _month: number;
+    private _day: number;
 
-    constructor(data :any) {
+    constructor(data: any) {
         this._year = data.year;
         this._month = data.month;
         this._day = data.day;
@@ -36,7 +36,7 @@ export class LocalDate {
 
     printDate() {
         if (this.day !== null && this.month !== null && this.year !== null) {
-            return this.day + "." + this.month + "." + this.year;
+            return this.day + '.' + this.month + '.' + this.year;
         } else {
             return '';
         }

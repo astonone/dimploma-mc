@@ -2,13 +2,13 @@ import { Track } from './track';
 import { User } from './user';
 
 export class Playlist {
-    private _id : number;
-    private _name : string;
-    private _tracks : Track[];
-    private _user : User;
+    private _id: number;
+    private _name: string;
+    private _tracks: Track[];
+    private _user: User;
 
 
-    constructor(data : any) {
+    constructor(data: any) {
         this._id = data.id;
         this._name = data.name;
         this._tracks = data.tracks.forEach(track => {

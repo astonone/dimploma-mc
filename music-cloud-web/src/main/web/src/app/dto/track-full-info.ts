@@ -3,18 +3,18 @@ import { Genre } from './genre';
 import { Mood } from './mood';
 
 export class TrackFullInfo {
-    private _id : number;
-    private _title : string;
-    private _artist : string;
-    private _album : string;
-    private _year : string;
-    private _filename : string;
-    private _files : Observable<string[]>;
-    private _duration : string;
-    private _rating : number;
-    private _tempRating : number;
-    private _genres : Genre[];
-    private _moods : Mood[];
+    private _id: number;
+    private _title: string;
+    private _artist: string;
+    private _album: string;
+    private _year: string;
+    private _filename: string;
+    private _files: Observable<string[]>;
+    private _duration: string;
+    private _rating: number;
+    private _tempRating: number;
+    private _genres: Genre[];
+    private _moods: Mood[];
 
     constructor(data: any) {
         this._id = data.id;

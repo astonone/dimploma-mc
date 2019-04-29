@@ -1,6 +1,6 @@
 export class Genre {
-    private _id : number;
-    private _name : string;
+    private _id: number;
+    private _name: string;
 
     constructor(data: any) {
         this._id = data.id;

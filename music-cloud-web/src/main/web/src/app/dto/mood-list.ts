@@ -1,8 +1,8 @@
 import { Mood } from './mood';
 
 export class MoodList {
-    private _allCount : number;
-    private _moods : Mood[] = [];
+    private _allCount: number;
+    private _moods: Mood[] = [];
 
     constructor(data: any) {
         this._allCount = data.allCount;

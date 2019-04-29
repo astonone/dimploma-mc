@@ -1,8 +1,8 @@
 import { Playlist } from './playlist';
 
 export class PlaylistList {
-    private _allCount : number;
-    private _playlists : Playlist[] = [];
+    private _allCount: number;
+    private _playlists: Playlist[] = [];
 
     constructor(data: any) {
         this._allCount = data.allCount;

@@ -2,21 +2,22 @@ import { LocalDate } from './local-date';
 import { UserDetails } from './user-details';
 
 export class User {
-    private _id : number;
-    private _email : string;
-    private _password : string;
-    private _newPassword : string;
-    private _dateCreate : LocalDate;
+    private _id: number;
+    private _email: string;
+    private _password: string;
+    private _newPassword: string;
+    private _dateCreate: LocalDate;
     private _userDetails: UserDetails;
 
 
-    constructor(data : any) {
+    constructor(data: any) {
         this._id = data.id;
         this._email = data.email;
         this._password = data.password;
         this._newPassword = data.newPassword;
         this._dateCreate = new LocalDate(data.dateCreate);
-        this._userDetails = !data.userDetails || data.userDetails.id !== null ? new UserDetails(data.userDetails) : this.createEmptyUserDetails();
+        this._userDetails = !data.userDetails || data.userDetails.id !== null ? new UserDetails(data.userDetails) :
+            this.createEmptyUserDetails();
     }
 
     get id(): number {

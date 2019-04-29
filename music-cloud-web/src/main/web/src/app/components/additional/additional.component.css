@@ -1,0 +1,25 @@
+.additional-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100vh - 64px);
+}
+
+.additional-error-label {
+    color: red;
+}
+
+.additional-container-item {
+    margin: 10px 10px 10px 10px;
+    text-align: center;
+}
+
+.pb {
+    width: 300px;
+    margin: 10px 10px 10px 10px;
+}
+
+.additional-success-label {
+    color: green;
+}

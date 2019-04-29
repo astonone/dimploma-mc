@@ -1,8 +1,8 @@
 import {Track} from './track';
 
 export class TrackList {
-    private _tracks : Track[] = [];
-    private _allCount : number;
+    private _tracks: Track[] = [];
+    private _allCount: number;
 
     constructor(data: any) {
         this._allCount = data.countAll;

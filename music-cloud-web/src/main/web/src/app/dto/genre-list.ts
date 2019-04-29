@@ -1,8 +1,8 @@
 import { Genre } from './genre';
 
 export class GenreList {
-    private _allCount : number;
-    private _genres : Genre[] = [];
+    private _allCount: number;
+    private _genres: Genre[] = [];
 
     constructor(data: any) {
         this._allCount = data.allCount;
