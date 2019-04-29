@@ -193,6 +193,8 @@ export class MusicComponent implements OnInit {
 
   public clearFilters() {
     this.isFind = false;
+    this.tracks = [];
+    this.tracksLength = 0;
     this.title = '';
     this.artist = '';
     this.selectedGenres = [];

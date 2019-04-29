@@ -1,11 +1,13 @@
 package com.kulygin.musiccloud.dto;
 
 import com.kulygin.musiccloud.domain.Track;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
 public class TrackDTO {
 
     private Long id;
