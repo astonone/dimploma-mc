@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../dto/user';
 import { SharedService } from './shared.service';
@@ -10,8 +10,8 @@ import { SharedService } from './shared.service';
 export class UserService {
   private SERVER_URL: string;
 
-  private USER_LOGIN : string;
-  private USER_AUTH : string;
+  private USER_LOGIN: string;
+  private USER_AUTH: string;
   private USER_GET: string;
   private USER_DELETE: string;
   private USER_GET_ALL: string;
@@ -31,8 +31,8 @@ export class UserService {
   private GET_FRIENDS: string;
   private GET_USERS: string;
 
-  constructor(private http : HttpClient,
-              private shared : SharedService) {
+  constructor(private http: HttpClient,
+              private shared: SharedService) {
     this.SERVER_URL = this.shared.getServerURL();
 
     this.USER_LOGIN = this.SERVER_URL + '/api/user/login';
@@ -58,7 +58,7 @@ export class UserService {
   }
 
   private getOptions() {
-    let headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Authorization': 'Basic ' + this.shared.getStorage().getItem('token')
     });
 
@@ -66,117 +66,117 @@ export class UserService {
   }
 
   sendFriendRequest(userId: number, friendId: number) {
-    let regExp = /{id}/gi;
-    let regExp2 = /{friendId}/gi;
+    const regExp = /{id}/gi;
+    const regExp2 = /{friendId}/gi;
     let url = this.SEND_FRIEND_REQUEST.replace(regExp, userId.toString());
     url = url.replace(regExp2, friendId.toString());
     return this.http.post<Observable<Object>>(url, {}, this.getOptions());
   }
 
   cancelFriendRequest(userId: number, friendId: number) {
-    let regExp = /{id}/gi;
-    let regExp2 = /{friendId}/gi;
+    const regExp = /{id}/gi;
+    const regExp2 = /{friendId}/gi;
     let url = this.CANCEL_FRIEND_REQUEST.replace(regExp, userId.toString());
     url = url.replace(regExp2, friendId.toString());
     return this.http.post<Observable<Object>>(url, {}, this.getOptions());
   }
 
   addFriend(userId: number, inviterId: number) {
-    let regExp = /{id}/gi;
-    let regExp2 = /{inviterId}/gi;
+    const regExp = /{id}/gi;
+    const regExp2 = /{inviterId}/gi;
     let url = this.ADD_FRIEND_REQUEST.replace(regExp, userId.toString());
     url = url.replace(regExp2, inviterId.toString());
     return this.http.post<Observable<Object>>(url, {}, this.getOptions());
   }
 
   removeFriend(userId: number, friendId: number) {
-    let regExp = /{id}/gi;
-    let regExp2 = /{friendId}/gi;
+    const regExp = /{id}/gi;
+    const regExp2 = /{friendId}/gi;
     let url = this.REMOVE_FRIEND_REQUEST.replace(regExp, userId.toString());
     url = url.replace(regExp2, friendId.toString());
     return this.http.post<Observable<Object>>(url, {}, this.getOptions());
   }
 
   getAllFriendRequests(userId: number) {
-    let regExp = /{id}/gi;
-    let url = this.GET_FRIEND_REQUESTS.replace(regExp, userId.toString());
+    const regExp = /{id}/gi;
+    const url = this.GET_FRIEND_REQUESTS.replace(regExp, userId.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 
   getAllFriends(userId: number) {
-    let regExp = /{id}/gi;
-    let url = this.GET_FRIENDS.replace(regExp, userId.toString());
+    const regExp = /{id}/gi;
+    const url = this.GET_FRIENDS.replace(regExp, userId.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 
-  login(email:string, password: string) {
+  login(email: string, password: string) {
     return this.http.post<Observable<boolean>>(this.USER_LOGIN, {
       email,
       password
-    })
+    });
   }
 
   auth() {
-    return this.http.post<Observable<User>>(this.USER_AUTH, {}, this.getOptions())
+    return this.http.post<Observable<User>>(this.USER_AUTH, {}, this.getOptions());
   }
 
-  createUser(email:string, password: string) {
-    return this.http.post<Observable<Object>>(this.USER_CREATE + "?email=" + email + "&password=" + password, this.getOptions())
+  createUser(email: string, password: string) {
+    return this.http.post<Observable<Object>>(this.USER_CREATE + '?email=' + email + '&password=' + password, this.getOptions());
   }
 
   addUserDetails(id, request) {
-    var regExp = /{id}/gi;
-    let url = this.USER_ADD_USER_DATA.replace(regExp, id);
-    return this.http.put<Observable<Object>>(url, request)
+    const regExp = /{id}/gi;
+    const url = this.USER_ADD_USER_DATA.replace(regExp, id);
+    return this.http.put<Observable<Object>>(url, request);
   }
 
   getAllUsers(page: number, pageSize: number) {
-    let regExp = /{page}/gi;
-    let regExp2 = /{pageSize}/gi;
+    const regExp = /{page}/gi;
+    const regExp2 = /{pageSize}/gi;
     let url = this.USER_GET_ALL.replace(regExp, page.toString());
-    url = url.replace(regExp2, pageSize + "");
-    return this.http.get<Observable<Object>>(url, this.getOptions())
+    url = url.replace(regExp2, pageSize + '');
+    return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 
   findUsers(page: number, pageSize: number, firstName: string, lastName: string, nickName: string) {
-    let regExp = /{page}/gi;
-    let regExp2 = /{pageSize}/gi;
-    let regExp3 = /{firstName}/gi;
-    let regExp4 = /{lastName}/gi;
-    let regExp5 = /{nickName}/gi;
+    const regExp = /{page}/gi;
+    const regExp2 = /{pageSize}/gi;
+    const regExp3 = /{firstName}/gi;
+    const regExp4 = /{lastName}/gi;
+    const regExp5 = /{nickName}/gi;
     let url = this.GET_USERS.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize.toString());
     url = url.replace(regExp3, firstName);
     url = url.replace(regExp4, lastName);
     url = url.replace(regExp5, nickName);
-    return this.http.get<Observable<Object>>(url, this.getOptions())
+    return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 
-  updateUser(user:any) {
-    return this.http.post<Observable<Object>>(this.USER_UPDATE, user, this.getOptions())
+  updateUser(user: any) {
+    return this.http.post<Observable<Object>>(this.USER_UPDATE, user, this.getOptions());
   }
 
-  deletePhoto(id:number) {
-    let regExp = /{id}/gi;
-    let url = this.USER_DELETE_PHOTO.replace(regExp, id.toString());
-    return this.http.post<Observable<Object>>(url, {},this.getOptions());
+  deletePhoto(id: number) {
+    const regExp = /{id}/gi;
+    const url = this.USER_DELETE_PHOTO.replace(regExp, id.toString());
+    return this.http.post<Observable<Object>>(url, {}, this.getOptions());
   }
 
-  updateUserInfo(user:User) {
-    let regExp = /{id}/gi;
-    let url = this.USER_UPDATE_INFO.replace(regExp, user.id.toString());
-    return this.http.put<Observable<Object>>(url, user.userDetails.toObject(), this.getOptions())
+  updateUserInfo(user: User) {
+    const regExp = /{id}/gi;
+    const url = this.USER_UPDATE_INFO.replace(regExp, user.id.toString());
+    return this.http.put<Observable<Object>>(url, user.userDetails.toObject(), this.getOptions());
   }
 
-  deleteUser(id:number) {
-    let regExp = /{id}/gi;
-    let url = this.USER_DELETE.replace(regExp, id.toString());
-    return this.http.delete<Observable<Object>>(url, this.getOptions())
+  deleteUser(id: number) {
+    const regExp = /{id}/gi;
+    const url = this.USER_DELETE.replace(regExp, id.toString());
+    return this.http.delete<Observable<Object>>(url, this.getOptions());
   }
 
-  getById(id:string) {
-    let regExp = /{id}/gi;
-    let url = this.USER_GET_BY_ID.replace(regExp, id);
-    return this.http.get<Observable<Object>>(url, this.getOptions())
+  getById(id: string) {
+    const regExp = /{id}/gi;
+    const url = this.USER_GET_BY_ID.replace(regExp, id);
+    return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 }

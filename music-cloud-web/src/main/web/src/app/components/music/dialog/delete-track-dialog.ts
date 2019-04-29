@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 })
 export class DeleteTrackDialog {
 
-    isOk : boolean = true;
+    isOk = true;
 
     constructor(
         public dialogRef: MatDialogRef<DeleteTrackDialog>,

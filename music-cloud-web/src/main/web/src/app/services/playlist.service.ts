@@ -12,8 +12,8 @@ export class PlaylistService {
   private DELETE_PLAYLIST: string;
   private GET_PLAYLIST: string;
 
-  constructor(private http : HttpClient,
-              private shared : SharedService) {
+  constructor(private http: HttpClient,
+              private shared: SharedService) {
     this.SERVER_URL = this.shared.getServerURL();
 
     this.CREATE_PLAYLIST = this.SERVER_URL + 'api/playlist/create?name={name}';
@@ -22,7 +22,7 @@ export class PlaylistService {
   }
 
   private getOptions() {
-    let headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Authorization': 'Basic ' + this.shared.getStorage().getItem('token')
     });
 

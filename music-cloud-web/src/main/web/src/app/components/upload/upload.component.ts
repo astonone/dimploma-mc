@@ -13,17 +13,17 @@ import { Router } from '@angular/router';
 })
 export class UploadComponent implements OnInit {
 
-  isError : boolean;
-  isLoading : boolean;
-  isSaving : boolean;
-  isSuccess : boolean;
+  isError: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+  isSuccess: boolean;
   selectedFiles: FileList;
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
 
   constructor(private trackService: TrackService,
               public dialog: MatDialog,
-              private fileService : FileService,
+              private fileService: FileService,
               private shared: SharedService,
               private router: Router) { }
 
@@ -59,7 +59,7 @@ export class UploadComponent implements OnInit {
             this.isLoading = false;
             this.isSaving = false;
           }
-        },error => {
+        }, error => {
           this.isError = true;
         });
     this.selectedFiles = undefined;

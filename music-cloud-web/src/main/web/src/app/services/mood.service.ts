@@ -14,8 +14,8 @@ export class MoodService {
   private GET_MOOD: string;
   private GET_MOODS: string;
 
-  constructor(private http : HttpClient,
-              private shared : SharedService) {
+  constructor(private http: HttpClient,
+              private shared: SharedService) {
     this.SERVER_URL = this.shared.getServerURL();
 
     this.CREATE_MOOD = this.SERVER_URL + 'api/mood/create?name={name}';
@@ -25,7 +25,7 @@ export class MoodService {
   }
 
   private getOptions() {
-    let headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Authorization': 'Basic ' + this.shared.getStorage().getItem('token')
     });
 
@@ -33,6 +33,6 @@ export class MoodService {
   }
 
   getAllMoods() {
-    return this.http.get<Observable<Object>>(this.GET_MOODS, this.getOptions())
+    return this.http.get<Observable<Object>>(this.GET_MOODS, this.getOptions());
   }
 }

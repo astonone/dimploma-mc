@@ -13,18 +13,18 @@ import { FileService } from '../../services/file.service';
 })
 export class UsersComponent implements OnInit {
 
-  response : UserList;
-  users : User[] = [];
-  usersLength : number = 10;
-  pageEvent : any;
-  page: number = 0;
-  pageSize : number = 10;
-  pageSizeOptions : any = [10,25,50];
-  //filters
-  firstName: string = '';
-  lastName: string = '';
-  nickName: string = '';
-  isFind: boolean = false;
+  response: UserList;
+  users: User[] = [];
+  usersLength = 10;
+  pageEvent: any;
+  page = 0;
+  pageSize = 10;
+  pageSizeOptions: any = [10, 25, 50];
+  // filters
+  firstName = '';
+  lastName = '';
+  nickName = '';
+  isFind = false;
 
   constructor(private shared: SharedService,
               private userService: UserService,
@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit {
   }
 
   gotoProfile(id: number) {
-    this.router.navigate(['user/'+ id]);
+    this.router.navigate(['user/' + id]);
   }
 
   showUserInfo(user: User) {

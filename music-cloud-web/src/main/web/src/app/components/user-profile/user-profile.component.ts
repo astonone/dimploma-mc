@@ -24,13 +24,13 @@ export class UserProfileComponent implements OnInit {
   photos: Observable<string[]>;
   music: Track[] = [];
   response: TrackList;
-  tracksLength : number = 10;
-  pageEvent : any;
-  page: number = 0;
-  pageSize : number = 10;
-  pageSizeOptions : any = [10,25,50,10];
-  isFriend : boolean = false;
-  isRequest : boolean = false;
+  tracksLength = 10;
+  pageEvent: any;
+  page = 0;
+  pageSize = 10;
+  pageSizeOptions: any = [10, 25, 50, 10];
+  isFriend = false;
+  isRequest = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -38,13 +38,13 @@ export class UserProfileComponent implements OnInit {
               private fileService: FileService,
               private trackService: TrackService,
               private shared: SharedService,
-              public dialog: MatDialog,) { }
+              public dialog: MatDialog, ) { }
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
       this.router.navigate(['login']);
     }
-    let userId = this.route.snapshot.paramMap.get('id');
+    const userId = this.route.snapshot.paramMap.get('id');
     this.loadUser(userId);
     this.loggedUser = this.shared.getLoggedUser();
     this.isAddFriendNonActive(userId);
@@ -64,7 +64,7 @@ export class UserProfileComponent implements OnInit {
     this.userService.getById(id).subscribe(data => {
       this.user = new User(data);
       this.getPhoto();
-    })
+    });
   }
 
   getPhoto() {
@@ -72,7 +72,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadTracksList(event) {
-    let userId = Number(this.route.snapshot.paramMap.get('id'));
+    const userId = Number(this.route.snapshot.paramMap.get('id'));
     if (event) {
       this.trackService.getUserTracks(userId, event.pageIndex, event.pageSize)
           .subscribe(data => {
@@ -104,13 +104,13 @@ export class UserProfileComponent implements OnInit {
 
   isAddFriendNonActive(userId: string) {
     this.userService.getAllFriends(parseInt(userId)).subscribe(data => {
-        let response = new UserList(data);
-        this.isFriend =  this.isFriendById(this.loggedUser.id, response.users)
+        const response = new UserList(data);
+        this.isFriend =  this.isFriendById(this.loggedUser.id, response.users);
     });
   }
 
   isFriendById(userId: number, users: User[]) {
-    let index = users.map(x => {
+    const index = users.map(x => {
       return x.id;
     }).indexOf(userId);
 
@@ -119,37 +119,37 @@ export class UserProfileComponent implements OnInit {
 
   isRemoveFriendNonActive(userId: string) {
     this.userService.getAllFriendRequests(parseInt(userId)).subscribe(data => {
-      let response = new UserList(data);
-      this.isRequest = this.isFriendById(this.loggedUser.id, response.users)
+      const response = new UserList(data);
+      this.isRequest = this.isFriendById(this.loggedUser.id, response.users);
     });
   }
 
   sendFriendRequest() {
     this.userService.sendFriendRequest(this.loggedUser.id, this.user.id)
         .subscribe(() => {
-          this.openFriendDialog({title:'Друзья', description: 'Заявка была отправлена'});
+          this.openFriendDialog({title: 'Друзья', description: 'Заявка была отправлена'});
           this.isRequest = true;
         }, error => {
-          this.openFriendDialog({title:'Ошибка', description: 'Произошла ошибка:' + error.error.message});
+          this.openFriendDialog({title: 'Ошибка', description: 'Произошла ошибка:' + error.error.message});
         });
   }
 
   removeFriend() {
     this.userService.removeFriend(this.loggedUser.id, this.user.id)
         .subscribe(() => {
-          this.openFriendDialog({title:'Друзья', description: 'Друг удален'});
+          this.openFriendDialog({title: 'Друзья', description: 'Друг удален'});
           this.isFriend = false;
           this.isRequest = false;
         }, error => {
-          this.openFriendDialog({title:'Ошибка', description: 'Произошла ошибка:' + error.error.message});
+          this.openFriendDialog({title: 'Ошибка', description: 'Произошла ошибка:' + error.error.message});
         });
   }
 
-  openFriendDialog(data : any) : void {
+  openFriendDialog(data: any): void {
     const dialogRef = this.dialog.open(FriendDialog, {
       data : data
     });
     dialogRef.afterClosed().subscribe(result => {
     });
-  };
+  }
 }

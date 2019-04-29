@@ -10,31 +10,24 @@ export class SharedService {
 
   private isProd: boolean = environment.production;
 
-  private HOST_DEV: string = 'http://localhost';
-  private PORT_DEV: string = '8082';
+  private HOST_DEV = 'http://localhost';
+  private PORT_DEV = '8082';
 
-  private HOST_PROD: string = 'https://music-cloud-social.herokuapp.com';
+  private HOST_PROD = 'https://music-cloud-social.herokuapp.com';
 
-  private isLogin : boolean;
-  private loggedUser : any;
+  private isLogin: boolean;
+  private loggedUser: any;
 
   constructor(private router: Router) {}
 
-  isMobile() {
-    return screen.width < 481;
-  }
+  isMobile = () => screen.width < 481;
 
   getServerURL() {
     return this.isProd ? (this.HOST_PROD) : (this.HOST_DEV + ':' + this.PORT_DEV);
   }
 
-  getStorage() {
-    if (localStorage.getItem('isRemember') === 'true') {
-      return localStorage;
-    } else {
-      return sessionStorage;
-    }
-  }
+  getStorage = () =>  localStorage.getItem('isRemember') === 'true' ? localStorage : sessionStorage;
+
 
   logout() {
     this.isLogin = false;
@@ -51,16 +44,14 @@ export class SharedService {
     }
   }
 
-  getLoggedUser() {
-    if (this.getStorage().getItem('loggedUser') !== null && this.getStorage().getItem('loggedUser') !== '') {
-      return new User(JSON.parse(this.getStorage().getItem('loggedUser')));
-    } else {
-      return null;
-    }
-  }
+  getLoggedUser = () => (this.getStorage().getItem('loggedUser') !== null && this.getStorage().getItem('loggedUser') !== '') ?
+      new User(JSON.parse(this.getStorage().getItem('loggedUser'))) : null;
+
+
+  isUserLogin = () => this.isLogin;
 
   updateLoggedUser(user: User) {
-    this.getStorage().setItem('loggedUser', JSON.stringify(user.toObject()))
+    this.getStorage().setItem('loggedUser', JSON.stringify(user.toObject()));
   }
 
   createEmptyUserStub() {

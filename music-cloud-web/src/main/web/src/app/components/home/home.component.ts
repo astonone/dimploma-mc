@@ -36,12 +36,12 @@ export class HomeComponent implements OnInit {
     response: TrackList;
     responseFriendRequests: UserList;
     responseFriends: UserList;
-    tracksLength : number = 10;
-    pageEvent : any;
-    page: number = 0;
-    pageSize : number = 10;
-    pageSizeOptions : any = [10,25,50,10];
-    photos : Observable<string[]>;
+    tracksLength = 10;
+    pageEvent: any;
+    page = 0;
+    pageSize = 10;
+    pageSizeOptions: any = [10, 25, 50];
+    photos: Observable<string[]>;
 
     constructor(private router: Router,
                 private userService: UserService,
@@ -100,14 +100,14 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    openTrackCreatedDialog(response : any) : void {
+    openTrackCreatedDialog(response: any): void {
         const dialogRef = this.dialog.open(AddTrackToUserDialog, {
             width: '250px',
             data : response
         });
         dialogRef.afterClosed().subscribe(result => {
         });
-    };
+    }
 
     isEmptyPhotoLink() {
         return this.user.email ? this.user.isEmptyPhotoLink() : false;
@@ -152,7 +152,7 @@ export class HomeComponent implements OnInit {
         }
     }
 
-    deleteTrackFromUser(track : Track) {
+    deleteTrackFromUser(track: Track) {
         const dialogRef = this.dialog.open(DeleteTrackDialog, {
             width: '250px',
             data : null
@@ -171,7 +171,7 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    changeTrack(track : Track) {
+    changeTrack(track: Track) {
         const dialogRef = this.dialog.open(ChangeTrackDialog, {
             width: '400px',
             data : track
@@ -180,10 +180,10 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    rateTrack(track : Track) {
+    rateTrack(track: Track) {
         this.trackService.rateTrack(track.id, this.user.id, track.tempRating)
             .subscribe(data => {
-                let updatedTrack = new Track(data);
+                const updatedTrack = new Track(data);
                 track.rating = updatedTrack.rating;
                 track.tempRating = null;
             });
@@ -198,7 +198,7 @@ export class HomeComponent implements OnInit {
     }
 
     deleteTrack(trackId: number, tracks: Track[]) {
-        let index = tracks.map(x => {
+        const index = tracks.map(x => {
             return x.id;
         }).indexOf(trackId);
 
@@ -228,7 +228,7 @@ export class HomeComponent implements OnInit {
     }
 
     gotoProfile(id: number) {
-        this.router.navigate(['user/'+ id]);
+        this.router.navigate(['user/' + id]);
     }
 
     showUserInfo(user: User) {
@@ -240,11 +240,11 @@ export class HomeComponent implements OnInit {
     addFriend(user: User) {
         this.userService.addFriend(this.user.id, user.id)
             .subscribe(() => {
-                this.openFriendDialog({title:'Друзья', description: 'Пользователь добавлен в друзья'});
+                this.openFriendDialog({title: 'Друзья', description: 'Пользователь добавлен в друзья'});
                 this.loadFriendRequests();
                 this.loadFriends();
             }, error => {
-                this.openFriendDialog({title:'Ошибка', description: 'Произошла ошибка:' + error.error.message});
+                this.openFriendDialog({title: 'Ошибка', description: 'Произошла ошибка:' + error.error.message});
                 console.log(error);
             });
     }
@@ -252,18 +252,18 @@ export class HomeComponent implements OnInit {
     cancelFriendRequest(user: User) {
         this.userService.cancelFriendRequest(this.user.id, user.id)
             .subscribe(() => {
-                this.openFriendDialog({title:'Друзья', description: 'Заявка была отлонена'});
+                this.openFriendDialog({title: 'Друзья', description: 'Заявка была отлонена'});
                 this.loadFriendRequests();
             }, error => {
-                this.openFriendDialog({title:'Ошибка', description: 'Произошла ошибка:' + error.error.message});
+                this.openFriendDialog({title: 'Ошибка', description: 'Произошла ошибка:' + error.error.message});
             });
     }
 
-    openFriendDialog(data : any) : void {
+    openFriendDialog(data: any): void {
         const dialogRef = this.dialog.open(FriendDialog, {
             data : data
         });
         dialogRef.afterClosed().subscribe(result => {
         });
-    };
+    }
 }

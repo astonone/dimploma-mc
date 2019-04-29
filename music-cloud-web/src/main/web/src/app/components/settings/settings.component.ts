@@ -15,27 +15,27 @@ import { Router } from '@angular/router';
 })
 export class SettingsComponent implements OnInit {
 
-  loggedUser : User;
-  birthday : Date;
-  isAccountDataNotCorrect : boolean;
-  isAccountInfoDataNotCorrect : boolean;
-  uploadedFile : any;
-  isEmpty : boolean;
-  isError : boolean;
-  isSuccess : boolean;
-  isSuccessLoading : boolean;
-  isLoading : boolean;
-  isSaving : boolean;
-  isSuccessAccountSaving : boolean;
-  photos : Observable<string[]>;
+  loggedUser: User;
+  birthday: Date;
+  isAccountDataNotCorrect: boolean;
+  isAccountInfoDataNotCorrect: boolean;
+  uploadedFile: any;
+  isEmpty: boolean;
+  isError: boolean;
+  isSuccess: boolean;
+  isSuccessLoading: boolean;
+  isLoading: boolean;
+  isSaving: boolean;
+  isSuccessAccountSaving: boolean;
+  photos: Observable<string[]>;
 
   selectedFiles: FileList;
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
 
-  constructor(private shared : SharedService,
-              private userService : UserService,
-              private fileService : FileService,
+  constructor(private shared: SharedService,
+              private userService: UserService,
+              private fileService: FileService,
               private router: Router) {
       this.isAccountDataNotCorrect = false;
       this.isAccountInfoDataNotCorrect = false;
@@ -82,8 +82,8 @@ export class SettingsComponent implements OnInit {
   }
 
   saveAccount() {
-      let email = this.loggedUser.email;
-      let password = this.loggedUser.newPassword;
+      const email = this.loggedUser.email;
+      const password = this.loggedUser.newPassword;
      this.userService.updateUser(this.loggedUser.toObject())
          .subscribe(data => {
              this.isAccountDataNotCorrect = false;
@@ -92,7 +92,7 @@ export class SettingsComponent implements OnInit {
              this.shared.getStorage().setItem('token', btoa(email + ':' + password));
              this.shared.updateLoggedUser(this.loggedUser);
              this.getPhoto();
-         },error => {
+         }, error => {
              this.isAccountDataNotCorrect = true;
              this.isSuccessAccountSaving = true;
          });
@@ -125,7 +125,7 @@ export class SettingsComponent implements OnInit {
                  this.isSaving = true;
              }
          } else if (event instanceof HttpResponse) {
-             this.userService.getById(this.loggedUser.id + "")
+             this.userService.getById(this.loggedUser.id + '')
                  .subscribe(data => {
                      this.loggedUser = new User(data);
                      this.shared.updateLoggedUser(this.loggedUser);
@@ -137,7 +137,7 @@ export class SettingsComponent implements OnInit {
                      this.isSaving = false;
                  });
          }
-        },error => {
+        }, error => {
              this.isError = true;
              this.isEmpty = false;
          });

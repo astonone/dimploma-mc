@@ -27,19 +27,19 @@ export class MusicComponent implements OnInit {
   user: User;
   tracks: Track[] = [];
   response: TrackList;
-  tracksLength : number = 10;
-  pageEvent : any;
-  page: number = 0;
-  pageSize : number = 10;
-  pageSizeOptions : any = [10,25,50];
-  //filters
-  title: string = '';
-  artist: string = '';
+  tracksLength = 10;
+  pageEvent: any;
+  page = 0;
+  pageSize = 10;
+  pageSizeOptions: any = [10, 25, 50];
+  // filters
+  title = '';
+  artist = '';
   genres: Genre[] = [];
   moods: Mood[] = [];
   selectedGenres:  Genre[] = [];
   selectedMoods: Mood[] = [];
-  isFind: boolean = false;
+  isFind = false;
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
@@ -71,11 +71,11 @@ export class MusicComponent implements OnInit {
               this.loadAudioFiles();
             });
       } else {
-        let genresObj = [];
-        let moodsObj = [];
+        const genresObj = [];
+        const moodsObj = [];
         this.selectedGenres.forEach(genre => genresObj.push(genre.toObject()));
         this.selectedMoods.forEach(mood => moodsObj.push(mood.toObject()));
-        let request = {
+        const request = {
           title: this.title,
           artist: this.artist,
           genres: genresObj,
@@ -97,11 +97,11 @@ export class MusicComponent implements OnInit {
           this.loadAudioFiles();
         });
       } else {
-        let genresObj = [];
-        let moodsObj = [];
+        const genresObj = [];
+        const moodsObj = [];
         this.selectedGenres.forEach(genre => genresObj.push(genre.toObject()));
         this.selectedMoods.forEach(mood => moodsObj.push(mood.toObject()));
-        let request = {
+        const request = {
           title: this.title,
           artist: this.artist,
           genres: genresObj,
@@ -130,7 +130,7 @@ export class MusicComponent implements OnInit {
         });
   }
 
-  deleteTrack(track : Track) {
+  deleteTrack(track: Track) {
     const dialogRef = this.dialog.open(DeleteTrackDialog, {
       data : null
     });
@@ -147,15 +147,15 @@ export class MusicComponent implements OnInit {
     });
   }
 
-  openTrackCreatedDialog(response : any) : void {
+  openTrackCreatedDialog(response: any): void {
     const dialogRef = this.dialog.open(AddTrackToUserDialog, {
       data : response
     });
     dialogRef.afterClosed().subscribe(result => {
     });
-  };
+  }
 
-  changeTrack(track : Track) {
+  changeTrack(track: Track) {
     const dialogRef = this.dialog.open(ChangeTrackDialog, {
       data : track
     });
@@ -163,10 +163,10 @@ export class MusicComponent implements OnInit {
     });
   }
 
-  rateTrack(track : Track) {
+  rateTrack(track: Track) {
     this.trackService.rateTrack(track.id, this.user.id, track.tempRating)
         .subscribe(data => {
-          let updatedTrack = new Track(data);
+          const updatedTrack = new Track(data);
           track.rating = updatedTrack.rating;
           track.tempRating = null;
         });
@@ -177,7 +177,7 @@ export class MusicComponent implements OnInit {
   }
 
   deleteTrackFromList(trackId: number, tracks: Track[]) {
-    let index = tracks.map(x => {
+    const index = tracks.map(x => {
       return x.id;
     }).indexOf(trackId);
 
@@ -202,14 +202,14 @@ export class MusicComponent implements OnInit {
 
   loadGenres() {
     this.genreService.getAllGenres().subscribe(data => {
-      let allGenres : GenreList = new GenreList(data);
+      const allGenres: GenreList = new GenreList(data);
       this.genres = allGenres.genres;
     });
   }
 
   loadMoods() {
     this.moodService.getAllMoods().subscribe(data => {
-      let allMoods : MoodList = new MoodList(data);
+      const allMoods: MoodList = new MoodList(data);
       this.moods = allMoods.moods;
     });
   }

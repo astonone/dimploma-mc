@@ -19,7 +19,7 @@
     <span class="change-track-label" *ngIf="!isValid" style="color: red">Нельзя сохранить пустое поле!</span>
 </div>
 <div mat-dialog-actions class="modal-window-buttons">
-    <button mat-raised-button color="accent" class="modal-window-button">Дополнительные настройки</button>
+    <button mat-raised-button color="accent" class="modal-window-button" (click)=gotoAdditional()>Дополнительные настройки</button>
     <button mat-raised-button color="primary" class="modal-window-button" (click)="onYesClick()" cdkFocusInitial>Сохранить</button>
     <button mat-raised-button color="warn" class="modal-window-button" (click)="onNoClick()">Отмена</button>
 </div>

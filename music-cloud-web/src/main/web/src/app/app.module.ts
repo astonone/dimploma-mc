@@ -1,11 +1,11 @@
-﻿import { NgModule }      from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }    from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent }  from './app.component';
-import { routing }        from './app.routing';
+import { AppComponent } from './app.component';
+import { routing } from './app.routing';
 
 import { MainUiModule } from './modules/main-ui/main-ui.module';
 
@@ -20,7 +20,7 @@ import { PlaylistService } from './services/playlist.service';
 
 /*Components*/
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component'
+import { LoginComponent } from './components/login/login.component';
 import { AboutComponent } from './components/about/about.component';
 import { MusicComponent } from './components/music/music.component';
 import { UsersComponent } from './components/users/users.component';
@@ -36,6 +36,7 @@ import { AddTrackToUserDialog } from './components/music/dialog/add-track-to-use
 import { DeleteTrackDialog } from './components/music/dialog/delete-track-dialog';
 import { ChangeTrackDialog } from './components/music/dialog/change-track-dialog';
 import { FriendDialog } from './components/home/dialog/friend-dialog';
+import { AdditionalComponent } from './components/additional/additional.component';
 
 @NgModule({
     imports: [
@@ -63,6 +64,8 @@ import { FriendDialog } from './components/home/dialog/friend-dialog';
         DeleteTrackDialog,
         ChangeTrackDialog,
         FriendDialog
+,
+        AdditionalComponent
     ],
     entryComponents: [
         CreateUserDialog,

@@ -5,11 +5,11 @@
         fixedInViewport="true"
         [attr.role]="shared.isMobile() ? 'dialog' : 'navigation'"
         [mode]="shared.isMobile() ? 'over' : 'side'"
-        [opened]="!shared.isMobile() && shared.isLogin">
+        [opened]="!shared.isMobile() && shared.isUserLogin()">
         <mat-toolbar color="primary">Меню</mat-toolbar>
         <mat-nav-list class="menu">
             <div>
-                <span *ngIf="shared.isMobile() && shared.isLogin">Вы вошли как: {{showUserInfo()}}</span>
+                <span *ngIf="shared.isMobile() && shared.isUserLogin()">Вы вошли как: {{showUserInfo()}}</span>
             </div>
             <div>
                 <a mat-list-item routerLink="/home">Главная</a>
@@ -17,8 +17,8 @@
                 <a mat-list-item routerLink="/users">Люди</a>
                 <a mat-list-item routerLink="/upload">Загрузка</a>
                 <a mat-list-item routerLink="/about">О нас</a>
-                <a *ngIf="shared.isMobile() && shared.isLogin" mat-list-item routerLink="/settings">Настройки</a>
-                <a *ngIf="shared.isMobile() && shared.isLogin" mat-list-item (click)="shared.logout()">Выход</a>
+                <a *ngIf="shared.isMobile() && shared.isUserLogin()" mat-list-item routerLink="/settings">Настройки</a>
+                <a *ngIf="shared.isMobile() && shared.isUserLogin()" mat-list-item (click)="shared.logout()">Выход</a>
             </div>
         </mat-nav-list>
     </mat-sidenav>
@@ -27,15 +27,15 @@
             <div class="header-control-menu-panel">
                 <button
                         (click)="drawer.toggle()"
-                        *ngIf="shared.isMobile() && shared.isLogin"
+                        *ngIf="shared.isMobile() && shared.isUserLogin()"
                         aria-label="Toggle sidenav"
                         mat-icon-button
                         type="button">
                     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
                 </button>
-                 <div *ngIf="!shared.isMobile() && shared.isLogin" class="header-panel-el">Вы вошли как: {{showUserInfo()}}</div>
-                <button *ngIf="!shared.isMobile() && shared.isLogin" class="header-panel-el" routerLink="/settings" mat-raised-button color="link">Настройки</button>
-                <button  *ngIf="!shared.isMobile() && shared.isLogin" class="header-panel-el" mat-raised-button color="warn" (click)="shared.logout()">Выход</button>
+                 <div *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el">Вы вошли как: {{showUserInfo()}}</div>
+                <button *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" routerLink="/settings" mat-raised-button color="link">Настройки</button>
+                <button  *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" mat-raised-button color="warn" (click)="shared.logout()">Выход</button>
             </div>
             <div class="header-control-label-panel">
                 <span class="app-title">Music cloud</span>

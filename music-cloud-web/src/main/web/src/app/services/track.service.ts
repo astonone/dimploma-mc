@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedService } from './shared.service';
-import { TrackFullInfo } from '../dto/track-full-info';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +21,8 @@ export class TrackService {
   private GET_RECOMMENDED_TRACKS: string;
   private FIND_TRACKS: string;
 
-  constructor(private http : HttpClient,
-              private shared : SharedService) {
+  constructor(private http: HttpClient,
+              private shared: SharedService) {
     this.SERVER_URL = this.shared.getServerURL();
 
     this.UPLOAD_TRACK = this.SERVER_URL + '/api/track/files/upload';
@@ -40,7 +39,7 @@ export class TrackService {
   }
 
   private getOptions() {
-    let headers: HttpHeaders = new HttpHeaders({
+    const headers: HttpHeaders = new HttpHeaders({
       'Authorization': 'Basic ' + this.shared.getStorage().getItem('token')
     });
 
@@ -48,72 +47,72 @@ export class TrackService {
   }
 
   getAllTracks(page: number, pageSize: number) {
-    let regExp = /{page}/gi;
-    let regExp2 = /{pageSize}/gi;
+    const regExp = /{page}/gi;
+    const regExp2 = /{pageSize}/gi;
     let url = this.GET_ALL_TRACKS.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize.toString());
-    return this.http.get<Observable<Object>>(url, this.getOptions())
+    return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 
   findTracks(request: any, page: number, pageSize: number) {
-    let regExp = /{page}/gi;
-    let regExp2 = /{pageSize}/gi;
+    const regExp = /{page}/gi;
+    const regExp2 = /{pageSize}/gi;
     let url = this.FIND_TRACKS.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize.toString());
-    return this.http.post<Observable<Object>>(url, request, this.getOptions())
+    return this.http.post<Observable<Object>>(url, request, this.getOptions());
   }
 
-  getUserTracks(id:number, page: number, pageSize: number) {
-    let regExp = /{page}/gi;
-    let regExp2 = /{pageSize}/gi;
-    let regExp3 = /{id}/gi;
+  getUserTracks(id: number, page: number, pageSize: number) {
+    const regExp = /{page}/gi;
+    const regExp2 = /{pageSize}/gi;
+    const regExp3 = /{id}/gi;
     let url = this.GET_USER_TRACKS.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize.toString());
     url = url.replace(regExp3, id.toString());
-    return this.http.get<Observable<Object>>(url, this.getOptions())
+    return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 
   addTrackToUser(userId: number, trackId: number) {
-    let regExp = /{id}/gi;
-    let regExp2 = /{userId}/gi;
+    const regExp = /{id}/gi;
+    const regExp2 = /{userId}/gi;
     let url = this.ADD_TRACK_TO_USER.replace(regExp, trackId.toString());
     url = url.replace(regExp2, userId.toString());
-    return this.http.put<Observable<Object>>(url,{}, this.getOptions())
+    return this.http.put<Observable<Object>>(url, {}, this.getOptions());
   }
 
   deleteTrackFromUser(userId: number, trackId: number) {
-    let regExp = /{id}/gi;
-    let regExp2 = /{userId}/gi;
+    const regExp = /{id}/gi;
+    const regExp2 = /{userId}/gi;
     let url = this.DELETE_TRACK_FROM_USER.replace(regExp, trackId.toString());
     url = url.replace(regExp2, userId.toString());
-    return this.http.delete<Observable<Object>>(url, this.getOptions())
+    return this.http.delete<Observable<Object>>(url, this.getOptions());
   }
 
   deleteTrack(id: number) {
-    let regExp = /{id}/gi;
-    let url = this.DELETE_TRACK.replace(regExp, id.toString());
+    const regExp = /{id}/gi;
+    const url = this.DELETE_TRACK.replace(regExp, id.toString());
     return this.http.delete<Observable<Object>>(url, this.getOptions());
   }
 
   rateTrack(trackId: number, userId: number, ratingValue: number) {
-    let regExp = /{id}/gi;
-    let regExp2 = /{ratingValue}/gi;
-    let regExp3 = /{userId}/gi;
+    const regExp = /{id}/gi;
+    const regExp2 = /{ratingValue}/gi;
+    const regExp3 = /{userId}/gi;
     let url = this.RATE_TRACK.replace(regExp, trackId.toString());
     url = url.replace(regExp2, ratingValue.toString());
     url = url.replace(regExp3, userId.toString());
-    return this.http.put<Observable<Object>>(url,{}, this.getOptions());
+    return this.http.put<Observable<Object>>(url, {}, this.getOptions());
   }
 
-  updateTrack(id: number, track : any) {
-    let regExp = /{id}/gi;
-    let url = this.UPDATE_TRACK.replace(regExp, id.toString());
+  updateTrack(id: number, track: any) {
+    const regExp = /{id}/gi;
+    const url = this.UPDATE_TRACK.replace(regExp, id.toString());
     return this.http.post<Observable<Object>>(url, track, this.getOptions());
   }
 
   getRecommendedUserTracks(id: number) {
-    let regExp = /{id}/gi;
-    let url = this.GET_RECOMMENDED_TRACKS.replace(regExp, id.toString());
+    const regExp = /{id}/gi;
+    const url = this.GET_RECOMMENDED_TRACKS.replace(regExp, id.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 }

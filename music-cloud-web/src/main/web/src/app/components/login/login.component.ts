@@ -14,8 +14,8 @@ import { SharedService } from '../../services/shared.service';
 export class LoginComponent implements OnInit {
 
     model: any = {};
-    isAuthError: boolean = false;
-    isRemember: boolean = false;
+    isAuthError = false;
+    isRemember = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
         } else {
             localStorage.setItem('isRemember', 'false');
         }
-        let email = this.model.email;
-        let password = this.model.password;
+        const email = this.model.email;
+        const password = this.model.password;
         this.userService.login(email, password)
             .subscribe(isValid => {
                 if (isValid) {

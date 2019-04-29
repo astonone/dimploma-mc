@@ -13,11 +13,11 @@ import { LocalDate } from '../../dto/local-date';
 })
 export class RegistrationComponent {
 
-  newUser : any;
-  createdUser : any;
-  isNotValid : boolean;
+  newUser: any;
+  createdUser: any;
+  isNotValid: boolean;
 
-  constructor(private userService : UserService,
+  constructor(private userService: UserService,
               public dialog: MatDialog) {
     this.newUser = this.createEmptyUser();
   }
@@ -31,7 +31,7 @@ export class RegistrationComponent {
             if (this.newUser.birthday !== '') {
               birthday = LocalDate.getObjFromDate(new Date(this.newUser.birthday));
             }
-            let request = {
+            const request = {
               firstName: this.newUser.firstName,
               lastName: this.newUser.lastName,
               nick: this.newUser.nick,
@@ -56,7 +56,7 @@ export class RegistrationComponent {
     return !(this.newUser.email === '') || !(this.newUser.password === '');
   }
 
-  openUserCreatedDialog(userDetails : any) : void {
+  openUserCreatedDialog(userDetails: any): void {
     const dialogRef = this.dialog.open(CreateUserDialog, {
         data: userDetails
       });
@@ -65,7 +65,7 @@ export class RegistrationComponent {
     });
   }
 
-  openErrorUserCreatedDialog(response : any) : void{
+  openErrorUserCreatedDialog(response: any): void {
     const dialogRef = this.dialog.open(ErrorCreateUserDialog, {
       data : response
     });
@@ -75,12 +75,12 @@ export class RegistrationComponent {
 
   private createEmptyUser() {
     return {
-      email : "",
-      password : "",
-      firstName : "",
-      lastName : "",
-      nick : "",
-      birthday : ""
+      email : '',
+      password : '',
+      firstName : '',
+      lastName : '',
+      nick : '',
+      birthday : ''
     };
   }
 }
