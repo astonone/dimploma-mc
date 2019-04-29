@@ -12,19 +12,19 @@
         <div>
           <mat-form-field class="user-filter-text-input" appearance="outline">
             <mat-label>Имя</mat-label>
-            <input matInput placeholder="Введите имя пользователя" [(ngModel)]="firstName" (keyup.enter)="findUsers()">
+            <input matInput type="search" placeholder="Введите имя пользователя" [(ngModel)]="firstName" (keyup.enter)="findUsers()">
           </mat-form-field>
         </div>
         <div>
           <mat-form-field class="user-filter-text-input" appearance="outline">
             <mat-label>Фамилия</mat-label>
-            <input matInput placeholder="Введите фамилию пользователя" [(ngModel)]="lastName" (keyup.enter)="findUsers()">
+            <input matInput type="search" placeholder="Введите фамилию пользователя" [(ngModel)]="lastName" (keyup.enter)="findUsers()">
           </mat-form-field>
         </div>
         <div>
           <mat-form-field class="user-filter-text-input" appearance="outline">
             <mat-label>Никнейм</mat-label>
-            <input matInput placeholder="Введите никнейм пользователя" [(ngModel)]="nickName" (keyup.enter)="findUsers()">
+            <input matInput type="search" placeholder="Введите никнейм пользователя" [(ngModel)]="nickName" (keyup.enter)="findUsers()">
           </mat-form-field>
         </div>
         <div class="filter-buttons">

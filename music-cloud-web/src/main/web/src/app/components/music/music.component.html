@@ -12,13 +12,13 @@
                 <div>
                     <mat-form-field class="music-filter-text-input" appearance="outline">
                         <mat-label>Название песни</mat-label>
-                        <input matInput placeholder="Введите название песни" [(ngModel)]="title" (keyup.enter)="findTracks()">
+                        <input matInput type="search" placeholder="Введите название песни" [(ngModel)]="title" (keyup.enter)="findTracks()">
                     </mat-form-field>
                 </div>
                 <div>
                     <mat-form-field class="music-filter-text-input" appearance="outline">
                         <mat-label>Автор</mat-label>
-                        <input matInput placeholder="Введите интересующего автора или группу" [(ngModel)]="artist" (keyup.enter)="findTracks()">
+                        <input matInput type="search" placeholder="Введите интересующего автора или группу" [(ngModel)]="artist" (keyup.enter)="findTracks()">
                     </mat-form-field>
                 </div>
                 <div>
@@ -73,7 +73,6 @@
                             <mat-icon class="item" mat-list-icon (click)="addTrackToUser(track.id)">add_circle_outline
                             </mat-icon>
                             <mat-icon class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
-                            <mat-icon class="item" mat-list-icon (click)="deleteTrack(track)">clear</mat-icon>
                             <mat-form-field class="item rate">
                                 <mat-label>Ваша оценка</mat-label>
                                 <mat-select [(ngModel)]="track.tempRating" (selectionChange)="rateTrack(track)">

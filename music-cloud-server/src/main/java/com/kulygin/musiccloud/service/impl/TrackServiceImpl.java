@@ -290,7 +290,6 @@ public class TrackServiceImpl implements TrackService {
     }
 
     private Track parsingMp3File(File file) throws InvalidDataException, IOException, UnsupportedTagException, FileIsNotExistsException, TrackHasExistsException {
-        // Создаем mp3 файл
         Mp3File mp3File = null;
         try {
             mp3File = new Mp3File(file);
@@ -299,24 +298,18 @@ public class TrackServiceImpl implements TrackService {
             log.error("File is not exists");
             throw new FileIsNotExistsException();
         }
-        // Проверяем существование файла в базе
         Track track = trackRepository.findByFilename(file.getName());
         if (track != null) {
             log.error("Track is not exists");
             throw new TrackHasExistsException();
         }
-        // Создаем переменные для сохранения параметров файла и создания плейлистов "на лету"
         String title = "";
         String artist = "";
         String album = "";
         String duration;
         Integer year = 0;
         String genre = "";
-        // Парсинг mp3 файла
-        // Получаем продолжительность файла в секундах
         duration = mp3File.getLengthInSeconds() + " cекунд";
-        // Сканируем теги
-        // Версия данных ID3v1
         if (mp3File.hasId3v1Tag()) {
             ID3v1 id3v1Tag = mp3File.getId3v1Tag();
             title = id3v1Tag.getTitle();
@@ -329,7 +322,6 @@ public class TrackServiceImpl implements TrackService {
             }
             genre = id3v1Tag.getGenreDescription();
         }
-        // Версия данных ID3v2
         if (mp3File.hasId3v2Tag()) {
             ID3v2 id3v2Tag = mp3File.getId3v2Tag();
             title = id3v2Tag.getTitle();
@@ -342,7 +334,6 @@ public class TrackServiceImpl implements TrackService {
             }
             genre = id3v2Tag.getGenreDescription();
         }
-        // Создаем и сохраняем готовый трэк
         track = Track.builder()
                 .title(title)
                 .album(album)
@@ -351,26 +342,7 @@ public class TrackServiceImpl implements TrackService {
                 .filename(file.getName())
                 .duration(duration)
                 .build();
-        trackRepository.save(track);
-        // Автоматически добавляем жанр к треку
-        Genre trackGenre = null;
-        if (genre != null) {
-            try {
-                trackGenre = genreService.createGenre(genre);
-                Set<Genre> genres = new HashSet<>();
-                genres.add(trackGenre);
-                track.setGenres(genres);
-                trackRepository.save(track);
-
-            } catch (GenreHasExistsException genreHasExists) {
-                trackGenre = genreService.getGenreByName(genre);
-                Set<Genre> genres = new HashSet<>();
-                genres.add(trackGenre);
-                track.setGenres(genres);
-                trackRepository.save(track);
-            }
-        }
-        return track;
+        return trackRepository.save(track);
     }
 }
 
