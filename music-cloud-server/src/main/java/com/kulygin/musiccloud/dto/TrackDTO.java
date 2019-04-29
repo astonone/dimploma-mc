@@ -7,7 +7,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
 public class TrackDTO {
 
     private Long id;

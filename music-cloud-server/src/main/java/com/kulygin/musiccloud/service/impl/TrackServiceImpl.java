@@ -96,14 +96,28 @@ public class TrackServiceImpl implements TrackService {
     public Page<Track> getTracksByGenrePagination(PageRequest pageRequest, Genre genre) {
         Set<Genre> genres = new HashSet<>();
         genres.add(genre);
-        return trackRepository.findAllByGenresContains(pageRequest, genres);
+        return trackRepository.findAllDistinctByGenresContains(pageRequest, genres);
     }
 
     @Override
     public Page<Track> getTracksByMoodPagination(PageRequest pageRequest, Mood mood) {
         Set<Mood> moods = new HashSet<>();
         moods.add(mood);
-        return trackRepository.findAllByMoodsContains(pageRequest, moods);
+        return trackRepository.findAllDistinctByMoodsContains(pageRequest, moods);
+    }
+
+    @Override
+    public int countTracksByGenrePagination(Genre genre) {
+        Set<Genre> genres = new HashSet<>();
+        genres.add(genre);
+        return trackRepository.countAllDistinctByGenresContains(genres);
+    }
+
+    @Override
+    public int countTracksByMoodPagination(Mood mood) {
+        Set<Mood> moods = new HashSet<>();
+        moods.add(mood);
+        return trackRepository.countAllDistinctByMoodsContains(moods);
     }
 
     @Override

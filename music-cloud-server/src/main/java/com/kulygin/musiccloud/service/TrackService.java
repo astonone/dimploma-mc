@@ -28,6 +28,10 @@ public interface TrackService {
 
     Page<Track> getTracksByMoodPagination(PageRequest pageRequest, Mood mood);
 
+    int countTracksByGenrePagination(Genre genre);
+
+    int countTracksByMoodPagination(Mood mood);
+
     Page<Track> getTracksByUserPagination(PageRequest id, User user);
 
     Page<Track> findTracks(PageRequest pageRequest, TrackFullInfoDTO trackFullInfoDTO);

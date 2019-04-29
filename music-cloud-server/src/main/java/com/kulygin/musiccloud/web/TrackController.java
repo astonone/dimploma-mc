@@ -132,7 +132,7 @@ public class TrackController {
         if (resultListOfTrack.size() == 0) {
             return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
         }
-        return new ResponseEntity<>(convert(resultListOfTrack, 0), HttpStatus.OK);
+        return new ResponseEntity<>(convert(resultListOfTrack, trackService.countTracksByGenrePagination(genre)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getTracksByMood/{id}", method = RequestMethod.GET)
@@ -147,7 +147,7 @@ public class TrackController {
         if (resultListOfTrack.size() == 0) {
             return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
         }
-        return new ResponseEntity<>(convert(resultListOfTrack, 0), HttpStatus.OK);
+        return new ResponseEntity<>(convert(resultListOfTrack, trackService.countTracksByMoodPagination(mood)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/genre", method = RequestMethod.PUT)

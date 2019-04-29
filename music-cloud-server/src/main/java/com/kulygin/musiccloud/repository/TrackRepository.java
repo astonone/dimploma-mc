@@ -15,8 +15,10 @@ import java.util.Set;
 public interface TrackRepository extends JpaRepository<Track,Long> {
     Track findByFilename(String filename);
     Page<Track> findAll(Pageable pageable);
-    Page<Track> findAllByGenresContains(Pageable pageable, Set<Genre> genres);
-    Page<Track> findAllByMoodsContains(Pageable pageable, Set<Mood> moods);
+    Page<Track> findAllDistinctByGenresContains(Pageable pageable, Set<Genre> genres);
+    Page<Track> findAllDistinctByMoodsContains(Pageable pageable, Set<Mood> moods);
+    int countAllDistinctByGenresContains(Set<Genre> genres);
+    int countAllDistinctByMoodsContains(Set<Mood> moods);
     Page<Track> findAllByUsersContains(Pageable pageable, Set<User> users);
     List<Track> findAllByUsersContains(Set<User> users);
     List<Track> findAllByIdIn(List<Long> ids);
