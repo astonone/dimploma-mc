@@ -32,7 +32,7 @@ export class MoodService {
     return { headers: headers };
   }
 
-  getAllMoods() {
+  public getAllMoods() {
     return this.http.get<Observable<Object>>(this.GET_MOODS, this.getOptions());
   }
 }

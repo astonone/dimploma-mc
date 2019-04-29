@@ -8,8 +8,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 })
 export class FriendDialog {
 
-    title = '';
-    description = '';
+    public title = '';
+    public description = '';
 
     constructor(
         public dialogRef: MatDialogRef<FriendDialog>,
@@ -18,7 +18,7 @@ export class FriendDialog {
         this.description = data.description;
     }
 
-    onYesClick(): void {
+    public onYesClick(): void {
         this.dialogRef.close();
     }
 }

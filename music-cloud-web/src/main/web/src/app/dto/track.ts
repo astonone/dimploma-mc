@@ -109,7 +109,7 @@ export class Track {
         this._files = value;
     }
 
-    toObject() {
+    public toObject() {
         return {
             id: this._id,
             title: this._title,

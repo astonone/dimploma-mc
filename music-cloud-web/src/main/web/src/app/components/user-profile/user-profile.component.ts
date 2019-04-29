@@ -19,18 +19,18 @@ import { UserList } from '../../dto/user-list';
 })
 export class UserProfileComponent implements OnInit {
 
-  user: User;
-  loggedUser: User;
-  photos: Observable<string[]>;
-  music: Track[] = [];
-  response: TrackList;
-  tracksLength = 10;
-  pageEvent: any;
-  page = 0;
-  pageSize = 10;
-  pageSizeOptions: any = [10, 25, 50, 10];
-  isFriend = false;
-  isRequest = false;
+  public user: User;
+  public loggedUser: User;
+  public photos: Observable<string[]>;
+  public music: Track[] = [];
+  private response: TrackList;
+  public tracksLength = 10;
+  public pageEvent: any;
+  public page = 0;
+  public pageSize = 10;
+  public pageSizeOptions: any = [10, 25, 50, 10];
+  public isFriend = false;
+  public isRequest = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -52,26 +52,26 @@ export class UserProfileComponent implements OnInit {
     this.loadTracksList(null);
   }
 
-  isEmptyPhotoLink() {
+  public isEmptyPhotoLink() {
     return this.user.email ? this.user.isEmptyPhotoLink() : false;
   }
 
-  printUserName() {
+  public printUserName() {
     return this.user.email ? this.user.printUserName() : '';
   }
 
-  loadUser(id: string) {
+  private loadUser(id: string) {
     this.userService.getById(id).subscribe(data => {
       this.user = new User(data);
       this.getPhoto();
     });
   }
 
-  getPhoto() {
+  private getPhoto() {
     this.photos = this.fileService.getUploadedPhoto(this.user.getPhotoLink());
   }
 
-  loadTracksList(event) {
+  private loadTracksList(event) {
     const userId = Number(this.route.snapshot.paramMap.get('id'));
     if (event) {
       this.trackService.getUserTracks(userId, event.pageIndex, event.pageSize)
@@ -92,24 +92,24 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  loadAudioFiles() {
+  private loadAudioFiles() {
     for (let i = 0; i < this.music.length; i++) {
       this.loadFile(this.music[i]);
     }
   }
 
-  loadFile(track: Track) {
+  public loadFile(track: Track) {
     track.files = this.fileService.getUploadedTrack(track.filename);
   }
 
-  isAddFriendNonActive(userId: string) {
+  public isAddFriendNonActive(userId: string) {
     this.userService.getAllFriends(parseInt(userId)).subscribe(data => {
         const response = new UserList(data);
         this.isFriend =  this.isFriendById(this.loggedUser.id, response.users);
     });
   }
 
-  isFriendById(userId: number, users: User[]) {
+  public isFriendById(userId: number, users: User[]) {
     const index = users.map(x => {
       return x.id;
     }).indexOf(userId);
@@ -117,14 +117,14 @@ export class UserProfileComponent implements OnInit {
     return index !== -1;
   }
 
-  isRemoveFriendNonActive(userId: string) {
+  public isRemoveFriendNonActive(userId: string) {
     this.userService.getAllFriendRequests(parseInt(userId)).subscribe(data => {
       const response = new UserList(data);
       this.isRequest = this.isFriendById(this.loggedUser.id, response.users);
     });
   }
 
-  sendFriendRequest() {
+  public sendFriendRequest() {
     this.userService.sendFriendRequest(this.loggedUser.id, this.user.id)
         .subscribe(() => {
           this.openFriendDialog({title: 'Друзья', description: 'Заявка была отправлена'});
@@ -134,7 +134,7 @@ export class UserProfileComponent implements OnInit {
         });
   }
 
-  removeFriend() {
+  public removeFriend() {
     this.userService.removeFriend(this.loggedUser.id, this.user.id)
         .subscribe(() => {
           this.openFriendDialog({title: 'Друзья', description: 'Друг удален'});
@@ -145,7 +145,7 @@ export class UserProfileComponent implements OnInit {
         });
   }
 
-  openFriendDialog(data: any): void {
+  private openFriendDialog(data: any): void {
     const dialogRef = this.dialog.open(FriendDialog, {
       data : data
     });

@@ -24,22 +24,22 @@ import { MoodList } from '../../dto/mood-list';
 })
 export class MusicComponent implements OnInit {
 
-  user: User;
-  tracks: Track[] = [];
-  response: TrackList;
-  tracksLength = 10;
-  pageEvent: any;
-  page = 0;
-  pageSize = 10;
-  pageSizeOptions: any = [10, 25, 50];
+  private user: User;
+  public tracks: Track[] = [];
+  private response: TrackList;
+  public tracksLength = 10;
+  public pageEvent: any;
+  public page = 0;
+  public pageSize = 10;
+  public pageSizeOptions: any = [10, 25, 50];
   // filters
-  title = '';
-  artist = '';
-  genres: Genre[] = [];
-  moods: Mood[] = [];
-  selectedGenres:  Genre[] = [];
-  selectedMoods: Mood[] = [];
-  isFind = false;
+  public title = '';
+  public artist = '';
+  public genres: Genre[] = [];
+  public moods: Mood[] = [];
+  public selectedGenres:  Genre[] = [];
+  public selectedMoods: Mood[] = [];
+  private isFind = false;
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
@@ -60,7 +60,7 @@ export class MusicComponent implements OnInit {
     this.user = this.shared.getLoggedUser();
   }
 
-  loadTracksList(event) {
+  private loadTracksList(event) {
     if (event) {
       if (!this.isFind) {
         this.trackService.getAllTracks(event.pageIndex, event.pageSize)
@@ -117,20 +117,20 @@ export class MusicComponent implements OnInit {
     }
   }
 
-  loadAudioFiles() {
+  private loadAudioFiles() {
     for (let i = 0; i < this.tracks.length; i++) {
       this.loadFile(this.tracks[i]);
     }
   }
 
-  addTrackToUser(id: number) {
+  public addTrackToUser(id: number) {
     this.trackService.addTrackToUser(this.user.id, id)
         .subscribe(data => {
           this.openTrackCreatedDialog(null);
         });
   }
 
-  deleteTrack(track: Track) {
+  public deleteTrack(track: Track) {
     const dialogRef = this.dialog.open(DeleteTrackDialog, {
       data : null
     });
@@ -147,7 +147,7 @@ export class MusicComponent implements OnInit {
     });
   }
 
-  openTrackCreatedDialog(response: any): void {
+  private openTrackCreatedDialog(response: any): void {
     const dialogRef = this.dialog.open(AddTrackToUserDialog, {
       data : response
     });
@@ -155,7 +155,7 @@ export class MusicComponent implements OnInit {
     });
   }
 
-  changeTrack(track: Track) {
+  public changeTrack(track: Track) {
     const dialogRef = this.dialog.open(ChangeTrackDialog, {
       data : track
     });
@@ -163,7 +163,7 @@ export class MusicComponent implements OnInit {
     });
   }
 
-  rateTrack(track: Track) {
+  public rateTrack(track: Track) {
     this.trackService.rateTrack(track.id, this.user.id, track.tempRating)
         .subscribe(data => {
           const updatedTrack = new Track(data);
@@ -172,11 +172,11 @@ export class MusicComponent implements OnInit {
         });
   }
 
-  loadFile(track: Track) {
+  private loadFile(track: Track) {
     track.files = this.fileService.getUploadedTrack(track.filename);
   }
 
-  deleteTrackFromList(trackId: number, tracks: Track[]) {
+  private deleteTrackFromList(trackId: number, tracks: Track[]) {
     const index = tracks.map(x => {
       return x.id;
     }).indexOf(trackId);
@@ -184,14 +184,14 @@ export class MusicComponent implements OnInit {
     tracks.splice(index, 1);
   }
 
-  findTracks() {
+  public findTracks() {
     this.isFind = true;
     this.tracks = [];
     this.tracksLength = 0;
     this.loadTracksList(null);
   }
 
-  clearFilters() {
+  public clearFilters() {
     this.isFind = false;
     this.title = '';
     this.artist = '';
@@ -200,14 +200,14 @@ export class MusicComponent implements OnInit {
     this.loadTracksList(null);
   }
 
-  loadGenres() {
+  private loadGenres() {
     this.genreService.getAllGenres().subscribe(data => {
       const allGenres: GenreList = new GenreList(data);
       this.genres = allGenres.genres;
     });
   }
 
-  loadMoods() {
+  private loadMoods() {
     this.moodService.getAllMoods().subscribe(data => {
       const allMoods: MoodList = new MoodList(data);
       this.moods = allMoods.moods;

@@ -68,7 +68,7 @@ export class User {
         this._userDetails = value;
     }
 
-    createEmptyUserDetails() {
+    public createEmptyUserDetails() {
         return new UserDetails({
             id : '',
             firstName: '',
@@ -84,7 +84,7 @@ export class User {
         });
     }
 
-    toObject() {
+    public toObject() {
         return {
             id: this.id,
             email: this.email,
@@ -111,7 +111,7 @@ export class User {
         };
     }
 
-    printUserName() {
+    public printUserName() {
         if (this.userDetails.firstName !== null || this.userDetails.lastName !== null) {
             return this.userDetails.firstName + ' ' + this.userDetails.lastName;
         } else {
@@ -119,11 +119,11 @@ export class User {
         }
     }
 
-    isEmptyPhotoLink() {
+    public isEmptyPhotoLink() {
         return this.userDetails.photoLink === null;
     }
 
-    getPhotoLink() {
+    public getPhotoLink() {
         return this.userDetails.photoLink;
     }
 }

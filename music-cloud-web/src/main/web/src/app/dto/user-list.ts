@@ -4,7 +4,6 @@ export class UserList {
     private _allCount: number;
     private _users: User[] = [];
 
-
     constructor(data: any) {
         this._allCount = data.allCount;
         data.users.forEach(user => {

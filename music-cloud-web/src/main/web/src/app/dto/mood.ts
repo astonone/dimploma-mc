@@ -23,7 +23,7 @@ export class Mood {
         this._name = value;
     }
 
-    toObject() {
+    public toObject() {
         return {
             id: this.id,
             name: this.name

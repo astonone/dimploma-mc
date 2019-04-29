@@ -20,16 +20,16 @@ export class SharedService {
 
   constructor(private router: Router) {}
 
-  isMobile = () => screen.width < 481;
+  public isMobile = () => screen.width < 481;
 
-  getServerURL() {
+  public getServerURL() {
     return this.isProd ? (this.HOST_PROD) : (this.HOST_DEV + ':' + this.PORT_DEV);
   }
 
-  getStorage = () =>  localStorage.getItem('isRemember') === 'true' ? localStorage : sessionStorage;
+  public getStorage = () =>  localStorage.getItem('isRemember') === 'true' ? localStorage : sessionStorage;
 
 
-  logout() {
+  public logout() {
     this.isLogin = false;
     this.loggedUser = {};
     this.getStorage().setItem('token', '');
@@ -37,24 +37,24 @@ export class SharedService {
     this.router.navigate(['/login']);
   }
 
-  setLoggedUser() {
+  public setLoggedUser() {
     if (this.getStorage().getItem('loggedUser') !== null && this.getStorage().getItem('loggedUser') !== '') {
       this.loggedUser = new User(JSON.parse(this.getStorage().getItem('loggedUser')));
       this.isLogin = this.loggedUser !== null;
     }
   }
 
-  getLoggedUser = () => (this.getStorage().getItem('loggedUser') !== null && this.getStorage().getItem('loggedUser') !== '') ?
+  public getLoggedUser = () => (this.getStorage().getItem('loggedUser') !== null && this.getStorage().getItem('loggedUser') !== '') ?
       new User(JSON.parse(this.getStorage().getItem('loggedUser'))) : null;
 
 
-  isUserLogin = () => this.isLogin;
+  public isUserLogin = () => this.isLogin;
 
-  updateLoggedUser(user: User) {
+  public updateLoggedUser(user: User) {
     this.getStorage().setItem('loggedUser', JSON.stringify(user.toObject()));
   }
 
-  createEmptyUserStub() {
+  public createEmptyUserStub() {
     return new User({
       email: '',
       password: '',

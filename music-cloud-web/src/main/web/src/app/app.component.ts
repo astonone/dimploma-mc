@@ -14,7 +14,7 @@ export class AppComponent {
         this.shared.setLoggedUser();
     }
 
-    showUserInfo() {
+    public showUserInfo() {
         const firstName = this.shared.getLoggedUser().userDetails.firstName === null ? '' :
             this.shared.getLoggedUser().userDetails.firstName;
         const lastName = this.shared.getLoggedUser().userDetails.lastName === null ? '' :

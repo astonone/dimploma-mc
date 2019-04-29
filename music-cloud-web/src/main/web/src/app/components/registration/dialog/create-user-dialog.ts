@@ -10,15 +10,15 @@ import { Router } from '@angular/router';
 export class CreateUserDialog {
 
     constructor(
-        private router : Router,
+        private router: Router,
         public dialogRef: MatDialogRef<CreateUserDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {}
 
-    onNoClick(): void {
+    public onNoClick(): void {
         this.dialogRef.close();
     }
 
-    onYesClick(): void {
+    public onYesClick(): void {
         this.dialogRef.close();
         this.router.navigate(['login']);
     }

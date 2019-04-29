@@ -13,18 +13,18 @@ import { FileService } from '../../services/file.service';
 })
 export class UsersComponent implements OnInit {
 
-  response: UserList;
-  users: User[] = [];
-  usersLength = 10;
-  pageEvent: any;
-  page = 0;
-  pageSize = 10;
-  pageSizeOptions: any = [10, 25, 50];
+  private response: UserList;
+  public users: User[] = [];
+  public usersLength = 10;
+  public pageEvent: any;
+  public page = 0;
+  public pageSize = 10;
+  public pageSizeOptions: any = [10, 25, 50];
   // filters
-  firstName = '';
-  lastName = '';
-  nickName = '';
-  isFind = false;
+  public firstName = '';
+  public lastName = '';
+  public nickName = '';
+  public isFind = false;
 
   constructor(private shared: SharedService,
               private userService: UserService,
@@ -38,7 +38,7 @@ export class UsersComponent implements OnInit {
     this.loadUserList(null);
   }
 
-  loadUserList(event) {
+  private loadUserList(event) {
     if (event) {
       if (!this.isFind) {
         this.userService.getAllUsers(event.pageIndex, event.pageSize).subscribe(data => {
@@ -70,24 +70,24 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  gotoProfile(id: number) {
+  public gotoProfile(id: number) {
     this.router.navigate(['user/' + id]);
   }
 
-  showUserInfo(user: User) {
+  public showUserInfo(user: User) {
     const firstName = user.userDetails.firstName === null ? '' : user.userDetails.firstName;
     const lastName = user.userDetails.lastName === null ? '' : user.userDetails.lastName;
     return firstName === '' && lastName === '' ? user.email : firstName + ' ' + lastName;
   }
 
-  findUsers() {
+  public findUsers() {
     this.isFind = true;
     this.users = [];
     this.usersLength = 0;
     this.loadUserList(null);
   }
 
-  clearFilters() {
+  public clearFilters() {
     this.isFind = false;
     this.loadUserList(null);
     this.firstName = '';

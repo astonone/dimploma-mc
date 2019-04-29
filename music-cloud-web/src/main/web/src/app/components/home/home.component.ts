@@ -25,23 +25,23 @@ import { FriendDialog } from './dialog/friend-dialog';
 
 export class HomeComponent implements OnInit {
 
-    user: User;
+    public user: User;
 
-    myFriends: User[] = [];
-    myRequest: User[] = [];
+    public myFriends: User[] = [];
+    public myRequest: User[] = [];
 
-    myMusic: Track[] = [];
-    recommendedMusic: Track[] = [];
-    myPlaylists: any[] = [];
-    response: TrackList;
-    responseFriendRequests: UserList;
-    responseFriends: UserList;
-    tracksLength = 10;
-    pageEvent: any;
-    page = 0;
-    pageSize = 10;
-    pageSizeOptions: any = [10, 25, 50];
-    photos: Observable<string[]>;
+    public myMusic: Track[] = [];
+    public recommendedMusic: Track[] = [];
+    public myPlaylists: any[] = [];
+    private response: TrackList;
+    private responseFriendRequests: UserList;
+    private responseFriends: UserList;
+    public tracksLength = 10;
+    public pageEvent: any;
+    public page = 0;
+    public pageSize = 10;
+    public pageSizeOptions: any = [10, 25, 50];
+    public photos: Observable<string[]>;
 
     constructor(private router: Router,
                 private userService: UserService,

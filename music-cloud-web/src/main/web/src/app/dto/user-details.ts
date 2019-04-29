@@ -75,7 +75,7 @@ export class UserDetails {
         this._birthday = value;
     }
 
-    toObject() {
+    public toObject() {
         return {
             id: this.id,
             firstName: this.firstName,

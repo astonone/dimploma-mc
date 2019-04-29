@@ -13,16 +13,16 @@ import { LocalDate } from '../../dto/local-date';
 })
 export class RegistrationComponent {
 
-  newUser: any;
-  createdUser: any;
-  isNotValid: boolean;
+  public newUser: any;
+  private createdUser: any;
+  public isNotValid: boolean;
 
   constructor(private userService: UserService,
               public dialog: MatDialog) {
     this.newUser = this.createEmptyUser();
   }
 
-  createUser() {
+  public createUser() {
     if (this.isValidInput()) {
       this.userService.createUser(this.newUser.email, this.newUser.password)
           .subscribe(data => {
@@ -52,11 +52,11 @@ export class RegistrationComponent {
     }
   }
 
-  isValidInput() {
+  private isValidInput() {
     return !(this.newUser.email === '') || !(this.newUser.password === '');
   }
 
-  openUserCreatedDialog(userDetails: any): void {
+  private openUserCreatedDialog(userDetails: any): void {
     const dialogRef = this.dialog.open(CreateUserDialog, {
         data: userDetails
       });
@@ -65,7 +65,7 @@ export class RegistrationComponent {
     });
   }
 
-  openErrorUserCreatedDialog(response: any): void {
+  private openErrorUserCreatedDialog(response: any): void {
     const dialogRef = this.dialog.open(ErrorCreateUserDialog, {
       data : response
     });

@@ -23,23 +23,15 @@ export class FileService {
         this.GET_UPLOADED_TRACK = this.SERVER_URL + '/api/track/getYandex/{filename}';
     }
 
-    getStorage() {
-        if (localStorage.getItem('isRemember') === 'true') {
-            return localStorage;
-        } else {
-            return sessionStorage;
-        }
-    }
-
     private getOptions() {
         const headers: HttpHeaders = new HttpHeaders({
-            'Authorization': 'Basic ' + this.getStorage().getItem('token')
+            'Authorization': 'Basic ' + this.shared.getStorage().getItem('token')
         });
 
         return { headers: headers };
     }
 
-    pushPhotoFileToStorage(id: number, file: File): Observable<HttpEvent<{}>> {
+    public pushPhotoFileToStorage(id: number, file: File): Observable<HttpEvent<{}>> {
         const regExp = /{id}/gi;
         const url = this.USER_UPLOAD_PHOTO.replace(regExp, id.toString());
 
@@ -56,7 +48,7 @@ export class FileService {
         return this.http.request(req);
     }
 
-    pushAudioFileToStorage(file: File): Observable<HttpEvent<{}>> {
+    public pushAudioFileToStorage(file: File): Observable<HttpEvent<{}>> {
         const formData: FormData = new FormData();
 
         formData.append('uploadedFile', file);
@@ -70,13 +62,13 @@ export class FileService {
         return this.http.request(req);
     }
 
-    getUploadedPhoto(filename: string): Observable<any> {
+    public getUploadedPhoto(filename: string): Observable<any> {
         const regExp = /{filename}/gi;
         const url = this.GET_UPLOADED_PHOTO.replace(regExp, filename);
         return this.http.get(url, this.getOptions());
     }
 
-    getUploadedTrack(filename: string): Observable<any> {
+    public getUploadedTrack(filename: string): Observable<any> {
         const regExp = /{filename}/gi;
         const url = this.GET_UPLOADED_TRACK.replace(regExp, filename);
         return this.http.get(url, this.getOptions());

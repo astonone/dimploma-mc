@@ -15,19 +15,19 @@ import { Router } from '@angular/router';
 })
 export class SettingsComponent implements OnInit {
 
-  loggedUser: User;
-  birthday: Date;
-  isAccountDataNotCorrect: boolean;
-  isAccountInfoDataNotCorrect: boolean;
-  uploadedFile: any;
-  isEmpty: boolean;
-  isError: boolean;
-  isSuccess: boolean;
-  isSuccessLoading: boolean;
-  isLoading: boolean;
-  isSaving: boolean;
-  isSuccessAccountSaving: boolean;
-  photos: Observable<string[]>;
+  public loggedUser: User;
+  public birthday: Date;
+  public isAccountDataNotCorrect: boolean;
+  public isAccountInfoDataNotCorrect: boolean;
+  public uploadedFile: any;
+  public isEmpty: boolean;
+  public isError: boolean;
+  public isSuccess: boolean;
+  public isSuccessLoading: boolean;
+  public isLoading: boolean;
+  public isSaving: boolean;
+  public isSuccessAccountSaving: boolean;
+  public photos: Observable<string[]>;
 
   selectedFiles: FileList;
   currentFileUpload: File;
@@ -50,7 +50,7 @@ export class SettingsComponent implements OnInit {
        }
   }
 
-  saveUserInfo() {
+    public saveUserInfo() {
       if (this.validUserInfo()) {
           if (this.birthday !== null) {
               this.loggedUser.userDetails.birthday = LocalDate.fromDate(this.birthday);
@@ -75,13 +75,13 @@ export class SettingsComponent implements OnInit {
       }
   }
 
-  validUserInfo() {
+  private validUserInfo() {
       return !(this.loggedUser.userDetails.firstName === '') || !(this.loggedUser.userDetails.lastName === '') ||
           !(this.loggedUser.userDetails.nick === '') || !(this.loggedUser.userDetails.about === '') ||
           !(this.birthday !== null);
   }
 
-  saveAccount() {
+  public saveAccount() {
       const email = this.loggedUser.email;
       const password = this.loggedUser.newPassword;
      this.userService.updateUser(this.loggedUser.toObject())
@@ -98,20 +98,20 @@ export class SettingsComponent implements OnInit {
          });
   }
 
-  deleteAccount() {
+  public deleteAccount() {
       this.userService.deleteUser(this.loggedUser.id)
           .subscribe(() => {
              this.shared.logout();
           });
   }
 
-  selectFile(event) {
+  public selectFile(event) {
      this.selectedFiles = event.target.files;
      this.isError = false;
      this.isSuccess = false;
   }
 
-  upload() {
+  public upload() {
      this.progress.percentage = 0;
 
      this.currentFileUpload = this.selectedFiles.item(0);
@@ -145,7 +145,7 @@ export class SettingsComponent implements OnInit {
      this.selectedFiles = undefined;
   }
 
-  deleteFile() {
+  public deleteFile() {
      if (!this.loggedUser.isEmptyPhotoLink()) {
          this.userService.deletePhoto(this.loggedUser.id)
              .subscribe(data => {
@@ -160,7 +160,7 @@ export class SettingsComponent implements OnInit {
      }
   }
 
-  getPhoto() {
+  private getPhoto() {
      this.photos = this.fileService.getUploadedPhoto(this.loggedUser.getPhotoLink());
   }
 }

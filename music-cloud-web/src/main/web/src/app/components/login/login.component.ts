@@ -13,9 +13,9 @@ import { SharedService } from '../../services/shared.service';
 
 export class LoginComponent implements OnInit {
 
-    model: any = {};
-    isAuthError = false;
-    isRemember = false;
+    public model: any = {};
+    public isAuthError = false;
+    public isRemember = false;
 
     constructor(
         private route: ActivatedRoute,

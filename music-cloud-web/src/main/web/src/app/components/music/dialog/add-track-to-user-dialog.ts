@@ -12,7 +12,7 @@ export class AddTrackToUserDialog {
         public dialogRef: MatDialogRef<AddTrackToUserDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any) {}
 
-    onYesClick(): void {
+    public onYesClick(): void {
         this.dialogRef.close();
     }
 }

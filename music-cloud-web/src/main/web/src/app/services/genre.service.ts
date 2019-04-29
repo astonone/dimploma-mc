@@ -32,7 +32,7 @@ export class GenreService {
     return { headers: headers };
   }
 
-  getAllGenres() {
+  public getAllGenres() {
     return this.http.get<Observable<Object>>(this.GET_GENRES, this.getOptions());
   }
 }

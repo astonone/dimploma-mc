@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 })
 export class ChangeTrackDialog {
 
-    backupTrack: Track;
-    isValid = true;
+    private backupTrack: Track;
+    public isValid = true;
 
     constructor(
         private trackService: TrackService,
@@ -22,7 +22,7 @@ export class ChangeTrackDialog {
         this.backupTrack = new Track(track.toObject());
     }
 
-    onYesClick(): void {
+    public onYesClick(): void {
         if (this.isValidInput()) {
             this.isValid = true;
             this.trackService.updateTrack(this.track.id, this.track.toObject())
@@ -39,7 +39,7 @@ export class ChangeTrackDialog {
         }
     }
 
-    onNoClick(): void {
+    public onNoClick(): void {
         this.dialogRef.close();
         this.track.title = this.backupTrack.title;
         this.track.artist = this.backupTrack.artist;
@@ -47,11 +47,11 @@ export class ChangeTrackDialog {
         this.track.year = this.backupTrack.year;
     }
 
-    isValidInput() {
+    private isValidInput() {
         return (this.track.title !== '')  && (this.track.artist !== '') && (this.track.album !== '') && (this.track.year !== '');
     }
 
-    gotoAdditional() {
+    public gotoAdditional() {
         this.dialogRef.close();
         this.router.navigate(['additional/' + this.track.id]);
     }
