@@ -27,7 +27,7 @@ export class AudioPlayerProxyComponent implements OnInit {
   ngOnInit() {
   }
 
-  constructor(private shared: SharedService,
+  constructor(public shared: SharedService,
               private trackService: TrackService,
               public dialog: MatDialog,
               private homeComponent: HomeComponent,

@@ -1,12 +1,14 @@
 <div class="audio-player">
   <div class="control-part">
-    <img *ngIf="!isPlaying()" class="control-button" src="../../../assets/image/play-proxy.png" (click)="playAudio()">
-    <img *ngIf="isPlaying()" class="control-button" src="../../../assets/image/stop-proxy.png" (click)="stopAudio()">
+    <img *ngIf="!isPlaying() && !shared.isMobile()" class="control-button" src="../../../assets/image/play-proxy.png" (click)="playAudio()">
+    <img *ngIf="isPlaying() && !shared.isMobile()" class="control-button" src="../../../assets/image/stop-proxy.png" (click)="stopAudio()">
   </div>
   <div class="title-part">
     <span>{{track.title + ' - ' + track.artist + ',' + track.album + ',' + track.year}}</span>
   </div>
   <div class="mute-part">
+    <img *ngIf="!isPlaying() && shared.isMobile()" class="control-button" src="../../../assets/image/play-proxy.png" (click)="playAudio()">
+    <img *ngIf="isPlaying() && shared.isMobile()" class="control-button" src="../../../assets/image/stop-proxy.png" (click)="stopAudio()">
     <mat-icon *ngIf="isRecommend" class="item" mat-list-icon (click)="addTrackToUserFromRec(track.id)">add_circle_outline</mat-icon>
     <mat-icon *ngIf="isGlobal" class="item" mat-list-icon (click)="addTrackToUser(track)">add_circle_outline</mat-icon>
     <mat-icon *ngIf="isHome || isRecommend || isGlobal" class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
