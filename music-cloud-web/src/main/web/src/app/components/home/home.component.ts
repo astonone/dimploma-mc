@@ -7,7 +7,6 @@ import { Track } from '../../dto/track';
 import { TrackList } from '../../dto/track-list';
 import { TrackService } from '../../services/track.service';
 import { DeleteTrackDialog } from '../music/dialog/delete-track-dialog';
-import { ChangeTrackDialog } from '../music/dialog/change-track-dialog';
 import { MatDialog } from '@angular/material';
 import { FileService } from '../../services/file.service';
 import { Observable } from 'rxjs';
@@ -42,6 +41,7 @@ export class HomeComponent implements OnInit {
     public pageSize = 10;
     public pageSizeOptions: any = [10, 25, 50];
     public photos: Observable<string[]>;
+    public audio: any;
 
     constructor(private router: Router,
                 private userService: UserService,
@@ -124,7 +124,6 @@ export class HomeComponent implements OnInit {
                     this.response = new TrackList(data);
                     this.tracksLength = this.response.allCount;
                     this.myMusic = this.response.tracks;
-                    this.loadAudioFiles(this.myMusic);
                 });
         } else {
             this.trackService.getUserTracks(this.user.id, this.page, this.pageSize)
@@ -132,7 +131,7 @@ export class HomeComponent implements OnInit {
                 this.response = new TrackList(data);
                 this.tracksLength = this.response.allCount;
                 this.myMusic = this.response.tracks;
-                this.loadAudioFiles(this.myMusic);
+                // this.createAudio(this.myMusic[0]);
             });
         }
     }
@@ -171,22 +170,12 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    public changeTrack(track: Track) {
-        const dialogRef = this.dialog.open(ChangeTrackDialog, {
-            width: '400px',
-            data : track
-        });
-        dialogRef.afterClosed().subscribe(result => {
-        });
-    }
+    public deleteTrack(trackId: number, tracks: Track[]) {
+        const index = tracks.map(x => {
+            return x.id;
+        }).indexOf(trackId);
 
-    public rateTrack(track: Track) {
-        this.trackService.rateTrack(track.id, this.user.id, track.tempRating)
-            .subscribe(data => {
-                const updatedTrack = new Track(data);
-                track.rating = updatedTrack.rating;
-                track.tempRating = null;
-            });
+        tracks.splice(index, 1);
     }
 
     private getPhoto() {
@@ -195,14 +184,6 @@ export class HomeComponent implements OnInit {
 
     private loadFile(track: Track) {
         track.files = this.fileService.getUploadedTrack(track.filename);
-    }
-
-    public deleteTrack(trackId: number, tracks: Track[]) {
-        const index = tracks.map(x => {
-            return x.id;
-        }).indexOf(trackId);
-
-        tracks.splice(index, 1);
     }
 
     private loadFriendRequests() {

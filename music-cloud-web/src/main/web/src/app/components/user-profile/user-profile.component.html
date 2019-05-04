@@ -36,21 +36,7 @@
             </mat-paginator>
             <ul *ngFor="let track of music" class="track-list">
               <li class="track-item">
-                <h4 mat-line>
-                  <audio controls *ngFor="let file of track.files | async" class="audio-player">
-                    <source src={{file}} type="audio/mpeg">
-                    <p>Ваш браузер не поддерживает HTML5 audio. Воспользуйтесь
-                      <a href={{file}}>этой ссыклой</a></p>
-                  </audio>
-                </h4>
-                <div mat-line class="track-title">
-                  <div class="track__info">
-                    {{track.title + ", " + track.artist + ", " + track.year}}
-                  </div>
-                  <div class="track__control">
-                    <span class="item">Рейтинг: <b>{{track.rating}}</b></span>
-                  </div>
-                </div>
+                <audio-player-proxy [isGlobal]="false" [isHome]="false" [isRecommend]="false" [track]="track" [playlist]="music"></audio-player-proxy>
               </li>
             </ul>
           </mat-list>

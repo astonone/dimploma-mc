@@ -1,0 +1,32 @@
+<div class="audio-player">
+  <div class="control-part">
+    <img *ngIf="!isPlaying()" class="control-button" src="../../../assets/image/play-proxy.png" (click)="playAudio()">
+    <img *ngIf="isPlaying()" class="control-button" src="../../../assets/image/stop-proxy.png" (click)="stopAudio()">
+  </div>
+  <div class="title-part">
+    <span>{{track.title + ' - ' + track.artist + ',' + track.album + ',' + track.year}}</span>
+  </div>
+  <div class="mute-part">
+    <mat-icon *ngIf="isRecommend" class="item" mat-list-icon (click)="addTrackToUserFromRec(track.id)">add_circle_outline</mat-icon>
+    <mat-icon *ngIf="isGlobal" class="item" mat-list-icon (click)="addTrackToUser(track)">add_circle_outline</mat-icon>
+    <mat-icon *ngIf="isHome || isRecommend || isGlobal" class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
+    <mat-icon *ngIf="isHome" class="item" mat-list-icon (click)="deleteTrackAction(track)">clear</mat-icon>
+    <mat-form-field *ngIf="isHome || isRecommend || isGlobal" class="item">
+      <mat-label>Ваша оценка</mat-label>
+      <mat-select [(ngModel)]="track.tempRating" (selectionChange)="rateTrack(track)">
+        <mat-option>None</mat-option>
+        <mat-option value="1">1</mat-option>
+        <mat-option value="2">2</mat-option>
+        <mat-option value="3">3</mat-option>
+        <mat-option value="4">4</mat-option>
+        <mat-option value="5">5</mat-option>
+        <mat-option value="6">6</mat-option>
+        <mat-option value="7">7</mat-option>
+        <mat-option value="8">8</mat-option>
+        <mat-option value="9">9</mat-option>
+        <mat-option value="10">10</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="item">Рейтинг: <b>{{track.rating}}</b></span>
+  </div>
+</div>

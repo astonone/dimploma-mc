@@ -17,6 +17,7 @@ import { FileService } from './services/file.service';
 import { GenreService } from './services/genre.service';
 import { MoodService } from './services/mood.service';
 import { PlaylistService } from './services/playlist.service';
+import { PlayService } from './services/play.service';
 
 /*Components*/
 import { HomeComponent } from './components/home/home.component';
@@ -37,6 +38,8 @@ import { DeleteTrackDialog } from './components/music/dialog/delete-track-dialog
 import { ChangeTrackDialog } from './components/music/dialog/change-track-dialog';
 import { InfoDialog } from './components/home/dialog/info-dialog';
 import { AdditionalComponent } from './components/additional/additional.component';
+import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
+import { AudioPlayerProxyComponent } from './components/audio-player-proxy/audio-player-proxy.component';
 
 @NgModule({
     imports: [
@@ -63,10 +66,10 @@ import { AdditionalComponent } from './components/additional/additional.componen
         AddTrackToUserDialog,
         DeleteTrackDialog,
         ChangeTrackDialog,
-        InfoDialog
-,
-        AdditionalComponent
-    ],
+        InfoDialog,
+        AdditionalComponent,
+        AudioPlayerComponent,
+        AudioPlayerProxyComponent    ],
     entryComponents: [
         CreateUserDialog,
         ErrorCreateUserDialog,
@@ -82,7 +85,11 @@ import { AdditionalComponent } from './components/additional/additional.componen
         FileService,
         GenreService,
         MoodService,
-        PlaylistService
+        PlaylistService,
+        PlayService,
+        AudioPlayerComponent,
+        HomeComponent,
+        MusicComponent
     ],
     bootstrap: [AppComponent]
 })
