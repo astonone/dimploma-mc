@@ -42,7 +42,7 @@
                 <img class="app-img" src="../assets/app-icon.png">
             </div>
         </mat-toolbar>
-        <audio-player></audio-player>
+        <audio-player *ngIf="shared.isUserLogin()"></audio-player>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
