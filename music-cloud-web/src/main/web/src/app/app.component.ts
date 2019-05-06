@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { SharedService } from './services/shared.service';
+import {PlayService} from './services/play.service';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +11,8 @@ import { SharedService } from './services/shared.service';
 })
 
 export class AppComponent {
-    constructor(public shared: SharedService) {
+    constructor(public shared: SharedService,
+                private playService: PlayService) {
         this.shared.setLoggedUser();
     }
 
@@ -21,5 +23,10 @@ export class AppComponent {
             this.shared.getLoggedUser().userDetails.lastName;
         return firstName === '' && lastName === '' ? this.shared.getLoggedUser().email
             : firstName + ' ' + lastName;
+    }
+
+    public logout() {
+        this.playService.stopPlayingAndClearData();
+        this.shared.logout();
     }
 }

@@ -15,6 +15,15 @@ export class PlayService {
     constructor(private fileService: FileService) {
     }
 
+    public stopPlayingAndClearData() {
+        this.currentTrack = null;
+        this.currentAudio.pause();
+        this.currentAudio = null;
+        this.currentIndex = 0;
+        this.isPlay = false;
+        this.playlist = null;
+    }
+
     private loadFile(track: Track) {
         track.files = this.fileService.getUploadedTrack(track.filename);
     }

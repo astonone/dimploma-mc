@@ -18,7 +18,7 @@
                 <a mat-list-item routerLink="/upload">Загрузка</a>
                 <a mat-list-item routerLink="/about">О нас</a>
                 <a *ngIf="shared.isMobile() && shared.isUserLogin()" mat-list-item routerLink="/settings">Настройки</a>
-                <a *ngIf="shared.isMobile() && shared.isUserLogin()" mat-list-item (click)="shared.logout()">Выход</a>
+                <a *ngIf="shared.isMobile() && shared.isUserLogin()" mat-list-item (click)="logout()">Выход</a>
             </div>
         </mat-nav-list>
     </mat-sidenav>
@@ -35,7 +35,7 @@
                 </button>
                  <div *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el">Вы вошли как: {{showUserInfo()}}</div>
                 <button *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" routerLink="/settings" mat-raised-button color="link">Настройки</button>
-                <button  *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" mat-raised-button color="warn" (click)="shared.logout()">Выход</button>
+                <button  *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" mat-raised-button color="warn" (click)="logout()">Выход</button>
             </div>
             <div class="header-control-label-panel">
                 <span class="app-title">Music cloud</span>
