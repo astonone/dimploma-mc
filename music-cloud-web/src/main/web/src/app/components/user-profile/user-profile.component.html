@@ -1,5 +1,5 @@
-<mat-sidenav-container class="home-container">
-  <mat-sidenav mode="side" class="left-container" opened>
+<div class="home">
+  <div class="home__card">
     <mat-card class="user-card">
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
@@ -16,9 +16,13 @@
         <p>День рождения: {{user.userDetails.birthday.printDate()}}</p>
         <p>О пользователе: {{user.userDetails.about}}</p>
       </mat-card-content>
+      <mat-card-actions class="user-profile-buttons">
+        <button [disabled]="isFriend || isRequest || isRequestFromUser" mat-raised-button color="primary" (click)="sendFriendRequest()">Добавить в друзья</button>
+        <button [disabled]="!isFriend" mat-raised-button color="warn" (click)="removeFriend()">Удалить из друзей</button>
+      </mat-card-actions>
     </mat-card>
-  </mat-sidenav>
-  <mat-sidenav-content class="right-container">
+  </div>
+  <div class="home__content">
     <mat-list>
       <mat-tab-group>
         <mat-tab label="Музыка пользователя">
@@ -30,29 +34,17 @@
                            (page)="pageEvent = loadTracksList($event)"
                            *ngIf="music.length !== 0">
             </mat-paginator>
-            <mat-list-item *ngFor="let track of music" class="track-item">
-              <h4 mat-line class="track-item-control">
-                <audio controls *ngFor="let file of track.files | async" class="audio-player">
-                  <source src={{file}} type="audio/mpeg">
-                  <p>Ваш браузер не поддерживает HTML5 audio. Воспользуйтесь
-                    <a href={{file}}>этой ссыклой</a></p>
-                </audio>
-              </h4>
-              <div mat-line class="track-title">
-                <div>
-                  {{track.title + ", " + track.artist + ", " + track.year}}
-                </div>
-                <div>
-                  <span class="item">Рейтинг: <b>{{track.rating}}</b></span>
-                </div>
-              </div>
-            </mat-list-item>
+            <ul *ngFor="let track of music" class="track-list">
+              <li class="track-item">
+                <audio-player-proxy [isGlobal]="false" [isHome]="false" [isRecommend]="false" [track]="track" [playlist]="music"></audio-player-proxy>
+              </li>
+            </ul>
           </mat-list>
-          <span *ngIf="music.length === 0">На данный момент у пользователя нет музыки</span>
+          <span class="text" *ngIf="music.length === 0">На данный момент у пользователя нет музыки</span>
         </mat-tab>
       </mat-tab-group>
     </mat-list>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+</div>
 
 

@@ -1,13 +1,13 @@
 import { LocalDate } from './local-date';
 
 export class UserDetails {
-    private _id : number;
-    private _firstName : string;
-    private _lastName : string;
-    private _nick : string;
-    private _about : string;
-    private _photoLink : string;
-    private _birthday : LocalDate;
+    private _id: number;
+    private _firstName: string;
+    private _lastName: string;
+    private _nick: string;
+    private _about: string;
+    private _photoLink: string;
+    private _birthday: LocalDate;
 
     constructor(data: any) {
         this._id = data.id ? data.id : null;
@@ -75,7 +75,7 @@ export class UserDetails {
         this._birthday = value;
     }
 
-    toObject() {
+    public toObject() {
         return {
             id: this.id,
             firstName: this.firstName,
@@ -88,6 +88,6 @@ export class UserDetails {
             },
             nick: this.nick,
             photoLink: this.photoLink
-        }
+        };
     }
 }

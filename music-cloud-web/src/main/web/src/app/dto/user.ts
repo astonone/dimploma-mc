@@ -2,21 +2,47 @@ import { LocalDate } from './local-date';
 import { UserDetails } from './user-details';
 
 export class User {
-    private _id : number;
-    private _email : string;
-    private _password : string;
-    private _newPassword : string;
-    private _dateCreate : LocalDate;
+    private _id: number;
+    private _email: string;
+    private _password: string;
+    private _newPassword: string;
+    private _dateCreate: LocalDate;
     private _userDetails: UserDetails;
 
+    public static createEmptyUser() {
+        return new User({
+            id : '',
+            email: '',
+            password: '',
+            dateCreate: '',
+            userDetails: User.createEmptyUserDetails()
+        });
+    }
 
-    constructor(data : any) {
+    public static createEmptyUserDetails() {
+        return new UserDetails({
+            id : '',
+            firstName: '',
+            lastName: '',
+            about: '',
+            birthday: {
+                year: '',
+                month: '',
+                day: ''
+            },
+            nick: '',
+            photoLink: ''
+        });
+    }
+
+    constructor(data: any) {
         this._id = data.id;
         this._email = data.email;
         this._password = data.password;
         this._newPassword = data.newPassword;
         this._dateCreate = new LocalDate(data.dateCreate);
-        this._userDetails = !data.userDetails || data.userDetails.id !== null ? new UserDetails(data.userDetails) : this.createEmptyUserDetails();
+        this._userDetails = !data.userDetails || data.userDetails.id !== null ? new UserDetails(data.userDetails) :
+            User.createEmptyUserDetails();
     }
 
     get id(): number {
@@ -67,23 +93,7 @@ export class User {
         this._userDetails = value;
     }
 
-    createEmptyUserDetails() {
-        return new UserDetails({
-            id : '',
-            firstName: '',
-            lastName: '',
-            about: '',
-            birthday: {
-                year: '',
-                month: '',
-                day: ''
-            },
-            nick: '',
-            photoLink: ''
-        });
-    }
-
-    toObject() {
+    public toObject() {
         return {
             id: this.id,
             email: this.email,
@@ -110,7 +120,7 @@ export class User {
         };
     }
 
-    printUserName() {
+    public printUserName() {
         if (this.userDetails.firstName !== null || this.userDetails.lastName !== null) {
             return this.userDetails.firstName + ' ' + this.userDetails.lastName;
         } else {
@@ -118,11 +128,11 @@ export class User {
         }
     }
 
-    isEmptyPhotoLink() {
+    public isEmptyPhotoLink() {
         return this.userDetails.photoLink === null;
     }
 
-    getPhotoLink() {
+    public getPhotoLink() {
         return this.userDetails.photoLink;
     }
 }

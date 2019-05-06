@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class GenreServiceImpl implements GenreService {
     @Autowired
@@ -48,5 +51,15 @@ public class GenreServiceImpl implements GenreService {
     public Page<Genre> getAllGenresPagination(PageRequest pageRequest) {
         Page<Genre> genres = genreRepository.findAll(pageRequest);
         return genres;
+    }
+
+    @Override
+    public List<Genre> findAll() {
+        return genreRepository.findAll();
+    }
+
+    @Override
+    public Set<Genre> findAllByIds(List<Long> ids) {
+        return genreRepository.findAllByIdIn(ids);
     }
 }

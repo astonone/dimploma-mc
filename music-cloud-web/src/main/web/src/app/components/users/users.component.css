@@ -2,12 +2,47 @@
     height: calc(100vh - 64px);
 }
 
-.right-container {
+.users {
+ }
 
+.users__filter {
+    background-color: #fff;
 }
 
-.left-container {
-    width: 30%;
+.users__content {
+    background-color: #fafafa;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.go-to-profile {
+    position: absolute;
+    margin-left: 10px;
+}
+
+@media screen and (min-width: 481px) {
+    .users {
+        display: flex;
+        min-height: calc(100vh - 64px);
+    }
+
+    .users__filter {
+        border-right: solid 1px rgba(0,0,0,.12);
+        width: 30%;
+    }
+
+    .users__content {
+        width: 70%;
+    }
+
+    .go-to-profile {
+        position: absolute;
+        margin-left: 10px;
+        cursor: pointer;
+    }
 }
 
 .user-filter-text-input {
@@ -21,11 +56,6 @@
 
 .user-filter-label {
     margin: 10px;
-}
-
-.go-to-profile {
-    position: absolute;
-    margin-left: 10px;
 }
 
 .header-label {

@@ -1,9 +1,12 @@
 package com.kulygin.musiccloud.dto;
 
+import com.kulygin.musiccloud.domain.Genre;
+import com.kulygin.musiccloud.domain.Mood;
 import com.kulygin.musiccloud.domain.Track;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 

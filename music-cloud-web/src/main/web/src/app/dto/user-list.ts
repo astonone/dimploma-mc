@@ -1,9 +1,8 @@
 import { User } from './user';
 
 export class UserList {
-    private _allCount : number;
-    private _users : User[] = [];
-
+    private _allCount: number;
+    private _users: User[] = [];
 
     constructor(data: any) {
         this._allCount = data.allCount;

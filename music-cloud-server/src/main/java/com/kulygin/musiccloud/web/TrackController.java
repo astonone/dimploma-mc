@@ -93,6 +93,17 @@ public class TrackController {
         return new ResponseEntity<>(convert(resultListOfTrack, count), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/find", method = RequestMethod.POST)
+    public ResponseEntity<?> findTracks(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize, @RequestBody TrackFullInfoDTO trackDTO) {
+        Page<Track> tracks = trackService.findTracks(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")), trackDTO);
+        List<Track> resultListOfTrack = tracks.getContent();
+        if (resultListOfTrack.size() == 0) {
+            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
+        }
+        int count = trackService.countTracks(trackDTO);
+        return new ResponseEntity<>(convert(resultListOfTrack, count), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/getTracksByUser/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTracksByUser(@PathVariable("id") Long userId, @RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
         User user = userService.getUserById(userId);
@@ -121,7 +132,7 @@ public class TrackController {
         if (resultListOfTrack.size() == 0) {
             return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
         }
-        return new ResponseEntity<>(convert(resultListOfTrack, 0), HttpStatus.OK);
+        return new ResponseEntity<>(convert(resultListOfTrack, trackService.countTracksByGenrePagination(genre)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getTracksByMood/{id}", method = RequestMethod.GET)
@@ -136,7 +147,7 @@ public class TrackController {
         if (resultListOfTrack.size() == 0) {
             return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
         }
-        return new ResponseEntity<>(convert(resultListOfTrack, 0), HttpStatus.OK);
+        return new ResponseEntity<>(convert(resultListOfTrack, trackService.countTracksByMoodPagination(mood)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/genre", method = RequestMethod.PUT)
@@ -149,7 +160,7 @@ public class TrackController {
         } catch (GenreIsNotExistsException genreIsNotExists) {
             return getErrorResponseBody(ApplicationErrorTypes.GENRE_ID_NOT_FOUND);
         }
-        return new ResponseEntity<>(convert(track), HttpStatus.OK);
+        return new ResponseEntity<>(convertTrackFullInfo(track), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/genre", method = RequestMethod.DELETE)
@@ -164,7 +175,7 @@ public class TrackController {
         } catch (TrackHasNotGenreException trackHasNotGenreException) {
             return getErrorResponseBody(ApplicationErrorTypes.TRACK_HAS_NOT_GENRE);
         }
-        return new ResponseEntity<>(convert(track), HttpStatus.OK);
+        return new ResponseEntity<>(convertTrackFullInfo(track), HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}/mood", method = RequestMethod.PUT)
@@ -179,7 +190,7 @@ public class TrackController {
             return getErrorResponseBody(ApplicationErrorTypes.MOOD_ID_NOT_FOUND);
         }
         track = trackService.addTrackMood(track, mood);
-        return new ResponseEntity<>(convert(track), HttpStatus.OK);
+        return new ResponseEntity<>(convertTrackFullInfo(track), HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}/mood", method = RequestMethod.DELETE)
@@ -199,7 +210,7 @@ public class TrackController {
         } catch (TrackHasNotThisMoodException trackHasNotThisMoodException) {
             return getErrorResponseBody(ApplicationErrorTypes.TRACK_HAS_NOT_THIS_MOOD);
         }
-        return new ResponseEntity<Object>(convert(track), HttpStatus.OK);
+        return new ResponseEntity<Object>(convertTrackFullInfo(track), HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}/rating", method = RequestMethod.PUT)

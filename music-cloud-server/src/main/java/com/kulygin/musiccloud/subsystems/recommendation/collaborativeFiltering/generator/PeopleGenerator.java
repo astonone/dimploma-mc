@@ -31,9 +31,9 @@ public class PeopleGenerator {
         lastnames = new ArrayList<>();
 
         try {
-            mans.addAll(Files.readAllLines(Paths.get("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\additional\\generator\\people\\man-firstnames.txt")));
-            womans.addAll(Files.readAllLines(Paths.get("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\additional\\generator\\people\\woman-firstnames.txt")));
-            lastnames.addAll(Files.readAllLines(Paths.get("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\rcsData\\additional\\generator\\people\\lastnames.txt")));
+            mans.addAll(Files.readAllLines(Paths.get("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\additional\\rcsData\\generator\\people\\man-firstnames.txt")));
+            womans.addAll(Files.readAllLines(Paths.get("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\additional\\rcsData\\generator\\people\\woman-firstnames.txt")));
+            lastnames.addAll(Files.readAllLines(Paths.get("C:\\Users\\aston\\IdeaProjects\\my projects\\dimploma-mc\\additional\\rcsData\\generator\\people\\lastnames.txt")));
         } catch (IOException e) {
             log.error("Error via file reading: ",e);
         }

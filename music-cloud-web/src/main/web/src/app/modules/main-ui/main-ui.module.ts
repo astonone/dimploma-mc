@@ -17,6 +17,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -38,7 +41,10 @@ import { MatSelectModule } from '@angular/material/select';
     MatTabsModule,
     MatPaginatorModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatGridListModule,
+    MatExpansionModule,
+    ReactiveFormsModule
   ],
   declarations: [],
   providers : [
@@ -60,7 +66,10 @@ import { MatSelectModule } from '@angular/material/select';
     MatTabsModule,
     MatPaginatorModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatGridListModule,
+    MatExpansionModule,
+    ReactiveFormsModule
   ]
 })
 export class MainUiModule { }

@@ -44,6 +44,15 @@ public class MoodController {
         return new ResponseEntity<>(convert(resultListOfMoods), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllMoods() {
+        List<Mood> moods = moodService.findAll();
+        if (moods.size() == 0) {
+            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
+        }
+        return new ResponseEntity<>(convert(moods), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteMood(@PathVariable("id") Long moodId) {
         try {

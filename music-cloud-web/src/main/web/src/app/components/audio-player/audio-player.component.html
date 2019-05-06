@@ -1,0 +1,13 @@
+<div class="audio-player">
+    <div class="control-part">
+        <img *ngIf="!isPlaying()" class="control-button" src="../../../assets/image/play-button.png" (click)="playAudio()">
+        <img *ngIf="isPlaying()" class="control-button" src="../../../assets/image/stop-button.png" (click)="stopAudio()">
+        <img class="control-button" src="../../../assets/image/previous-button.png" (click)="previousAudio()">
+        <img class="control-button" src="../../../assets/image/next-button.png" (click)="nextAudio()">
+    </div>
+    <div class="title-part">
+        <span>{{getTrackTitle()}}</span>
+    </div>
+    <div class="mute-part">
+    </div>
+</div>

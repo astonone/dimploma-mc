@@ -179,7 +179,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/cancelFriendRequest", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}/cancelFriendRequest", method = RequestMethod.POST)
     public ResponseEntity<?> cancelFriendRequest(@PathVariable("id") Long cancelerId, @RequestParam("friendId") Long friendId) {
         try {
             userService.cancelFriendRequest(cancelerId, friendId);
@@ -207,7 +207,7 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/removeFriend", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}/removeFriend", method = RequestMethod.POST)
     public ResponseEntity<?> removeFriend(@PathVariable("id") Long removerId, @RequestParam("friendId") Long friendId) {
         try {
             userService.removeFriend(removerId, friendId);
@@ -229,6 +229,16 @@ public class UserController {
         return new ResponseEntity<>(convertUserList(requests, null), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{id}/friends", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllFriends(@PathVariable("id") Long userId) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
+            return getErrorResponseBody(ApplicationErrorTypes.USER_ID_NOT_FOUND);
+        }
+        Set<User> friends = userService.getAllFriends(user);
+        return new ResponseEntity<>(convertUserList(friends, null), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public ResponseEntity<?> getAllUsers(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
         Page<User> users = userService.getUsersPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")));
@@ -237,6 +247,18 @@ public class UserController {
             return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
         }
         int count = userService.countAll();
+        return new ResponseEntity<>(convertUserList(resultListOfUsers, count), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    public ResponseEntity<?> findUsers(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize, @RequestParam("firstName") String firstName,
+                                       @RequestParam("lastName") String lastName, @RequestParam("nickName") String nickName) {
+        Page<User> users = userService.findUsers(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")), firstName, lastName, nickName);
+        List<User> resultListOfUsers = users.getContent();
+        if (resultListOfUsers.size() == 0) {
+            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
+        }
+        int count = userService.countUsers(firstName, lastName, nickName);
         return new ResponseEntity<>(convertUserList(resultListOfUsers, count), HttpStatus.OK);
     }
 

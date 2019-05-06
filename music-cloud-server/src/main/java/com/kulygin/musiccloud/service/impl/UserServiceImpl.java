@@ -235,6 +235,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> findUsers(PageRequest request, String firstName, String lastName, String nickName) {
+        return userRepository.findAllByUserDetails_FirstNameOrUserDetails_LastNameOrUserDetails_NickName(request, firstName, lastName, nickName);
+    }
+
+    @Override
+    public int countUsers(String firstName, String lastName, String nickName) {
+        return userRepository.countAllByUserDetails_FirstNameOrUserDetails_LastNameOrUserDetails_NickName(firstName, lastName, nickName);
+    }
+
+    @Override
     public int countAll() {
         return userRepository.countAll();
     }
@@ -263,5 +273,10 @@ public class UserServiceImpl implements UserService {
         UserDetails userDetails = user.getUserDetails();
         userDetails.setPhotoLink(null);
         return userRepository.save(user);
+    }
+
+    @Override
+    public Set<User> getAllFriends(User user) {
+        return user.getFriends();
     }
 }

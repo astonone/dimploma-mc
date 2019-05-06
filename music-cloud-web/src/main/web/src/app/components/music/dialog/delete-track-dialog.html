@@ -1,8 +1,8 @@
-<h1 mat-dialog-title>Удаление</h1>
+<h1 mat-dialog-title class="modal-window-text-item">Удаление</h1>
 <div mat-dialog-content>
-    <p>Вы действительно хотите удалить этот трек?</p>
+    <p class="modal-window-text-item">Вы действительно хотите удалить этот трек?</p>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions class="modal-window-buttons">
     <button mat-raised-button color="warn" [mat-dialog-close]="isOk" cdkFocusInitial>Да</button>
     <button mat-raised-button color="primary" (click)="onNoClick()">Отмена</button>
 </div>

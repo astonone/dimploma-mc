@@ -1,0 +1,32 @@
+<h1 mat-dialog-title class="modal-window-text-item">{{title}}</h1>
+<div mat-dialog-content>
+    <p class="modal-window-text-item">{{description}}</p>
+    <label class="modal-window-text-item">Плейлист</label>
+    <p class="modal-window-text-item">Нажмите крестик чтобы удалить трек из плейлиста</p>
+
+    <ul *ngFor="let track of playlist.tracks" class="track-list">
+        <li class="track-item-playlist">
+            <audio-player-proxy class="change-playlist-track-item" [isGlobal]="false" [isHome]="false" [isRecommend]="false" [track]="track" [playlist]="playlist.tracks"></audio-player-proxy>
+            <mat-icon class="action-icon" mat-list-icon (click)="removeTrackFromPlaylist(track.id)">clear</mat-icon>
+        </li>
+    </ul>
+    <label class="modal-window-text-item">Ваша музыка</label>
+    <p class="modal-window-text-item">Нажмите плюс чтобы добавить трек в плелист</p>
+    <p class="modal-window-text-item" *ngIf="myMusic.length === 0">На данный момент у вас нет музыки</p>
+    <mat-paginator [length]="tracksLength"
+                   [pageIndex]="page"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="pageEvent = loadTracksList($event)"
+                   *ngIf="myMusic.length !== 0">
+    </mat-paginator>
+    <ul *ngFor="let track of myMusic" class="track-list">
+        <li class="track-item-playlist">
+            <audio-player-proxy class="change-playlist-track-item" [isGlobal]="false" [isHome]="false" [isRecommend]="false" [track]="track" [playlist]="myMusic"></audio-player-proxy>
+            <mat-icon class="action-icon" mat-list-icon (click)="addTrackToPlaylist(track.id)">add_circle_outline</mat-icon>
+        </li>
+    </ul>
+</div>
+<div mat-dialog-actions class="modal-window-buttons">
+    <button mat-raised-button color="primary" [mat-dialog-close]="playlist" cdkFocusInitial>Продолжить</button>
+</div>

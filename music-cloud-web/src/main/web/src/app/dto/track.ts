@@ -1,16 +1,16 @@
 import {Observable} from 'rxjs';
 
 export class Track {
-    private _id : number;
-    private _title : string;
-    private _artist : string;
-    private _album : string;
-    private _year : string;
-    private _filename : string;
-    private _files : Observable<string[]>;
-    private _duration : string;
-    private _rating : number;
-    private _tempRating : number;
+    private _id: number;
+    private _title: string;
+    private _artist: string;
+    private _album: string;
+    private _year: string;
+    private _filename: string;
+    private _files: Observable<string[]>;
+    private _duration: string;
+    private _rating: number;
+    private _tempRating: number;
 
 
     constructor(data: any) {
@@ -109,7 +109,7 @@ export class Track {
         this._files = value;
     }
 
-    toObject() {
+    public toObject() {
         return {
             id: this._id,
             title: this._title,

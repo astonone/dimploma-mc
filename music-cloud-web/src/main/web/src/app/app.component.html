@@ -1,19 +1,49 @@
-﻿<mat-toolbar color="primary">
-    <img class="app-img" src="../assets/app-icon.ico">
-    <span class="app-title">Music cloud</span>
-    <div *ngIf="shared.isLogin" class="header-control-panel">
-        <div class="header-control-nav-panel">
-            <button class="header-panel-el" routerLink="/home" mat-raised-button>Главная</button>
-            <button class="header-panel-el" routerLink="/music" mat-raised-button>Музыка</button>
-            <button class="header-panel-el" routerLink="/users" mat-raised-button>Люди</button>
-            <button class="header-panel-el" routerLink="/upload" mat-raised-button>Загрузка</button>
-            <button class="header-panel-el" routerLink="/about" mat-raised-button>О нас</button>
-        </div>
-        <div class="header-control-auth-panel">
-            <div class="header-panel-el">Вы вошли как: {{showUserInfo()}}</div>
-            <button class="header-panel-el" routerLink="/settings" mat-raised-button color="accent">Настройки</button>
-            <button class="header-panel-el" mat-raised-button color="warn" (click)="shared.logout()">Выход</button>
-        </div>
-    </div>
-</mat-toolbar>
-<router-outlet></router-outlet>
+﻿<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav
+        #drawer
+        class="sidenav"
+        fixedInViewport="true"
+        (click)="toggleSidenav(sidenav)"
+        [attr.role]="shared.isMobile() ? 'dialog' : 'navigation'"
+        [mode]="shared.isMobile() ? 'over' : 'side'"
+        [opened]="!shared.isMobile() && shared.isUserLogin()">
+        <mat-toolbar color="primary">Меню</mat-toolbar>
+        <mat-nav-list class="menu">
+            <div class="user-name">
+                <span *ngIf="shared.isMobile() && shared.isUserLogin()">Вы вошли как: {{showUserInfo()}}</span>
+            </div>
+            <div>
+                <a mat-list-item routerLink="/home">Главная</a>
+                <a mat-list-item routerLink="/music">Музыка</a>
+                <a mat-list-item routerLink="/users">Люди</a>
+                <a mat-list-item routerLink="/upload">Загрузка</a>
+                <a mat-list-item routerLink="/about">О нас</a>
+                <a *ngIf="shared.isMobile() && shared.isUserLogin()" mat-list-item routerLink="/settings">Настройки</a>
+                <a *ngIf="shared.isMobile() && shared.isUserLogin()" mat-list-item (click)="logout()">Выход</a>
+            </div>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" class="header-control-panel">
+            <div class="header-control-menu-panel">
+                <button
+                        (click)="drawer.toggle()"
+                        *ngIf="shared.isMobile() && shared.isUserLogin()"
+                        aria-label="Toggle sidenav"
+                        mat-icon-button
+                        type="button">
+                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                </button>
+                 <div *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el">Вы вошли как: {{showUserInfo()}}</div>
+                <button *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" routerLink="/settings" mat-raised-button color="link">Настройки</button>
+                <button  *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" mat-raised-button color="warn" (click)="logout()">Выход</button>
+            </div>
+            <div class="header-control-label-panel">
+                <span class="app-title">Music cloud</span>
+                <img class="app-img" src="../assets/app-icon.png">
+            </div>
+        </mat-toolbar>
+        <audio-player *ngIf="shared.isUserLogin()"></audio-player>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
