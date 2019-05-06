@@ -46,6 +46,10 @@
     justify-content: center;
 }
 
+.text {
+
+}
+
 @media screen and (min-width: 481px) {
     .home {
         display: flex;

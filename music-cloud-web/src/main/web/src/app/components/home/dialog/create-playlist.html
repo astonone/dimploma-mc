@@ -1,0 +1,12 @@
+<h1 mat-dialog-title class="modal-window-text-item">{{title}}</h1>
+<div mat-dialog-content>
+    <p class="modal-window-text-item">{{description}}</p>
+    <mat-form-field appearance="outline">
+        <mat-label>Имя</mat-label>
+        <input matInput placeholder="Введите имя будущего плейлиста" [(ngModel)]="name">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions class="modal-window-buttons">
+    <button [disabled]="name === ''" mat-raised-button color="primary" [mat-dialog-close]="name" cdkFocusInitial>Создать</button>
+    <button mat-raised-button color="warn" (click)="onNoClick()">Отмена</button>
+</div>

@@ -59,7 +59,7 @@ public class CollaborativeFiltering {
          the user, and choose L largest */
 
         userRates.forEach((user, value) -> {
-            if (!user.equals(userID)) {
+            if (!user.equals(userID) && userRates.get(userID) != null) {
                 matches.put(user, metric.calculate(userRates.get(userID), userRates.get(user)));
             }
         });

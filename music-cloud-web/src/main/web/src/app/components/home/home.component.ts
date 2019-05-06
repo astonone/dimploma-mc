@@ -13,6 +13,12 @@ import { Observable } from 'rxjs';
 import { AddTrackToUserDialog } from '../music/dialog/add-track-to-user-dialog';
 import { UserList } from '../../dto/user-list';
 import { InfoDialog } from './dialog/info-dialog';
+import { PlaylistService } from '../../services/playlist.service';
+import { PlaylistList } from '../../dto/playlist-list';
+import { Playlist } from '../../dto/playlist';
+import { RemovePlaylist } from './dialog/remove-playlist';
+import { CreatePlaylist } from './dialog/create-playlist';
+import { ChangePlaylist } from './dialog/change-playlist';
 
 @Component({
     selector: 'home',
@@ -31,7 +37,7 @@ export class HomeComponent implements OnInit {
 
     public myMusic: Track[] = [];
     public recommendedMusic: Track[] = [];
-    public myPlaylists: any[] = [];
+    public myPlaylists: Playlist[] = [];
     private response: TrackList;
     private responseFriendRequests: UserList;
     private responseFriends: UserList;
@@ -48,7 +54,8 @@ export class HomeComponent implements OnInit {
                 private shared: SharedService,
                 private trackService: TrackService,
                 public dialog: MatDialog,
-                private fileService: FileService) {
+                private fileService: FileService,
+                private playlistService: PlaylistService) {
         this.user = this.shared.createEmptyUserStub();
     }
 
@@ -65,9 +72,10 @@ export class HomeComponent implements OnInit {
                         this.loadFriendRequests();
                         this.loadFriends();
                         this.loadRecommendedTracksList();
+                        this.loadPlaylists();
                     },
                     error => {
-                        if (error.status == 401) {
+                        if (error.status === 401) {
                             this.shared.logout();
                         }
                     }
@@ -79,6 +87,7 @@ export class HomeComponent implements OnInit {
             this.loadFriends();
             this.loadTracksList(null);
             this.loadRecommendedTracksList();
+            this.loadPlaylists();
         }
         } else {
             this.router.navigate(['login']);
@@ -131,7 +140,6 @@ export class HomeComponent implements OnInit {
                 this.response = new TrackList(data);
                 this.tracksLength = this.response.allCount;
                 this.myMusic = this.response.tracks;
-                // this.createAudio(this.myMusic[0]);
             });
         }
     }
@@ -245,6 +253,64 @@ export class HomeComponent implements OnInit {
             data : data
         });
         dialogRef.afterClosed().subscribe(result => {
+        });
+    }
+
+    private loadPlaylists() {
+        this.playlistService.getAllPlaylists()
+            .subscribe(data => {
+               this.myPlaylists = new PlaylistList(data).playlists;
+            });
+    }
+
+    changePlaylist(playlist: Playlist) {
+        this.openChangePlaylistDialog({title: 'Настройка', description: 'Здесь вы сможете добавить или удалить треки из плейлиста',
+            playlist: playlist});
+    }
+
+    private openChangePlaylistDialog(data: any): void {
+        const dialogRef = this.dialog.open(ChangePlaylist, {
+            data : data
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            this.loadPlaylists();
+        });
+    }
+
+    removePlaylist(playlist: Playlist) {
+        this.openRemovePlaylistDialog({title: 'Удаление', description: 'Вы действительно хотите удалить плейлист?',
+            playlistId: playlist.id});
+    }
+
+    private openRemovePlaylistDialog(data: any): void {
+        const dialogRef = this.dialog.open(RemovePlaylist, {
+            data : data
+        });
+        dialogRef.afterClosed().subscribe(id => {
+            if (id) {
+                this.playlistService.deletePlaylist(id)
+                    .subscribe(() => {
+                        this.loadPlaylists();
+                    });
+            }
+        });
+    }
+
+    createPlaylist() {
+        this.openCreatePlaylistDialog({title: 'Создание', description: 'Введите название для плейлиста'});
+    }
+
+    private openCreatePlaylistDialog(data: any): void {
+        const dialogRef = this.dialog.open(CreatePlaylist, {
+            data : data
+        });
+        dialogRef.afterClosed().subscribe(name => {
+            if (name) {
+                this.playlistService.createPlaylist(name, this.user.id)
+                    .subscribe(() => {
+                        this.loadPlaylists();
+                    });
+            }
         });
     }
 }

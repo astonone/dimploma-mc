@@ -1,5 +1,6 @@
 package com.kulygin.musiccloud.web;
 
+import com.kulygin.musiccloud.dto.AllPlaylistWithTrackDTO;
 import com.kulygin.musiccloud.enumeration.ApplicationErrorTypes;
 import com.kulygin.musiccloud.domain.Playlist;
 import com.kulygin.musiccloud.domain.Track;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/playlist")
@@ -43,6 +46,15 @@ public class PlaylistController {
             return getErrorResponseBody(ApplicationErrorTypes.PLAYLIST_ID_NOT_FOUND);
         }
         return new ResponseEntity<>(convertPlaylistWithTrack(playlist), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/all/showTracks", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllPlaylistsWithTracks() {
+        List<Playlist> playlist = playlistService.getAllPlaylistsWithTracks();
+        if (playlist.isEmpty()) {
+            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
+        }
+        return new ResponseEntity<>(convertPlaylistsWithTrack(playlist), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -82,8 +94,23 @@ public class PlaylistController {
         if (track == null) {
             return getErrorResponseBody(ApplicationErrorTypes.TRACK_ID_NOT_FOUND);
         }
-        playlistService.addTrackInPlaylist(playlist, track);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        playlist = playlistService.addTrackInPlaylist(playlist, track);
+        return new ResponseEntity<>(convertPlaylistWithTrack(playlist), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "{id}/track", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removeTrackInPlaylist(@PathVariable("id") Long playlistId, @RequestParam("trackId") Long trackId) {
+
+        Playlist playlist = playlistService.getPlaylistById(playlistId);
+        if (playlist == null) {
+            return getErrorResponseBody(ApplicationErrorTypes.PLAYLIST_ID_NOT_FOUND);
+        }
+        Track track = trackService.getTrackById(trackId);
+        if (track == null) {
+            return getErrorResponseBody(ApplicationErrorTypes.TRACK_ID_NOT_FOUND);
+        }
+        playlist = playlistService.removeTrackInPlaylist(playlist, track);
+        return new ResponseEntity<>(convertPlaylistWithTrack(playlist), HttpStatus.OK);
     }
 
     private PlaylistDTO convert(Playlist dbModel) {
@@ -92,6 +119,10 @@ public class PlaylistController {
 
     private PlaylistWithTrackDTO convertPlaylistWithTrack(Playlist dbModel) {
         return (dbModel == null) ? null : new PlaylistWithTrackDTO(dbModel);
+    }
+
+    private AllPlaylistWithTrackDTO convertPlaylistsWithTrack(List<Playlist> dbModel) {
+        return (dbModel == null) ? null : new AllPlaylistWithTrackDTO(dbModel);
     }
 
     private ResponseEntity<ErrorResponseBody> getErrorResponseBody(ApplicationErrorTypes errorType) {

@@ -1,0 +1,8 @@
+<h1 mat-dialog-title class="modal-window-text-item">{{title}}</h1>
+<div mat-dialog-content>
+    <p class="modal-window-text-item">{{description}}</p>
+</div>
+<div mat-dialog-actions class="modal-window-buttons">
+    <button mat-raised-button color="warn" [mat-dialog-close]="id" cdkFocusInitial>Да</button>
+    <button mat-raised-button color="primary" (click)="onNoClick()">Нет</button>
+</div>

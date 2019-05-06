@@ -12,6 +12,8 @@ import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Log4j
 public class PlaylistServiceImpl implements PlaylistService {
@@ -40,9 +42,11 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public void addTrackInPlaylist(Playlist playlist, Track track) {
+    public Playlist addTrackInPlaylist(Playlist playlist, Track track) {
         track.getPlaylists().add(playlist);
         trackRepository.save(track);
+        playlist.getTracks().add(track);
+        return playlist;
     }
 
     @Override
@@ -51,5 +55,18 @@ public class PlaylistServiceImpl implements PlaylistService {
             throw new PlaylistNotExistsException();
         }
         playlistRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Playlist> getAllPlaylistsWithTracks() {
+        return playlistRepository.findAll();
+    }
+
+    @Override
+    public Playlist removeTrackInPlaylist(Playlist playlist, Track track) {
+        track.getPlaylists().remove(playlist);
+        trackRepository.save(track);
+        playlist.getTracks().remove(track);
+        return playlist;
     }
 }

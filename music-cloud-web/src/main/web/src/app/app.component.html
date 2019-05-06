@@ -1,14 +1,15 @@
 ﻿<mat-sidenav-container class="sidenav-container">
-    <mat-sidenav
+    <mat-sidenav #sidenav
         #drawer
         class="sidenav"
         fixedInViewport="true"
+        (click)="toggleSidenav(sidenav)"
         [attr.role]="shared.isMobile() ? 'dialog' : 'navigation'"
         [mode]="shared.isMobile() ? 'over' : 'side'"
         [opened]="!shared.isMobile() && shared.isUserLogin()">
         <mat-toolbar color="primary">Меню</mat-toolbar>
         <mat-nav-list class="menu">
-            <div>
+            <div class="user-name">
                 <span *ngIf="shared.isMobile() && shared.isUserLogin()">Вы вошли как: {{showUserInfo()}}</span>
             </div>
             <div>

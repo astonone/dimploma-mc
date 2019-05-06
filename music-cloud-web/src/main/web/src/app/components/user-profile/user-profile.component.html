@@ -17,8 +17,8 @@
         <p>О пользователе: {{user.userDetails.about}}</p>
       </mat-card-content>
       <mat-card-actions class="user-profile-buttons">
-        <button [disabled]="isFriend || isRequest" mat-raised-button color="primary" (click)="sendFriendRequest()">Добавить в друзья</button>
-        <button [disabled]="isRequest" mat-raised-button color="warn" (click)="removeFriend()">Удалить из друзей</button>
+        <button [disabled]="isFriend || isRequest || isRequestFromUser" mat-raised-button color="primary" (click)="sendFriendRequest()">Добавить в друзья</button>
+        <button [disabled]="!isFriend" mat-raised-button color="warn" (click)="removeFriend()">Удалить из друзей</button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -40,7 +40,7 @@
               </li>
             </ul>
           </mat-list>
-          <span *ngIf="music.length === 0">На данный момент у пользователя нет музыки</span>
+          <span class="text" *ngIf="music.length === 0">На данный момент у пользователя нет музыки</span>
         </mat-tab>
       </mat-tab-group>
     </mat-list>

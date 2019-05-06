@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class UploadComponent implements OnInit {
 
   public isError: boolean;
+  public response: any;
   public isLoading: boolean;
   public isSaving: boolean;
   public isSuccess: boolean;
@@ -58,6 +59,8 @@ export class UploadComponent implements OnInit {
             this.isSuccess = true;
             this.isLoading = false;
             this.isSaving = false;
+            this.response = event;
+            this.trackService.addTrackToUser(this.shared.getLoggedUser().id, Number(JSON.parse(this.response.body).id)).subscribe();
           }
         }, error => {
           this.isError = true;

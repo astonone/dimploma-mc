@@ -18,10 +18,26 @@
     padding-right: 5px;
 }
 
+.track-item-playlist {
+    width: 100%;
+    list-style-type:none;
+    display: flex;
+    align-items: center;
+    margin: 5px 5px 5px 5px;
+}
+
+.action-icon {
+    cursor: pointer;
+}
+
 .go-to-profile {
     margin-top: 10px;
     margin-left: 10px;
     cursor: pointer;
+}
+
+.change-playlist-track-item {
+    width: 100%;
 }
 
 .modal-window-buttons {
@@ -31,6 +47,24 @@
 
 .modal-window-text-item {
     text-align: center;
+}
+
+.playlist-control {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.playlist-create-button {
+    margin: 5px 5px 5px 5px;
+}
+
+.playlist-control-item {
+    margin: 5px 5px 5px 5px;
+    cursor: pointer;
+}
+
+.text {
+    margin: 5px 5px 5px 10px;
 }
 
 @media screen and (min-width: 481px) {

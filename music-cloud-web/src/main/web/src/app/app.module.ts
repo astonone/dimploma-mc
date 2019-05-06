@@ -40,6 +40,9 @@ import { InfoDialog } from './components/home/dialog/info-dialog';
 import { AdditionalComponent } from './components/additional/additional.component';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 import { AudioPlayerProxyComponent } from './components/audio-player-proxy/audio-player-proxy.component';
+import { CreatePlaylist } from './components/home/dialog/create-playlist';
+import { ChangePlaylist } from './components/home/dialog/change-playlist';
+import { RemovePlaylist } from './components/home/dialog/remove-playlist';
 
 @NgModule({
     imports: [
@@ -69,14 +72,21 @@ import { AudioPlayerProxyComponent } from './components/audio-player-proxy/audio
         InfoDialog,
         AdditionalComponent,
         AudioPlayerComponent,
-        AudioPlayerProxyComponent    ],
+        AudioPlayerProxyComponent,
+        CreatePlaylist,
+        ChangePlaylist,
+        RemovePlaylist
+    ],
     entryComponents: [
         CreateUserDialog,
         ErrorCreateUserDialog,
         AddTrackToUserDialog,
         DeleteTrackDialog,
         ChangeTrackDialog,
-        InfoDialog
+        InfoDialog,
+        CreatePlaylist,
+        ChangePlaylist,
+        RemovePlaylist
     ],
     providers: [
         UserService,
@@ -89,7 +99,8 @@ import { AudioPlayerProxyComponent } from './components/audio-player-proxy/audio
         PlayService,
         AudioPlayerComponent,
         HomeComponent,
-        MusicComponent
+        MusicComponent,
+        ChangePlaylist
     ],
     bootstrap: [AppComponent]
 })

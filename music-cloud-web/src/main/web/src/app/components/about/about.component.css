@@ -9,6 +9,11 @@
     background-color: #fafafa;
 }
 
+.text {
+    margin: 5px 5px 5px 10px;
+}
+
+
 @media screen and (min-width: 481px) {
     .about {
         display: flex;

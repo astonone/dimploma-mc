@@ -26,7 +26,15 @@ export class AppComponent {
     }
 
     public logout() {
-        this.playService.stopPlayingAndClearData();
+        if (this.playService.isPlaying()) {
+            this.playService.stopPlayingAndClearData();
+        }
         this.shared.logout();
+    }
+
+    toggleSidenav(sidenav: any) {
+        if (this.shared.isMobile()) {
+            sidenav.toggle();
+        }
     }
 }
