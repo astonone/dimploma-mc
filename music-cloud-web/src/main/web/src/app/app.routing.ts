@@ -21,7 +21,7 @@ const appRoutes: Routes = [
     { path: 'upload', component: UploadComponent },
     { path: 'registration', component: RegistrationComponent },
     { path: 'additional/:id', component: AdditionalComponent },
-    { path: '**', redirectTo: 'music' }
+    { path: '**', redirectTo: 'home' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes,  {useHash: true});

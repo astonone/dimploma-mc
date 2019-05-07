@@ -14,7 +14,7 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
-      this.router.navigate(['music']);
+      this.router.navigate(['login']);
     }
   }
 }
