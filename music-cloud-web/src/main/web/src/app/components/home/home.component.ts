@@ -257,7 +257,7 @@ export class HomeComponent implements OnInit {
     }
 
     private loadPlaylists() {
-        this.playlistService.getAllPlaylists()
+        this.playlistService.getAllPlaylists(this.user.id)
             .subscribe(data => {
                this.myPlaylists = new PlaylistList(data).playlists;
             });

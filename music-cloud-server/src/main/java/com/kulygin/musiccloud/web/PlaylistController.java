@@ -49,11 +49,8 @@ public class PlaylistController {
     }
 
     @RequestMapping(value = "/all/showTracks", method = RequestMethod.GET)
-    public ResponseEntity<?> getAllPlaylistsWithTracks() {
-        List<Playlist> playlist = playlistService.getAllPlaylistsWithTracks();
-        if (playlist.isEmpty()) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
+    public ResponseEntity<?> getAllPlaylistsWithTracksByUser(@RequestParam("userId") Long userId) {
+        List<Playlist> playlist = playlistService.getAllPlaylistsWithTracks(userId);
         return new ResponseEntity<>(convertPlaylistsWithTrack(playlist), HttpStatus.OK);
     }
 
