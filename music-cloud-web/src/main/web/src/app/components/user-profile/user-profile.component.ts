@@ -107,7 +107,6 @@ export class UserProfileComponent implements OnInit {
     this.userService.getAllFriends(parseInt(userId)).subscribe(data => {
         const response = new UserList(data);
         this.isFriend =  this.isFriendById(this.loggedUser.id, response.users);
-        console.log('f:' + this.isFriend);
     });
   }
 
@@ -123,12 +122,10 @@ export class UserProfileComponent implements OnInit {
     this.userService.getAllFriendRequests(parseInt(userId)).subscribe(data => {
       const response = new UserList(data);
       this.isRequest = this.isFriendById(this.loggedUser.id, response.users);
-      console.log('r:' + this.isRequest);
     });
     this.userService.getAllFriendRequests(this.loggedUser.id).subscribe(data => {
       const response = new UserList(data);
       this.isRequestFromUser = this.isFriendById(parseInt(userId), response.users);
-      console.log('r:' + this.isRequestFromUser);
     });
   }
 

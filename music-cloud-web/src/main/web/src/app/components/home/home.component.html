@@ -17,6 +17,49 @@
                 <p>Обо мне: {{user.userDetails.about}}</p>
             </mat-card-content>
         </mat-card>
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Мои друзья
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list>
+                    <mat-list-item *ngFor="let user of myFriends">
+                        <mat-icon mat-list-icon>account_circle</mat-icon>
+                        <h4 mat-line>{{showUserInfo(user)}}
+                            <mat-icon class="go-to-profile" (click)="gotoProfile(user.id)" mat-list-icon>arrow_forward_ios</mat-icon>
+                        </h4>
+                        <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p>
+                    </mat-list-item>
+                </mat-list>
+                <span class="text" *ngIf="myFriends.length === 0">Вы еще не добавили никого в друзья</span>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Заявки в друзья
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list>
+                    <mat-list-item *ngFor="let user of myRequest">
+                        <mat-icon mat-list-icon>account_circle</mat-icon>
+                        <h4 mat-line>{{showUserInfo(user)}}
+                            <mat-icon class="go-to-profile" (click)="gotoProfile(user.id)" mat-list-icon>arrow_forward_ios</mat-icon>
+                            <mat-icon class="go-to-profile" (click)="addFriend(user)" mat-list-icon>add_box</mat-icon>
+                            <mat-icon class="go-to-profile" (click)="cancelFriendRequest(user)" mat-list-icon>remove_circle</mat-icon>
+                        </h4>
+                        <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p><br>
+                    </mat-list-item>
+                </mat-list>
+                <span class="text" *ngIf="myRequest.length === 0">Запросы отсутствуют</span>
+            </mat-expansion-panel>
+        </mat-accordion>
     </div>
 
     <div class="home__content">
@@ -42,8 +85,7 @@
                 <mat-tab label="Мои плейлисты">
                     <button class="playlist-create-button" mat-raised-button color="primary" (click)="createPlaylist()">Создать плейлист</button>
                     <mat-accordion>
-                        <mat-expansion-panel *ngFor="let playlist of myPlaylists" (opened)="playlist.panelOpenState = true"
-                                             (closed)="playlist.panelOpenState = false">
+                        <mat-expansion-panel *ngFor="let playlist of myPlaylists">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                     {{playlist.name}}
@@ -64,32 +106,6 @@
 
                         </mat-expansion-panel>
                     </mat-accordion>
-                </mat-tab>
-                <mat-tab label="Мои друзья">
-                    <mat-list>
-                        <mat-list-item *ngFor="let user of myFriends">
-                            <mat-icon mat-list-icon>account_circle</mat-icon>
-                            <h4 mat-line>{{showUserInfo(user)}}
-                                <mat-icon class="go-to-profile" (click)="gotoProfile(user.id)" mat-list-icon>arrow_forward_ios</mat-icon>
-                            </h4>
-                            <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p>
-                        </mat-list-item>
-                    </mat-list>
-                    <span class="text" *ngIf="myFriends.length === 0">Вы еще не добавили никого в друзья</span>
-                </mat-tab>
-                <mat-tab label="Запросы в друзья">
-                    <mat-list>
-                        <mat-list-item *ngFor="let user of myRequest">
-                            <mat-icon mat-list-icon>account_circle</mat-icon>
-                            <h4 mat-line>{{showUserInfo(user)}}
-                                <mat-icon class="go-to-profile" (click)="gotoProfile(user.id)" mat-list-icon>arrow_forward_ios</mat-icon>
-                                <mat-icon class="go-to-profile" (click)="addFriend(user)" mat-list-icon>add_box</mat-icon>
-                                <mat-icon class="go-to-profile" (click)="cancelFriendRequest(user)" mat-list-icon>remove_circle</mat-icon>
-                            </h4>
-                            <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p><br>
-                        </mat-list-item>
-                    </mat-list>
-                    <span class="text" *ngIf="myRequest.length === 0">Запросы отсутствуют</span>
                 </mat-tab>
                 <mat-tab label="Рекомендации">
                     <span class="text" *ngIf="recommendedMusic.length === 0">На данный момент недостаточно данных для формирования рекомендаций</span>
