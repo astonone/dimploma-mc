@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { SharedService } from './services/shared.service';
-import {PlayService} from './services/play.service';
+import { PlayService } from './services/play.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -12,7 +13,8 @@ import {PlayService} from './services/play.service';
 
 export class AppComponent {
     constructor(public shared: SharedService,
-                private playService: PlayService) {
+                private playService: PlayService,
+                private router: Router) {
         this.shared.setLoggedUser();
     }
 
@@ -30,6 +32,13 @@ export class AppComponent {
             this.playService.stopPlayingAndClearData();
         }
         this.shared.logout();
+    }
+
+    public gotoLogin() {
+        if (this.playService.isPlaying()) {
+            this.playService.stopPlayingAndClearData();
+        }
+        this.router.navigate(['login']);
     }
 
     toggleSidenav(sidenav: any) {

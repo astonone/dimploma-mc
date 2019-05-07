@@ -37,13 +37,15 @@
                  <div *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el">Вы вошли как: {{showUserInfo()}}</div>
                 <button *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" routerLink="/settings" mat-raised-button color="link">Настройки</button>
                 <button  *ngIf="!shared.isMobile() && shared.isUserLogin()" class="header-panel-el" mat-raised-button color="warn" (click)="logout()">Выход</button>
+                <button  *ngIf="!shared.isUserLogin() && !shared.isLoginPage()" class="header-panel-el" mat-raised-button color="warn" (click)="gotoLogin()">Войти</button>
+                <button  *ngIf="!shared.isUserLogin() && shared.isLoginPage()" class="header-panel-el" mat-raised-button color="warn" routerLink="/music">Музыка</button>
             </div>
             <div class="header-control-label-panel">
                 <span class="app-title">Music cloud</span>
                 <img class="app-img" src="../assets/app-icon.png">
             </div>
         </mat-toolbar>
-        <audio-player *ngIf="shared.isUserLogin()"></audio-player>
+        <audio-player *ngIf="shared.isUserLogin() || !shared.isLoginPage()"></audio-player>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
