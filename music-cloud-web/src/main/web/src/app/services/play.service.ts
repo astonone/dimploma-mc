@@ -35,6 +35,7 @@ export class PlayService {
         track.files.subscribe(file => {
             this.currentAudio.src = file[0];
         });
+        this.currentAudio.onended = () => this.nextAudio();
     }
 
     public getCurrentTrack() {
