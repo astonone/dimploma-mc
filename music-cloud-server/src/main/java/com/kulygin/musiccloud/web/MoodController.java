@@ -38,18 +38,12 @@ public class MoodController {
     public ResponseEntity<?> getAllMoodsPagination(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
         Page<Mood> moods = moodService.getAllMoodsPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")));
         List<Mood> resultListOfMoods = moods.getContent();
-        if (resultListOfMoods.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         return new ResponseEntity<>(convert(resultListOfMoods), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> getAllMoods() {
         List<Mood> moods = moodService.findAll();
-        if (moods.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         return new ResponseEntity<>(convert(moods), HttpStatus.OK);
     }
 

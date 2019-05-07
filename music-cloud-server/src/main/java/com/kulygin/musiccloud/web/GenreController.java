@@ -38,18 +38,12 @@ public class GenreController {
     public ResponseEntity<?> getAllGenresPagination(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
         Page<Genre> genres = genreService.getAllGenresPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")));
         List<Genre> resultListOfGenres = genres.getContent();
-        if (resultListOfGenres.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         return new ResponseEntity<>(convert(resultListOfGenres), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public ResponseEntity<?> getAllGenresn() {
         List<Genre> genres = genreService.findAll();
-        if (genres.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         return new ResponseEntity<>(convert(genres), HttpStatus.OK);
     }
 

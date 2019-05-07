@@ -86,9 +86,6 @@ public class TrackController {
     public ResponseEntity<?> getAllTracksPagination(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
         Page<Track> tracks = trackService.getAllTracksPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")));
         List<Track> resultListOfTrack = tracks.getContent();
-        if (resultListOfTrack.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         int count = trackService.countAll();
         return new ResponseEntity<>(convert(resultListOfTrack, count), HttpStatus.OK);
     }
@@ -97,9 +94,6 @@ public class TrackController {
     public ResponseEntity<?> findTracks(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize, @RequestBody TrackFullInfoDTO trackDTO) {
         Page<Track> tracks = trackService.findTracks(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")), trackDTO);
         List<Track> resultListOfTrack = tracks.getContent();
-        if (resultListOfTrack.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         int count = trackService.countTracks(trackDTO);
         return new ResponseEntity<>(convert(resultListOfTrack, count), HttpStatus.OK);
     }
@@ -113,9 +107,6 @@ public class TrackController {
         Page<Track> tracks = trackService.getTracksByUserPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")),
                 user);
         List<Track> resultListOfTrack = tracks.getContent();
-        if (resultListOfTrack.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         int count = trackService.countTracksByUserPagination(user);
         return new ResponseEntity<>(convert(resultListOfTrack, count), HttpStatus.OK);
     }
@@ -129,9 +120,6 @@ public class TrackController {
         Page<Track> tracks = trackService.getTracksByGenrePagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")),
                 genre);
         List<Track> resultListOfTrack = tracks.getContent();
-        if (resultListOfTrack.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         return new ResponseEntity<>(convert(resultListOfTrack, trackService.countTracksByGenrePagination(genre)), HttpStatus.OK);
     }
 
@@ -144,9 +132,6 @@ public class TrackController {
         Page<Track> tracks = trackService.getTracksByMoodPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")),
                 mood);
         List<Track> resultListOfTrack = tracks.getContent();
-        if (resultListOfTrack.size() == 0) {
-            return getErrorResponseBody(ApplicationErrorTypes.DB_IS_EMPTY_OR_PAGE_IS_NOT_EXIST);
-        }
         return new ResponseEntity<>(convert(resultListOfTrack, trackService.countTracksByMoodPagination(mood)), HttpStatus.OK);
     }
 

@@ -168,22 +168,10 @@ export class HomeComponent implements OnInit {
             if (result) {
                 this.trackService.deleteTrackFromUser(this.user.id, track.id)
                     .subscribe(() => {
-                        if (this.myMusic.length === 1) {
-                            this.deleteTrack(track.id, this.myMusic);
-                        } else {
-                            this.loadTracksList(null);
-                        }
+                        this.loadTracksList(null);
                     });
             }
         });
-    }
-
-    public deleteTrack(trackId: number, tracks: Track[]) {
-        const index = tracks.map(x => {
-            return x.id;
-        }).indexOf(trackId);
-
-        tracks.splice(index, 1);
     }
 
     private getPhoto() {
@@ -234,7 +222,6 @@ export class HomeComponent implements OnInit {
                 this.loadFriends();
             }, error => {
                 this.openFriendDialog({title: 'Ошибка', description: 'Произошла ошибка:' + error.error.message});
-                console.log(error);
             });
     }
 
