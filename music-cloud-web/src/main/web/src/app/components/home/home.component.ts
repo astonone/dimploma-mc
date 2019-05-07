@@ -90,7 +90,7 @@ export class HomeComponent implements OnInit {
             this.loadPlaylists();
         }
         } else {
-            this.router.navigate(['music']);
+            this.router.navigate(['login']);
         }
     }
 

@@ -9,11 +9,11 @@
   <div class="mute-part">
     <img *ngIf="!isPlaying() && shared.isMobile()" class="control-button" src="../../../assets/image/play-proxy.png" (click)="playAudio()">
     <img *ngIf="isPlaying() && shared.isMobile()" class="control-button" src="../../../assets/image/stop-proxy.png" (click)="stopAudio()">
-    <mat-icon *ngIf="isRecommend && shared.isUserLogin()" class="item" mat-list-icon (click)="addTrackToUserFromRec(track.id)">add_circle_outline</mat-icon>
-    <mat-icon *ngIf="isGlobal && shared.isUserLogin()" class="item" mat-list-icon (click)="addTrackToUser(track)">add_circle_outline</mat-icon>
-    <mat-icon *ngIf="isHome || isRecommend || isGlobal && shared.isUserLogin()" class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
-    <mat-icon *ngIf="isHome && shared.isUserLogin()" class="item" mat-list-icon (click)="deleteTrackAction(track)">clear</mat-icon>
-    <mat-form-field *ngIf="isHome || isRecommend || isGlobal && shared.isUserLogin()" class="item">
+    <mat-icon *ngIf="isRecommend" class="item" mat-list-icon (click)="addTrackToUserFromRec(track.id)">add_circle_outline</mat-icon>
+    <mat-icon *ngIf="isGlobal" class="item" mat-list-icon (click)="addTrackToUser(track)">add_circle_outline</mat-icon>
+    <mat-icon *ngIf="isHome || isRecommend || isGlobal" class="item" mat-list-icon (click)="changeTrack(track)">create</mat-icon>
+    <mat-icon *ngIf="isHome" class="item" mat-list-icon (click)="deleteTrackAction(track)">clear</mat-icon>
+    <mat-form-field *ngIf="isHome || isRecommend || isGlobal" class="item">
       <mat-label>Ваша оценка</mat-label>
       <mat-select [(ngModel)]="track.tempRating" (selectionChange)="rateTrack(track)">
         <mat-option>None</mat-option>
