@@ -34,6 +34,9 @@ export class AudioPlayerProxyComponent implements OnInit {
               private musicComponent: MusicComponent,
               private playService: PlayService,
               private audioPlayer: AudioPlayerComponent) {
+    if (!this.user) {
+      this.user = this.shared.getLoggedUser();
+    }
   }
 
   public changeTrack(track: Track) {
