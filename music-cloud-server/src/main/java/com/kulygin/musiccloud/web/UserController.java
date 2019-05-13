@@ -243,7 +243,7 @@ public class UserController {
     @RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getAllUsers(@PathVariable ("id") Long userId, @RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
         List<User> users = userService.getUsersPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")), userId);
-        int count = userService.countAll() - 1;
+        int count = userService.countAllByIdNot(userId);
         return new ResponseEntity<>(convertUserList(users, count), HttpStatus.OK);
     }
 

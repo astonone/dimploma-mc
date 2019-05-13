@@ -286,4 +286,87 @@
                                  referencedColumnNames="id"
                                  referencedTableName="user"/>
     </changeSet>
+    <changeSet author="viktor.kulygin" id="13">
+        <createTable tableName="dialog">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="time" type="${timestamp.type}" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="14">
+        <createTable tableName="user_has_dialog">
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dialog_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="user_id, dialog_id"
+                       constraintName="pk_user_dialog"
+                       tableName="user_has_dialog"/>
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="user_has_dialog"
+                                 constraintName="fk_user_dialog"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+        <addForeignKeyConstraint baseColumnNames="dialog_id"
+                                 baseTableName="user_has_dialog"
+                                 constraintName="fk_dialog_user"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="dialog"/>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="15">
+        <createTable tableName="message">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="text" type="VARCHAR(4096)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="time" type="${timestamp.type}" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="viktor.kulygin" id="16">
+        <createTable tableName="message_has_dialog">
+            <column name="message_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dialog_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="message_id, dialog_id"
+                       constraintName="pk_message_dialog"
+                       tableName="message_has_dialog"/>
+        <addForeignKeyConstraint baseColumnNames="message_id"
+                                 baseTableName="message_has_dialog"
+                                 constraintName="fk_message_dialog"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="message"/>
+        <addForeignKeyConstraint baseColumnNames="dialog_id"
+                                 baseTableName="message_has_dialog"
+                                 constraintName="fk_dialog_message"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="dialog"/>
+    </changeSet>
 </databaseChangeLog>

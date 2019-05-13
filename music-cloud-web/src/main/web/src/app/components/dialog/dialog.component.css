@@ -1,0 +1,27 @@
+.dialog {
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    overflow: auto;
+    height: calc(100vh - 191px);
+}
+
+.sender {
+    display: flex;
+}
+
+.text-area {
+    padding-left: 10px;
+    flex-basis: 90%;
+}
+
+.button {
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    flex-basis: 10%;
+    align-items: center;
+    height: 55px;
+}

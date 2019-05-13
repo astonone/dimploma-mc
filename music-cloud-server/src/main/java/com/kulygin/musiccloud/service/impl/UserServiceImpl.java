@@ -232,9 +232,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsersPagination(PageRequest request, Long userId) {
-        List<User> users = new ArrayList<>(userRepository.findAll(request).getContent());
-        users.removeIf(user -> user.getId().equals(userId));
-        return users;
+        return new ArrayList<>(userRepository.findAllByIdNot(request, userId).getContent());
     }
 
     @Override
@@ -250,6 +248,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public int countAll() {
         return userRepository.countAll();
+    }
+
+    @Override
+    public int countAllByIdNot(Long userId) {
+        return userRepository.countAllByIdNot(userId);
     }
 
     @Override

@@ -300,4 +300,8 @@ export class HomeComponent implements OnInit {
             }
         });
     }
+
+    openDialogs() {
+        this.router.navigate(['dialogs/' + this.user.id]);
+    }
 }

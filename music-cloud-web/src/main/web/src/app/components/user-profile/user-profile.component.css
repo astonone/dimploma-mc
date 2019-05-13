@@ -50,6 +50,11 @@
 
 }
 
+.dialog-button {
+    display: flex;
+    justify-content: center;
+}
+
 @media screen and (min-width: 481px) {
     .home {
         display: flex;

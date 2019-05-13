@@ -16,7 +16,7 @@ import java.util.Set;
 @Entity
 @Table(schema = "public")
 @EqualsAndHashCode(of = {"id"})
-@ToString(exclude = {"userDetails", "userTracks", "playlists", "friends", "friendRequests"})
+@ToString(exclude = {"userDetails", "userTracks", "playlists", "friends", "friendRequests", "userDialogs"})
 public class User implements org.springframework.security.core.userdetails.UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +34,9 @@ public class User implements org.springframework.security.core.userdetails.UserD
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Playlist> playlists;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+    private Set<Dialog> userDialogs;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "friends",

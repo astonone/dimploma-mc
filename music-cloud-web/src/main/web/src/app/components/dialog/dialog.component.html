@@ -1,0 +1,25 @@
+<div class="dialog">
+  <div class="messages">
+    <mat-list class="dialogs">
+      <h3 mat-subheader>Диалоги</h3>
+      <mat-list-item *ngFor="let message of messages">
+        <mat-icon mat-list-icon>comment</mat-icon>
+        <h4 mat-line>{{message.text}}</h4>
+        <p mat-line> {{getUserById(message)}} </p>
+        <span>{{message.time.toDate() | date}}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="sender">
+    <mat-divider></mat-divider>
+    <div class="text-area">
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Сообщение</mat-label>
+        <input matInput placeholder="Введите сообщение" [(ngModel)]="text" (keyup.enter)="sendMessage()">
+      </mat-form-field>
+    </div>
+    <div class="button">
+      <button  mat-raised-button color="primary" (click)="sendMessage()">Отправить</button>
+    </div>
+  </div>
+</div>

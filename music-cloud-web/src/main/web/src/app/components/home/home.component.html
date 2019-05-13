@@ -16,6 +16,9 @@
                 <p>День рождения: {{user.userDetails.birthday.printDate()}}</p>
                 <p>Обо мне: {{user.userDetails.about}}</p>
             </mat-card-content>
+            <mat-card-actions class="user-profile-buttons">
+                <button  mat-raised-button color="primary" (click)="openDialogs()">Диалоги</button>
+            </mat-card-actions>
         </mat-card>
         <mat-accordion>
             <mat-expansion-panel>

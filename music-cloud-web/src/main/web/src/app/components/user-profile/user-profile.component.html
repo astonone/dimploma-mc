@@ -16,6 +16,9 @@
         <p>День рождения: {{user.userDetails.birthday.printDate()}}</p>
         <p>О пользователе: {{user.userDetails.about}}</p>
       </mat-card-content>
+      <div class="dialog-button">
+        <button mat-raised-button color="primary" (click)="startDialog()">Начать диалог</button>
+      </div>
       <mat-card-actions class="user-profile-buttons">
         <button [disabled]="isFriend || isRequest || isRequestFromUser" mat-raised-button color="primary" (click)="sendFriendRequest()">Добавить в друзья</button>
         <button [disabled]="!isFriend" mat-raised-button color="warn" (click)="removeFriend()">Удалить из друзей</button>

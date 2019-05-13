@@ -11,6 +11,8 @@ import { SharedService } from '../../services/shared.service';
 import { InfoDialog } from '../home/dialog/info-dialog';
 import { MatDialog } from '@angular/material';
 import { UserList } from '../../dto/user-list';
+import { DialogService } from '../../services/dialog.service';
+import {Dialog} from '../../dto/dialog';
 
 @Component({
   selector: 'app-user-profile',
@@ -39,7 +41,8 @@ export class UserProfileComponent implements OnInit {
               private fileService: FileService,
               private trackService: TrackService,
               private shared: SharedService,
-              public dialog: MatDialog, ) { }
+              public dialog: MatDialog,
+              private dialogService: DialogService) { }
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
@@ -156,5 +159,13 @@ export class UserProfileComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
     });
+  }
+
+  startDialog() {
+    this.dialogService.startDialog(this.loggedUser.id, this.user.id)
+        .subscribe(data => {
+          const dialog = new Dialog(data);
+          this.router.navigate(['dialog/' + dialog.id]);
+        });
   }
 }

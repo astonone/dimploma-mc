@@ -18,6 +18,7 @@ import { GenreService } from './services/genre.service';
 import { MoodService } from './services/mood.service';
 import { PlaylistService } from './services/playlist.service';
 import { PlayService } from './services/play.service';
+import { DialogService } from './services/dialog.service';
 
 /*Components*/
 import { HomeComponent } from './components/home/home.component';
@@ -29,6 +30,8 @@ import { UploadComponent } from './components/upload/upload.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { DialogsComponent } from './components/dialogs/dialogs.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 /*Popups*/
 import { CreateUserDialog } from './components/registration/dialog/create-user-dialog';
@@ -75,8 +78,9 @@ import { RemovePlaylist } from './components/home/dialog/remove-playlist';
         AudioPlayerProxyComponent,
         CreatePlaylist,
         ChangePlaylist,
-        RemovePlaylist
-    ],
+        RemovePlaylist,
+        DialogsComponent,
+        DialogComponent    ],
     entryComponents: [
         CreateUserDialog,
         ErrorCreateUserDialog,
@@ -97,6 +101,7 @@ import { RemovePlaylist } from './components/home/dialog/remove-playlist';
         MoodService,
         PlaylistService,
         PlayService,
+        DialogService,
         AudioPlayerComponent,
         HomeComponent,
         MusicComponent,
