@@ -40,7 +40,7 @@ export class AdditionalComponent implements OnInit {
 
   ngOnInit() {
       if (this.shared.getLoggedUser() === null) {
-          this.router.navigate(['login']);
+          this.router.navigate(['music']);
       }
   }
 

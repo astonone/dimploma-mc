@@ -43,7 +43,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
-      this.router.navigate(['login']);
+      this.router.navigate(['music']);
     }
     const userId = this.route.snapshot.paramMap.get('id');
     this.loadUser(userId);
