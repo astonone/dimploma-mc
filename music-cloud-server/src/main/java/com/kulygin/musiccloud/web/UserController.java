@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import java.io.File;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -239,12 +240,11 @@ public class UserController {
         return new ResponseEntity<>(convertUserList(friends, null), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public ResponseEntity<?> getAllUsers(@RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
-        Page<User> users = userService.getUsersPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")));
-        List<User> resultListOfUsers = users.getContent();
-        int count = userService.countAll();
-        return new ResponseEntity<>(convertUserList(resultListOfUsers, count), HttpStatus.OK);
+    @RequestMapping(value = "/getAll/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getAllUsers(@PathVariable ("id") Long userId, @RequestParam("page") Long page, @RequestParam("pageSize") Long pageSize) {
+        List<User> users = userService.getUsersPagination(PageRequest.of(page.intValue(), pageSize.intValue(), new Sort(Sort.Direction.ASC, "id")), userId);
+        int count = userService.countAll() - 1;
+        return new ResponseEntity<>(convertUserList(users, count), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)

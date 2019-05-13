@@ -93,7 +93,7 @@ export class TrackService {
     const regExp2 = /{pageSize}/gi;
     let url = this.GET_ALL_TRACKS.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize.toString());
-    return this.http.get<Observable<Object>>(url, this.getOptions());
+    return this.http.get<Observable<Object>>(url);
   }
 
   public findTracks(request: any, page: number, pageSize: number) {
@@ -101,7 +101,7 @@ export class TrackService {
     const regExp2 = /{pageSize}/gi;
     let url = this.FIND_TRACKS.replace(regExp, page.toString());
     url = url.replace(regExp2, pageSize.toString());
-    return this.http.post<Observable<Object>>(url, request, this.getOptions());
+    return this.http.post<Observable<Object>>(url, request);
   }
 
   public getUserTracks(id: number, page: number, pageSize: number) {

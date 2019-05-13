@@ -41,7 +41,7 @@ public interface UserService {
 
     User uploadPhoto(User user, String fileName);
 
-    Page<User> getUsersPagination(PageRequest request);
+    List<User> getUsersPagination(PageRequest request, Long userId);
 
     Page<User> findUsers(PageRequest request, String firstName, String lastName, String nickName);
 

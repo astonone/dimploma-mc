@@ -33,6 +33,6 @@ export class MoodService {
   }
 
   public getAllMoods() {
-    return this.http.get<Observable<Object>>(this.GET_MOODS, this.getOptions());
+    return this.http.get<Observable<Object>>(this.GET_MOODS);
   }
 }

@@ -33,6 +33,6 @@ export class GenreService {
   }
 
   public getAllGenres() {
-    return this.http.get<Observable<Object>>(this.GET_GENRES, this.getOptions());
+    return this.http.get<Observable<Object>>(this.GET_GENRES);
   }
 }
