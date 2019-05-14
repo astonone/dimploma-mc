@@ -1,11 +1,12 @@
 .dialog {
     display: flex;
     flex-direction: column;
+    height: calc(100vh - 114px);
 }
 
 .messages {
     overflow: auto;
-    height: calc(100vh - 191px);
+    height: 100%;
 }
 
 .sender {

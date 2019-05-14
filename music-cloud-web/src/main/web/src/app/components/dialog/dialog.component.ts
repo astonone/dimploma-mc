@@ -2,8 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { SharedService } from '../../services/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from '../../services/dialog.service';
-import {Dialog} from '../../dto/dialog';
-import {Message} from '../../dto/message';
+import { Dialog } from '../../dto/dialog';
+import { Message } from '../../dto/message';
 
 @Component({
   selector: 'app-dialog',
@@ -45,7 +45,7 @@ export class DialogComponent implements OnInit, OnDestroy {
           this.playMessageSound();
         }
       });
-    }, 15000);
+    }, 10000);
   }
 
   ngOnDestroy() {

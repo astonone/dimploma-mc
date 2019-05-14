@@ -6,5 +6,7 @@
       <p mat-line> {{dialog.messages.pop().text}} </p>
       <span>{{dialog.time.toDate() | date}}</span>
     </mat-list-item>
+    <span *ngIf="dialogs.length === 0">У вас пока нет диалогов,
+        перейдите на страницу другого пользователя и нажмите кнопку начать диалог для начала беседы</span>
     <mat-divider></mat-divider>
 </mat-list>

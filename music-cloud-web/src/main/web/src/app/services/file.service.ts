@@ -65,12 +65,12 @@ export class FileService {
     public getUploadedPhoto(filename: string): Observable<any> {
         const regExp = /{filename}/gi;
         const url = this.GET_UPLOADED_PHOTO.replace(regExp, filename);
-        return this.http.get(url, this.getOptions());
+        return this.http.get(url);
     }
 
     public getUploadedTrack(filename: string): Observable<any> {
         const regExp = /{filename}/gi;
         const url = this.GET_UPLOADED_TRACK.replace(regExp, filename);
-        return this.http.get(url, this.getOptions());
+        return this.http.get(url);
     }
 }

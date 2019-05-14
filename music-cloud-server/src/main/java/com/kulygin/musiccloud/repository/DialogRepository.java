@@ -9,5 +9,5 @@ import java.util.Set;
 
 public interface DialogRepository extends JpaRepository<Dialog,Long> {
     List<Dialog> findAllByUsersIn(Set<User> users);
-    Dialog findByUsersIn(Set<User> users);
+    List<Dialog> findByUsersIn(Set<User> users);
 }

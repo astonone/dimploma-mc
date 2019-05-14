@@ -119,7 +119,8 @@ public class DialogServiceImpl implements DialogService {
         Set<User> users = new HashSet<>();
         users.add(user1);
         users.add(user2);
-        Dialog dialog = dialogRepository.findByUsersIn(users);
+        List<Dialog> dialogs = dialogRepository.findByUsersIn(users);
+        Dialog dialog = findByUsers(dialogs, users);
         if (dialog == null) {
             dialog = dialogRepository.save(Dialog.builder()
                     .name(user1.getUserDetails().getLastName() + "," + user2.getUserDetails().getLastName())
@@ -128,5 +129,16 @@ public class DialogServiceImpl implements DialogService {
                     .build());
         }
         return dialog;
+    }
+
+    private Dialog findByUsers(List<Dialog> dialogs, Set<User> users) {
+        Dialog existedDialog = null;
+        for (Dialog dialog : dialogs) {
+            if (dialog.getUsers().equals(users)) {
+                existedDialog = dialog;
+                break;
+            }
+        }
+        return existedDialog;
     }
 }

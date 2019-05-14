@@ -1,10 +1,10 @@
-<div class="dialog">
-  <div class="messages">
-    <mat-list class="dialogs">
+<div class="dialog" >
+  <div class="messages" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+    <mat-list class="dialogs" >
       <h3 mat-subheader>Диалоги</h3>
       <mat-list-item *ngFor="let message of messages">
         <mat-icon mat-list-icon>comment</mat-icon>
-        <h4 mat-line>{{message.text}}</h4>
+        <h4 mat-line style="word-break: break-all;white-space: normal;">{{message.text}}</h4>
         <p mat-line> {{getUserById(message)}} </p>
         <span>{{message.time.toDate() | date}}</span>
       </mat-list-item>
