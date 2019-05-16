@@ -1,3 +1,12 @@
 .dialogs {
     cursor: pointer;
 }
+
+.modal-window-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-window-text-item {
+    text-align: center;
+}

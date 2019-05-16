@@ -46,6 +46,7 @@ import { AudioPlayerProxyComponent } from './components/audio-player-proxy/audio
 import { CreatePlaylist } from './components/home/dialog/create-playlist';
 import { ChangePlaylist } from './components/home/dialog/change-playlist';
 import { RemovePlaylist } from './components/home/dialog/remove-playlist';
+import { CreateDialog } from './components/dialogs/dialog/create-dialog';
 
 @NgModule({
     imports: [
@@ -80,7 +81,8 @@ import { RemovePlaylist } from './components/home/dialog/remove-playlist';
         ChangePlaylist,
         RemovePlaylist,
         DialogsComponent,
-        DialogComponent    ],
+        DialogComponent,
+        CreateDialog],
     entryComponents: [
         CreateUserDialog,
         ErrorCreateUserDialog,
@@ -90,7 +92,8 @@ import { RemovePlaylist } from './components/home/dialog/remove-playlist';
         InfoDialog,
         CreatePlaylist,
         ChangePlaylist,
-        RemovePlaylist
+        RemovePlaylist,
+        CreateDialog
     ],
     providers: [
         UserService,

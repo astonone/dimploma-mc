@@ -9,6 +9,16 @@ export class Dialog {
     private _users: User[] = [];
     private _messages: Message[] = [];
 
+    public static createEmptyDialog() {
+        return new Dialog({
+            id: -1,
+            name: '',
+            time: {},
+            users: [],
+            messages: []
+        });
+    }
+
 
     constructor(data: any) {
         this._id = data.id;
