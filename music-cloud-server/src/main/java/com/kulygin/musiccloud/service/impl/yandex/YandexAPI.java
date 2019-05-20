@@ -43,8 +43,8 @@ public class YandexAPI {
     public File uploadFileToYandexDisk(MultipartFile uploadedFileRef, boolean isPicture) throws IOException, ServerException {
         String serverPathAudio = "audio-storage/";
         String serverPathPhoto = "photo-storage/";
-        String localPathPhoto = "storage-audio/";
-        String localPathAudio = "storage-photo/";
+        String localPathPhoto = "storage-photo/";
+        String localPathAudio = "storage-audio/";
         String serverPath = isPicture ? serverPathPhoto : serverPathAudio;
         String localPath = isPicture ? localPathPhoto : localPathAudio;
 
@@ -52,15 +52,18 @@ public class YandexAPI {
 
         Link uploadLink = restClient.getUploadLink(serverPath + filename, true);
 
-        File file =  multipartToFile(uploadedFileRef, localPath + filename);
+        File file =  multipartToFile(uploadedFileRef, localPath, filename);
 
         restClient.uploadFile(uploadLink, true, file, null);
 
         return file;
     }
 
-    private File multipartToFile(MultipartFile multipart, String filename) throws IllegalStateException, IOException {
-        File convFile = new File(filename);
+    private File multipartToFile(MultipartFile multipart, String serverPath, String filename) throws IllegalStateException, IOException {
+        File convFile = new File(serverPath + filename);
+        if (!Files.exists(Paths.get(serverPath))) {
+            Files.createDirectory(Paths.get(serverPath));
+        }
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(multipart.getBytes());
