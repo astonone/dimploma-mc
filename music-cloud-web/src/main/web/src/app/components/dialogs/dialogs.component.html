@@ -1,6 +1,6 @@
 <mat-list class="dialogs">
     <h3 mat-subheader>Диалоги</h3>
-    <mat-list-item *ngFor="let dialog of dialogs" (click)="openDialog(dialog.id)">
+    <mat-list-item *ngFor="let dialog of dialogs | sortById" (click)="openDialog(dialog.id)">
       <mat-icon mat-list-icon>chat</mat-icon>
       <h4 mat-line>{{dialog.name}}</h4>
       <p  *ngIf="dialog.messages.length > 0" mat-line>{{dialog.messages.pop().text}}</p>

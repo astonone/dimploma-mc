@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 public interface DialogRepository extends JpaRepository<Dialog,Long> {
-    List<Dialog> findAllByUsersIn(Set<User> users);
-    List<Dialog> findByUsersIn(Set<User> users);
+    List<Dialog> findAllByUsersInOrderByTimeAsc(Set<User> users);
+    List<Dialog> findByUsersInOrderByTimeAsc(Set<User> users);
 }

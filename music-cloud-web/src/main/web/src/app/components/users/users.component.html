@@ -42,7 +42,7 @@
                      [pageSizeOptions]="pageSizeOptions"
                      (page)="pageEvent = loadUserList($event)">
       </mat-paginator>
-      <mat-list-item *ngFor="let user of users">
+      <mat-list-item *ngFor="let user of users | sortById">
         <mat-icon mat-list-icon>account_circle</mat-icon>
         <h4 mat-line>{{showUserInfo(user)}}
           <mat-icon class="go-to-profile" (click)="gotoProfile(user.id)" mat-list-icon>arrow_forward_ios</mat-icon>

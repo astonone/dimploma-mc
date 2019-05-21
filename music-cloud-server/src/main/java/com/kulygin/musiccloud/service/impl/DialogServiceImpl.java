@@ -60,7 +60,7 @@ public class DialogServiceImpl implements DialogService {
         }
         Set<User> users = new HashSet<>();
         users.add(user);
-        return dialogRepository.findAllByUsersIn(users);
+        return dialogRepository.findAllByUsersInOrderByTimeAsc(users);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class DialogServiceImpl implements DialogService {
         Set<User> users = new HashSet<>();
         users.add(user1);
         users.add(user2);
-        List<Dialog> dialogs = dialogRepository.findByUsersIn(users);
+        List<Dialog> dialogs = dialogRepository.findByUsersInOrderByTimeAsc(users);
         Dialog dialog = findByUsers(dialogs, users);
         if (dialog == null) {
             dialog = dialogRepository.save(Dialog.builder()

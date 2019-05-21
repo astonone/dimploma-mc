@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Log4j
@@ -53,11 +52,11 @@ public class MoodServiceImpl implements MoodService {
 
     @Override
     public List<Mood> findAll() {
-        return moodRepository.findAll();
+        return moodRepository.findAllByOrderByNameAsc();
     }
 
     @Override
-    public Set<Mood> findAllByIds(List<Long> ids) {
-        return moodRepository.findAllByIdIn(ids);
+    public List<Mood> findAllByIds(List<Long> ids) {
+        return moodRepository.findAllByIdInOrderByNameAsc(ids);
     }
 }

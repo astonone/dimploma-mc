@@ -25,7 +25,7 @@
                     <mat-form-field class="music-filter-text-input">
                         <mat-label>Жанр</mat-label>
                         <mat-select [(ngModel)]="selectedGenres" multiple>
-                            <mat-option *ngFor="let genre of genres" [value]="genre">
+                            <mat-option *ngFor="let genre of genres | sortById" [value]="genre">
                                 {{genre.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -34,7 +34,7 @@
                     <mat-form-field class="music-filter-text-input">
                         <mat-label>Настроение</mat-label>
                         <mat-select [(ngModel)]="selectedMoods" multiple>
-                            <mat-option *ngFor="let mood of moods" [value]="mood">
+                            <mat-option *ngFor="let mood of moods | sortById" [value]="mood">
                                 {{mood.name}}
                             </mat-option>
                         </mat-select>
@@ -56,7 +56,7 @@
                            [pageSizeOptions]="pageSizeOptions"
                            (page)="pageEvent = loadTracksList($event)">
             </mat-paginator>
-            <ul *ngFor="let track of tracks" class="track-list">
+            <ul *ngFor="let track of tracks | sortById" class="track-list">
                 <li class="track-item">
                     <audio-player-proxy [isGlobal]="true" [isHome]="false" [isRecommend]="false" [track]="track" [playlist]="tracks"></audio-player-proxy>
                 </li>

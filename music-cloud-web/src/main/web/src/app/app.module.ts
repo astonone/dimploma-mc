@@ -48,6 +48,9 @@ import { ChangePlaylist } from './components/home/dialog/change-playlist';
 import { RemovePlaylist } from './components/home/dialog/remove-playlist';
 import { CreateDialog } from './components/dialogs/dialog/create-dialog';
 
+/*Pipe*/
+import { SortPipe } from 'app/pipe/sort.pipe';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -82,7 +85,8 @@ import { CreateDialog } from './components/dialogs/dialog/create-dialog';
         RemovePlaylist,
         DialogsComponent,
         DialogComponent,
-        CreateDialog],
+        CreateDialog,
+        SortPipe],
     entryComponents: [
         CreateUserDialog,
         ErrorCreateUserDialog,

@@ -30,7 +30,7 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-list>
-                    <mat-list-item *ngFor="let user of myFriends">
+                    <mat-list-item *ngFor="let user of myFriends | sortById">
                         <mat-icon mat-list-icon>account_circle</mat-icon>
                         <h4 mat-line>{{showUserInfo(user)}}
                             <mat-icon class="go-to-profile" (click)="gotoProfile(user.id)" mat-list-icon>arrow_forward_ios</mat-icon>
@@ -50,7 +50,7 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-list>
-                    <mat-list-item *ngFor="let user of myRequest">
+                    <mat-list-item *ngFor="let user of myRequest | sortById">
                         <mat-icon mat-list-icon>account_circle</mat-icon>
                         <h4 mat-line>{{showUserInfo(user)}}
                             <mat-icon class="go-to-profile" (click)="gotoProfile(user.id)" mat-list-icon>arrow_forward_ios</mat-icon>
@@ -77,7 +77,7 @@
                                        (page)="pageEvent = loadTracksList($event)"
                                        *ngIf="myMusic.length !== 0">
                         </mat-paginator>
-                        <ul *ngFor="let track of myMusic" class="track-list">
+                        <ul *ngFor="let track of myMusic | sortById" class="track-list">
                             <li class="track-item">
                                 <audio-player-proxy [isGlobal]="false" [isHome]="true" [isRecommend]="false" [track]="track" [user]="user" [playlist]="myMusic"></audio-player-proxy>
                             </li>
@@ -88,7 +88,7 @@
                 <mat-tab label="Мои плейлисты">
                     <button class="playlist-create-button" mat-raised-button color="primary" (click)="createPlaylist()">Создать плейлист</button>
                     <mat-accordion>
-                        <mat-expansion-panel *ngFor="let playlist of myPlaylists">
+                        <mat-expansion-panel *ngFor="let playlist of myPlaylists | sortById">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                     {{playlist.name}}
@@ -101,7 +101,7 @@
                                 <mat-icon class="playlist-control-item" mat-list-icon (click)="removePlaylist(playlist)">remove_circle</mat-icon>
                             </div>
 
-                            <ul *ngFor="let track of playlist.tracks" class="track-list">
+                            <ul *ngFor="let track of playlist.tracks | sortById" class="track-list">
                                 <li class="track-item">
                                     <audio-player-proxy [isGlobal]="false" [isHome]="false" [isRecommend]="false" [track]="track" [user]="user" [playlist]="playlist.tracks"></audio-player-proxy>
                                 </li>
@@ -113,7 +113,7 @@
                 <mat-tab label="Рекомендации">
                     <span class="text" *ngIf="recommendedMusic.length === 0">На данный момент недостаточно данных для формирования рекомендаций</span>
                     <mat-list>
-                        <ul *ngFor="let track of recommendedMusic" class="track-list">
+                        <ul *ngFor="let track of recommendedMusic | sortById" class="track-list">
                             <li class="track-item">
                                 <audio-player-proxy [isGlobal]="false" [isHome]="false" [isRecommend]="true" [track]="track" [user]="user" [playlist]="recommendedMusic"></audio-player-proxy>
                             </li>

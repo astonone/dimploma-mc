@@ -232,12 +232,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsersPagination(PageRequest request, Long userId) {
-        return new ArrayList<>(userRepository.findAllByIdNot(request, userId).getContent());
+        return new ArrayList<>(userRepository.findAllByIdNotOrderByUserDetails_LastNameAsc(request, userId).getContent());
     }
 
     @Override
     public Page<User> findUsers(PageRequest request, String firstName, String lastName, String nickName) {
-        return userRepository.findAllByUserDetails_FirstNameOrUserDetails_LastNameOrUserDetails_NickName(request, firstName, lastName, nickName);
+        return userRepository.findAllByUserDetails_FirstNameOrUserDetails_LastNameOrUserDetails_NickNameOrderByUserDetails_LastNameAsc(request, firstName, lastName, nickName);
     }
 
     @Override

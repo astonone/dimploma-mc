@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class GenreServiceImpl implements GenreService {
@@ -55,11 +54,11 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public List<Genre> findAll() {
-        return genreRepository.findAll();
+        return genreRepository.findAllByOrderByNameAsc();
     }
 
     @Override
-    public Set<Genre> findAllByIds(List<Long> ids) {
-        return genreRepository.findAllByIdIn(ids);
+    public List<Genre> findAllByIds(List<Long> ids) {
+        return genreRepository.findAllByIdInOrderByNameAsc(ids);
     }
 }

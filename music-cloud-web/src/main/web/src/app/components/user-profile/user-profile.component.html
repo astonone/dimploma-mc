@@ -37,7 +37,7 @@
                            (page)="pageEvent = loadTracksList($event)"
                            *ngIf="music.length !== 0">
             </mat-paginator>
-            <ul *ngFor="let track of music" class="track-list">
+            <ul *ngFor="let track of music | sortById" class="track-list">
               <li class="track-item">
                 <audio-player-proxy [isGlobal]="false" [isHome]="false" [isRecommend]="false" [track]="track" [playlist]="music"></audio-player-proxy>
               </li>

@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
-import java.util.Set;
 
 public interface MoodService {
 
@@ -21,5 +20,5 @@ public interface MoodService {
 
     List<Mood> findAll();
 
-    Set<Mood> findAllByIds(List<Long> ids);
+    List<Mood> findAllByIds(List<Long> ids);
 }
