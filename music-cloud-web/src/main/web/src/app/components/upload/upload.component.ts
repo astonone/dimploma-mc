@@ -30,7 +30,7 @@ export class UploadComponent implements OnInit {
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
-      this.router.navigate(['login']);
+      this.router.navigate(['music']);
     }
     this.isError = false;
   }

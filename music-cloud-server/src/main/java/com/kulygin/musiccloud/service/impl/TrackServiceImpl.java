@@ -96,14 +96,14 @@ public class TrackServiceImpl implements TrackService {
     public Page<Track> getTracksByGenrePagination(PageRequest pageRequest, Genre genre) {
         Set<Genre> genres = new HashSet<>();
         genres.add(genre);
-        return trackRepository.findAllDistinctByGenresContains(pageRequest, genres);
+        return trackRepository.findAllDistinctByGenresContainsOrderByTitleAsc(pageRequest, genres);
     }
 
     @Override
     public Page<Track> getTracksByMoodPagination(PageRequest pageRequest, Mood mood) {
         Set<Mood> moods = new HashSet<>();
         moods.add(mood);
-        return trackRepository.findAllDistinctByMoodsContains(pageRequest, moods);
+        return trackRepository.findAllDistinctByMoodsContainsOrderByTitleAsc(pageRequest, moods);
     }
 
     @Override
@@ -124,12 +124,12 @@ public class TrackServiceImpl implements TrackService {
     public Page<Track> getTracksByUserPagination(PageRequest pageRequest, User user) {
         Set<User> users = new HashSet<>();
         users.add(user);
-        return trackRepository.findAllByUsersContains(pageRequest, users);
+        return trackRepository.findAllByUsersContainsOrderByTitleAsc(pageRequest, users);
     }
 
     @Override
     public Page<Track> findTracks(PageRequest pageRequest, TrackFullInfoDTO trackFullInfoDTO) {
-        return trackRepository.findAllDistinctByTitleOrArtistOrGenresInOrMoodsIn(pageRequest, trackFullInfoDTO.getTitle(), trackFullInfoDTO.getArtist(),
+        return trackRepository.findAllDistinctByTitleOrArtistOrGenresInOrMoodsInOrderByTitleAsc(pageRequest, trackFullInfoDTO.getTitle(), trackFullInfoDTO.getArtist(),
                 genreService.findAllByIds(trackFullInfoDTO.getGenres().stream().map(GenreDTO::getId).collect(Collectors.toList())), moodService.findAllByIds(trackFullInfoDTO.getMoods().stream().map(MoodDTO::getId).collect(Collectors.toList())));
     }
 
@@ -143,7 +143,7 @@ public class TrackServiceImpl implements TrackService {
     public int countTracksByUserPagination(User user) {
         Set<User> users = new HashSet<>();
         users.add(user);
-        return trackRepository.findAllByUsersContains(users).size();
+        return trackRepository.findAllByUsersContainsOrderByTitleAsc(users).size();
     }
 
     @Override
@@ -290,12 +290,12 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<Track> findAllByIds(List<Long> ids) {
-        return trackRepository.findAllByIdIn(ids);
+        return trackRepository.findAllByIdInOrderByTitle(ids);
     }
 
     @Override
     public List<Track> findAll() {
-        return trackRepository.findAll();
+        return trackRepository.findAllByOrderByTitleAsc();
     }
 
     @Override

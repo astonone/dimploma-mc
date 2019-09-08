@@ -4,6 +4,7 @@ import com.yandex.disk.rest.Credentials;
 import com.yandex.disk.rest.ResourcesArgs;
 import com.yandex.disk.rest.RestClient;
 import com.yandex.disk.rest.exceptions.ServerException;
+import com.yandex.disk.rest.exceptions.http.HttpCodeException;
 import com.yandex.disk.rest.json.Link;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,21 +43,27 @@ public class YandexAPI {
     public File uploadFileToYandexDisk(MultipartFile uploadedFileRef, boolean isPicture) throws IOException, ServerException {
         String serverPathAudio = "audio-storage/";
         String serverPathPhoto = "photo-storage/";
+        String localPathPhoto = "storage-photo/";
+        String localPathAudio = "storage-audio/";
         String serverPath = isPicture ? serverPathPhoto : serverPathAudio;
+        String localPath = isPicture ? localPathPhoto : localPathAudio;
 
         String filename = UUID.randomUUID().toString() + uploadedFileRef.getOriginalFilename().substring(uploadedFileRef.getOriginalFilename().lastIndexOf("."));
 
         Link uploadLink = restClient.getUploadLink(serverPath + filename, true);
 
-        File file =  multipartToFile(uploadedFileRef, filename);
+        File file =  multipartToFile(uploadedFileRef, localPath, filename);
 
         restClient.uploadFile(uploadLink, true, file, null);
 
         return file;
     }
 
-    private File multipartToFile(MultipartFile multipart, String filename) throws IllegalStateException, IOException {
-        File convFile = new File(filename);
+    private File multipartToFile(MultipartFile multipart, String serverPath, String filename) throws IllegalStateException, IOException {
+        File convFile = new File(serverPath + filename);
+        if (!Files.exists(Paths.get(serverPath))) {
+            Files.createDirectory(Paths.get(serverPath));
+        }
         convFile.createNewFile();
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(multipart.getBytes());
@@ -79,6 +86,8 @@ public class YandexAPI {
                     .build());
 
             restClient.downloadFile(resource.getPath().getPath(), file, null);
+        } catch (HttpCodeException e) {
+            // ignore it
         } catch (Exception e) {
             log.error("Problems with file downloading: ", e);
         }
@@ -106,6 +115,8 @@ public class YandexAPI {
                     .build());
 
             restClient.downloadFile(resource.getPath().getPath(), file, null);
+        } catch (HttpCodeException e) {
+            // ignore it
         } catch (Exception e) {
             log.error("Problems with file downloading: ", e);
         }

@@ -18,7 +18,7 @@ public interface PlaylistService {
 
     void deletePlaylist(Long id) throws PlaylistNotExistsException;
 
-    List<Playlist> getAllPlaylistsWithTracks();
+    List<Playlist> getAllPlaylistsWithTracks(Long userId);
 
     Playlist removeTrackInPlaylist(Playlist playlist, Track track);
 }

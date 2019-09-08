@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -230,13 +231,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getUsersPagination(PageRequest request) {
-        return userRepository.findAll(request);
+    public List<User> getUsersPagination(PageRequest request, Long userId) {
+        return new ArrayList<>(userRepository.findAllByIdNotOrderByUserDetails_LastNameAsc(request, userId).getContent());
     }
 
     @Override
     public Page<User> findUsers(PageRequest request, String firstName, String lastName, String nickName) {
-        return userRepository.findAllByUserDetails_FirstNameOrUserDetails_LastNameOrUserDetails_NickName(request, firstName, lastName, nickName);
+        return userRepository.findAllByUserDetails_FirstNameOrUserDetails_LastNameOrUserDetails_NickNameOrderByUserDetails_LastNameAsc(request, firstName, lastName, nickName);
     }
 
     @Override
@@ -247,6 +248,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public int countAll() {
         return userRepository.countAll();
+    }
+
+    @Override
+    public int countAllByIdNot(Long userId) {
+        return userRepository.countAllByIdNot(userId);
     }
 
     @Override

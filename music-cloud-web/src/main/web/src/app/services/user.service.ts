@@ -40,7 +40,7 @@ export class UserService {
     this.USER_GET = this.SERVER_URL + '/api/user/email/';
     this.USER_GET_BY_ID = this.SERVER_URL + '/api/user/{id}';
     this.USER_DELETE = this.SERVER_URL + '/api/user/{id}';
-    this.USER_GET_ALL = this.SERVER_URL + '/api/user/getAll?page={page}&pageSize={pageSize}';
+    this.USER_GET_ALL = this.SERVER_URL + '/api/user/getAll/{id}/?page={page}&pageSize={pageSize}';
     this.USER_CREATE = this.SERVER_URL + '/api/user/create';
     this.USER_UPDATE = this.SERVER_URL + '/api/user/update';
     this.USER_ADD_USER_DATA = this.SERVER_URL + '/api/user/{id}/user_details';
@@ -54,7 +54,8 @@ export class UserService {
     this.REMOVE_FRIEND_REQUEST  = this.SERVER_URL + '/api/user/{id}/removeFriend?friendId={friendId}';
     this.GET_FRIEND_REQUESTS  = this.SERVER_URL + '/api/user/{id}/requests';
     this.GET_FRIENDS = this.SERVER_URL + '/api/user/{id}/friends';
-    this.GET_USERS = this.SERVER_URL + '/api/user/find?page={page}&pageSize={pageSize}&firstName={firstName}&lastName={lastName}&nickName={nickName}';
+    this.GET_USERS = this.SERVER_URL +
+        '/api/user/find?page={page}&pageSize={pageSize}&firstName={firstName}&lastName={lastName}&nickName={nickName}';
   }
 
   private getOptions() {
@@ -130,11 +131,13 @@ export class UserService {
     return this.http.put<Observable<Object>>(url, request);
   }
 
-  public getAllUsers(page: number, pageSize: number) {
+  public getAllUsers(page: number, pageSize: number, userId: number) {
     const regExp = /{page}/gi;
     const regExp2 = /{pageSize}/gi;
+    const regExp3 = /{id}/gi;
     let url = this.USER_GET_ALL.replace(regExp, page.toString());
-    url = url.replace(regExp2, pageSize + '');
+    url = url.replace(regExp2, pageSize.toString());
+    url = url.replace(regExp3, userId.toString());
     return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 

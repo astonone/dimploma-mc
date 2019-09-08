@@ -1,0 +1,29 @@
+<h1 mat-dialog-title class="modal-window-text-item">{{title}}</h1>
+<div mat-dialog-content>
+    <mat-form-field class="registration-text-input" appearance="outline" style="width: 100%">
+        <mat-label>Название для беседы</mat-label>
+        <input [disabled]="createdDialog.id !== -1" matInput placeholder="Введите название для вашей беседы" [(ngModel)]="dialogName">
+    </mat-form-field>
+    <p class="modal-window-text-item">{{description}}</p>
+    <p *ngIf="myFriends.length === 0" class="modal-window-text-item">Вы пока не добавили никого в друзья</p>
+    <mat-list>
+        <mat-list-item *ngFor="let user of myFriends">
+            <mat-icon mat-list-icon>account_circle</mat-icon>
+            <h4 mat-line>{{showUserInfo(user)}}
+                <mat-icon style="cursor: pointer" (click)="addUserToDialog(user)" mat-list-icon>add_circle</mat-icon>
+            </h4>
+            <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p>
+        </mat-list-item>
+    </mat-list>
+    <mat-list>
+        <mat-list-item *ngFor="let user of createdDialog.users">
+            <h4 mat-line>{{showUserInfo(user)}}</h4>
+            <p mat-line *ngIf="user.userDetails.firstName !== null || user.userDetails.lastName !== null"> {{user.userDetails.nick}} </p>
+        </mat-list-item>
+    </mat-list>
+    <p *ngIf="createdDialog.users && createdDialog.users.length === 0" class="modal-window-text-item">Вы пока не добавили никого в диалог</p>
+    <p *ngIf="error" style="color: red" class="modal-window-text-item">Введите имя для беседы</p>
+</div>
+<div mat-dialog-actions class="modal-window-buttons">
+    <button [disabled]="createdDialog.id === -1" mat-raised-button color="warn" (click)="onYesClick()" cdkFocusInitial>Продолжить</button>
+</div>

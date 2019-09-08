@@ -42,9 +42,6 @@ export class MusicComponent implements OnInit {
   private isFind = false;
 
   ngOnInit() {
-    if (this.shared.getLoggedUser() === null) {
-      this.router.navigate(['login']);
-    }
     this.loadTracksList(null);
     this.loadGenres();
     this.loadMoods();

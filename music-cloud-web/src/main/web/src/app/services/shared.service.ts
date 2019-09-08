@@ -28,6 +28,7 @@ export class SharedService {
 
   public getStorage = () =>  localStorage.getItem('isRemember') === 'true' ? localStorage : sessionStorage;
 
+  public isLoginPage = () => this.router.url === '/login';
 
   public logout() {
     this.isLogin = false;

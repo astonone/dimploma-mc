@@ -58,8 +58,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public List<Playlist> getAllPlaylistsWithTracks() {
-        return playlistRepository.findAll();
+    public List<Playlist> getAllPlaylistsWithTracks(Long userId) {
+        return playlistRepository.findAllByUser_IdOrderByNameAsc(userId);
     }
 
     @Override

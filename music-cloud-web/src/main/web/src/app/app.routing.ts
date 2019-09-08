@@ -9,6 +9,8 @@ import { UploadComponent } from './components/upload/upload.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { AdditionalComponent } from './components/additional/additional.component';
+import { DialogsComponent } from './components/dialogs/dialogs.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -20,8 +22,9 @@ const appRoutes: Routes = [
     { path: 'settings', component: SettingsComponent },
     { path: 'upload', component: UploadComponent },
     { path: 'registration', component: RegistrationComponent },
-    { path: 'additional/:id', component: AdditionalComponent },
-    { path: '**', redirectTo: 'home' }
+    { path: 'dialogs/:id', component: DialogsComponent },
+    { path: 'dialog/:id', component: DialogComponent },
+    { path: '**', redirectTo: 'music' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes,  {useHash: true});

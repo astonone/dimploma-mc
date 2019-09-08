@@ -16,6 +16,9 @@
         <p>День рождения: {{user.userDetails.birthday.printDate()}}</p>
         <p>О пользователе: {{user.userDetails.about}}</p>
       </mat-card-content>
+      <div class="dialog-button">
+        <button mat-raised-button color="primary" (click)="startDialog()">Начать диалог</button>
+      </div>
       <mat-card-actions class="user-profile-buttons">
         <button [disabled]="isFriend || isRequest || isRequestFromUser" mat-raised-button color="primary" (click)="sendFriendRequest()">Добавить в друзья</button>
         <button [disabled]="!isFriend" mat-raised-button color="warn" (click)="removeFriend()">Удалить из друзей</button>
@@ -34,7 +37,7 @@
                            (page)="pageEvent = loadTracksList($event)"
                            *ngIf="music.length !== 0">
             </mat-paginator>
-            <ul *ngFor="let track of music" class="track-list">
+            <ul *ngFor="let track of music | sortById" class="track-list">
               <li class="track-item">
                 <audio-player-proxy [isGlobal]="false" [isHome]="false" [isRecommend]="false" [track]="track" [playlist]="music"></audio-player-proxy>
               </li>

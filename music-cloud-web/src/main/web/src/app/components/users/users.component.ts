@@ -14,6 +14,7 @@ export class UsersComponent implements OnInit {
 
   private response: UserList;
   public users: User[] = [];
+  public user: User;
   public usersLength = 10;
   public pageEvent: any;
   public page = 0;
@@ -31,52 +32,42 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
-      this.router.navigate(['login']);
+      this.router.navigate(['music']);
     }
+    this.user = this.shared.getLoggedUser();
     this.loadUserList(null);
   }
 
   private loadUserList(event) {
     if (event) {
       if (!this.isFind) {
-        this.userService.getAllUsers(event.pageIndex, event.pageSize).subscribe(data => {
+        this.userService.getAllUsers(event.pageIndex, event.pageSize, this.user.id).subscribe(data => {
           this.response = new UserList(data);
           this.usersLength = this.response.allCount;
           this.users = this.response.users;
-          this.deleteMeFromList(this.shared.getLoggedUser().id, this.users);
         });
       } else {
         this.userService.findUsers(event.pageIndex, event.pageSize, this.firstName, this.lastName, this.nickName).subscribe(data => {
           this.response = new UserList(data);
           this.usersLength = this.response.allCount;
           this.users = this.response.users;
-          this.deleteMeFromList(this.shared.getLoggedUser().id, this.users);
         });
       }
     } else {
       if (!this.isFind) {
-        this.userService.getAllUsers(this.page, this.pageSize).subscribe(data => {
+        this.userService.getAllUsers(this.page, this.pageSize, this.user.id).subscribe(data => {
           this.response = new UserList(data);
           this.usersLength = this.response.allCount;
           this.users = this.response.users;
-          this.deleteMeFromList(this.shared.getLoggedUser().id, this.users);
         });
       } else {
         this.userService.findUsers(this.page, this.pageSize, this.firstName, this.lastName, this.nickName).subscribe(data => {
           this.response = new UserList(data);
           this.usersLength = this.response.allCount;
           this.users = this.response.users;
-          this.deleteMeFromList(this.shared.getLoggedUser().id, this.users);
         });
       }
     }
-  }
-  private deleteMeFromList(myId: number, users: User[]) {
-    const index = users.map(x => {
-      return x.id;
-    }).indexOf(myId);
-
-    users.splice(index, 1);
   }
 
   public gotoProfile(id: number) {

@@ -11,6 +11,8 @@ import { SharedService } from '../../services/shared.service';
 import { InfoDialog } from '../home/dialog/info-dialog';
 import { MatDialog } from '@angular/material';
 import { UserList } from '../../dto/user-list';
+import { DialogService } from '../../services/dialog.service';
+import {Dialog} from '../../dto/dialog';
 
 @Component({
   selector: 'app-user-profile',
@@ -39,11 +41,12 @@ export class UserProfileComponent implements OnInit {
               private fileService: FileService,
               private trackService: TrackService,
               private shared: SharedService,
-              public dialog: MatDialog, ) { }
+              public dialog: MatDialog,
+              private dialogService: DialogService) { }
 
   ngOnInit() {
     if (this.shared.getLoggedUser() === null) {
-      this.router.navigate(['login']);
+      this.router.navigate(['music']);
     }
     const userId = this.route.snapshot.paramMap.get('id');
     this.loadUser(userId);
@@ -107,7 +110,6 @@ export class UserProfileComponent implements OnInit {
     this.userService.getAllFriends(parseInt(userId)).subscribe(data => {
         const response = new UserList(data);
         this.isFriend =  this.isFriendById(this.loggedUser.id, response.users);
-        console.log('f:' + this.isFriend);
     });
   }
 
@@ -123,12 +125,10 @@ export class UserProfileComponent implements OnInit {
     this.userService.getAllFriendRequests(parseInt(userId)).subscribe(data => {
       const response = new UserList(data);
       this.isRequest = this.isFriendById(this.loggedUser.id, response.users);
-      console.log('r:' + this.isRequest);
     });
     this.userService.getAllFriendRequests(this.loggedUser.id).subscribe(data => {
       const response = new UserList(data);
       this.isRequestFromUser = this.isFriendById(parseInt(userId), response.users);
-      console.log('r:' + this.isRequestFromUser);
     });
   }
 
@@ -159,5 +159,13 @@ export class UserProfileComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
     });
+  }
+
+  startDialog() {
+    this.dialogService.startDialog(this.loggedUser.id, this.user.id)
+        .subscribe(data => {
+          const dialog = new Dialog(data);
+          this.router.navigate(['dialog/' + dialog.id]);
+        });
   }
 }

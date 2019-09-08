@@ -1,13 +1,13 @@
 package com.kulygin.musiccloud.service;
 
 import com.kulygin.musiccloud.domain.Genre;
+import com.kulygin.musiccloud.domain.Mood;
 import com.kulygin.musiccloud.exception.GenreHasExistsException;
 import com.kulygin.musiccloud.exception.GenreIsNotExistsException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
-import java.util.Set;
 
 public interface GenreService {
 
@@ -23,5 +23,5 @@ public interface GenreService {
 
     List<Genre> findAll();
 
-    Set<Genre> findAllByIds(List<Long> ids);
+    List<Genre> findAllByIds(List<Long> ids);
 }

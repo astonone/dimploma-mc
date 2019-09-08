@@ -7,12 +7,12 @@ import { SharedService } from './shared.service';
     providedIn: 'root'
 })
 export class FileService {
-    SERVER_URL: string;
+    private SERVER_URL: string;
 
-    USER_UPLOAD_PHOTO: string;
-    GET_UPLOADED_PHOTO: string;
-    UPLOAD_TRACK: string;
-    GET_UPLOADED_TRACK: string;
+    private USER_UPLOAD_PHOTO: string;
+    private GET_UPLOADED_PHOTO: string;
+    private UPLOAD_TRACK: string;
+    private GET_UPLOADED_TRACK: string;
 
     constructor(private http: HttpClient, private shared: SharedService) {
         this.SERVER_URL = this.shared.getServerURL();
@@ -65,12 +65,12 @@ export class FileService {
     public getUploadedPhoto(filename: string): Observable<any> {
         const regExp = /{filename}/gi;
         const url = this.GET_UPLOADED_PHOTO.replace(regExp, filename);
-        return this.http.get(url, this.getOptions());
+        return this.http.get(url);
     }
 
     public getUploadedTrack(filename: string): Observable<any> {
         const regExp = /{filename}/gi;
         const url = this.GET_UPLOADED_TRACK.replace(regExp, filename);
-        return this.http.get(url, this.getOptions());
+        return this.http.get(url);
     }
 }

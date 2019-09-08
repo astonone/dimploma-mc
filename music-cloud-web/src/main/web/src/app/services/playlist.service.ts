@@ -23,7 +23,7 @@ export class PlaylistService {
     this.CREATE_PLAYLIST = this.SERVER_URL + '/api/playlist/create?name={name}&userId={userId}';
     this.DELETE_PLAYLIST = this.SERVER_URL + '/api/playlist/{id}';
     this.GET_PLAYLIST = this.SERVER_URL + '/api/playlist/{id}/showTracks';
-    this.GET_ALL_PLAYLISTS_WITH_TRACKS = this.SERVER_URL + '/api/playlist/all/showTracks';
+    this.GET_ALL_PLAYLISTS_WITH_TRACKS = this.SERVER_URL + '/api/playlist/all/showTracks?userId={userId}';
     this.ADD_TRACK_IN_PLAYLIST = this.SERVER_URL + '/api/playlist/{id}/track?trackId={trackId}';
     this.REMOVE_TRACK_FROM_PLAYLIST = this.SERVER_URL + '/api/playlist/{id}/track?trackId={trackId}';
   }
@@ -56,8 +56,10 @@ export class PlaylistService {
     return this.http.delete<Observable<Object>>(url, this.getOptions());
   }
 
-  public getAllPlaylists() {
-    return this.http.get<Observable<Object>>(this.GET_ALL_PLAYLISTS_WITH_TRACKS, this.getOptions());
+  public getAllPlaylists(userId: number) {
+    const regExp = /{userId}/gi;
+    const url = this.GET_ALL_PLAYLISTS_WITH_TRACKS.replace(regExp, userId.toString());
+    return this.http.get<Observable<Object>>(url, this.getOptions());
   }
 
   public addTrackInPlaylist(playlistId: number, trackId: number) {
